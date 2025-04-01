@@ -31,7 +31,7 @@ h5 {
 
 h1 {
   font-size: 2rem;
-  padding-bottom: var(--space);
+  padding-bottom: 1em;
   text-align: center;
 
   @include mq($from: desktop) {

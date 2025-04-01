@@ -67,23 +67,25 @@ export default function Article({
 						<figcaption ref={captionRef}>{image.title}</figcaption>
 					</figure>
 				)}
-				<section className='intro'>
-					{date && (
-						<div className={s.date}>
-							<span className='small'>{format(new Date(date), 'MMM').replace('.', '')}</span>
-							<span>{format(new Date(date), 'dd').replace('.', '')}</span>
-						</div>
+				<div className={s.content}>
+					<section className='intro'>
+						{date && (
+							<div className={s.date}>
+								<span className='small'>{format(new Date(date), 'MMM').replace('.', '')}</span>
+								<span>{format(new Date(date), 'dd').replace('.', '')}</span>
+							</div>
+						)}
+						<Markdown className={s.intro} content={intro} />
+					</section>
+					{content && (
+						<>
+							<div className='structured'>
+								<Content id={id} content={content} />
+							</div>
+						</>
 					)}
-					<Markdown className={s.intro} content={intro} />
-				</section>
-				{content && (
-					<>
-						<div className='structured'>
-							<Content id={id} content={content} />
-						</div>
-					</>
-				)}
-				{children}
+					{children}
+				</div>
 			</div>
 		</>
 	);

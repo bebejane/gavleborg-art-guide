@@ -53,6 +53,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    display: none;
 
     @include mq($until: tablet) {
       width: 14vw;
@@ -79,6 +80,12 @@
         padding-bottom: 0.5em;
       }
     }
+  }
+
+  .content {
+    padding-left: calc(3 * var(--outer-margin));
+    padding-right: calc(3 * var(--outer-margin));
+    margin-top: var(--space-big);
   }
 
   .intro > p {
