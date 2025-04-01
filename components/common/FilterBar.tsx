@@ -18,6 +18,7 @@ export default function FilterBar({ options, href = '/', value }: Props) {
 	return (
 		<nav className={cn(s.filter)}>
 			<div className={s.wrap}>
+				Visa:
 				<ul>
 					{options.map(({ id, label }, idx) => (
 						<li key={idx}>

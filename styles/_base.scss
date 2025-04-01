@@ -4,6 +4,7 @@
 :root {
 	--black: #1e1e1e;
 	--white: #fcfcfc;
+	--yellow: #ffdd00;
 	--background: var(--white);
 	--foreground: var(--black);
 
@@ -12,7 +13,7 @@
 	--grid-unit: calc(100vw / 10);
 	--space: 2rem;
 	--space-big: 2.5rem;
-	--space-small: 1rem;
+	--space-small: 2rem;
 
 	--body-font: "Inter", Arial, Helvetica, Sans-Serif;
 	--headline-font: "Inter", Arial, Helvetica, Sans-Serif;
@@ -87,7 +88,7 @@ button {
 	justify-content: center;
 	color: var(--blue);
 	background-color: var(--white);
-	border: 1px solid var(--blue);
+	border: 1px solid var(--yellow);
 	padding: 1em;
 	padding-left: 1.5em;
 	padding-right: 1.5em;
@@ -96,7 +97,7 @@ button {
 	cursor: pointer;
 	margin-top: 2rem;
 	text-decoration: none !important;
-	font-size: 0.7rem;
+	font-size: 0.8rem;
 
 	&[aria-selected="true"] {
 		color: var(--white);
