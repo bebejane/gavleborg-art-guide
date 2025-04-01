@@ -38,33 +38,21 @@ export default async function Home({ searchParams }) {
 				/>
 				<section>
 					<h2>April</h2>
-					<ul className={cn(s.container, "grid")}>
-						{allPrograms.map(({ id, title, image, intro, programCategory, slug }) => (
-							<li key={id} className={s.card}>
-								<Thumbnail
-									slug={slug}
-									title={title}
-									image={image as FileField}
-									intro={intro}
-									meta={programCategory.title}
-								/>
-							</li>
-						))}
-						<ul className={s.container}>
-							{filterPrograms(allPrograms, filter).map(
-								({ id, title, image, intro, programCategory, slug }) => (
-									<li key={id} className={s.card}>
-										<Thumbnail
-											slug={slug}
-											title={title}
-											image={image as FileField}
-											intro={intro}
-											meta={programCategory.title}
-										/>
-									</li>
-								)
-							)}
-						</ul>
+					<ul className={cn(s.container, 'grid')}>
+						{filterPrograms(allPrograms, filter).map(
+							({ id, title, image, intro, programCategory, slug }) => (
+								<li key={id} className={s.card}>
+									<Thumbnail
+										slug={slug}
+										title={title}
+										image={image as FileField}
+										intro={intro}
+										meta={programCategory.title}
+									/>
+								</li>
+							)
+						)}
+					</ul>
 				</section>
 				<section>
 					<h2>Maj</h2>
