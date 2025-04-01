@@ -8,6 +8,7 @@ import { Metadata } from 'next';
 import Article from '@components/common/Article';
 import MetaSection from '@components/common/MetaSection';
 import { formatDate } from '@lib/utils';
+import Link from 'next/link';
 
 export type ProgramProps = {
 	params: Promise<{ program: string }>;
@@ -69,6 +70,9 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					<br />
 					Länk: <a href={externalLink}>{externalLink}</a>
 				</div>
+				<Link href={`/`}>
+					<button>Tillbaka</button>
+				</Link>
 			</Article>
 			<DraftMode url={draftUrl} path={`/${slug}`} />
 		</>

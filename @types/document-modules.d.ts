@@ -132,6 +132,7 @@ declare module '*/program.gql' {
   export const AllPrograms: DocumentNode;
 export const Program: DocumentNode;
 export const AllProgramCategories: DocumentNode;
+export const ProgramCategoryFragment: DocumentNode;
 export const ProgramFragmentLight: DocumentNode;
 export const ProgramFragment: DocumentNode;
 

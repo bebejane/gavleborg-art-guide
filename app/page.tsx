@@ -36,7 +36,10 @@ export default async function Home({ searchParams }) {
 				<h1>Gävleborg Art Guide</h1>
 				<FilterBar
 					href={'/'}
-					options={allProgramCategories.map(({ slug, title }) => ({ id: slug, label: title }))}
+					options={allProgramCategories.map(({ slug, title, plural }) => ({
+						id: slug,
+						label: plural,
+					}))}
 					value={'all'}
 				/>
 				<section>
