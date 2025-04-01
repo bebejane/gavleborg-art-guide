@@ -4,8 +4,12 @@ import { AllProgramsDocument } from '@/graphql';
 import Thumbnail from '@components/common/Thumbnail';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode, VideoPlayer } from 'next-dato-utils/components';
+import { parseAsString } from 'nuqs/server';
 
-export default async function Home() {
+const filterParser = parseAsString.withDefault('all');
+
+export default async function Home({ searchParams }) {
+	const filter = filterParser.parseServerSide((await searchParams).filter);
 	const { allPrograms, allProgramCategories, draftUrl } = await apiQuery<
 		AllProgramsQuery,
 		AllProgramsQueryVariables
@@ -18,28 +22,34 @@ export default async function Home() {
 		tags: ['program'],
 	});
 
+	function filterPrograms(programs: any[], filter: string) {
+		if (filter === 'all') return programs;
+		return programs.filter(({ programCategory: { slug } }) => slug === filter);
+	}
 	return (
 		<>
 			<article className={s.page}>
 				<FilterBar
 					href={'/'}
-					options={allProgramCategories.map(({ id, title }) => ({ id, label: title }))}
+					options={allProgramCategories.map(({ slug, title }) => ({ id: slug, label: title }))}
 					value={'all'}
 				/>
 				<section>
 					<h2>April</h2>
 					<ul className={s.container}>
-						{allPrograms.map(({ id, title, image, intro, programCategory, slug }) => (
-							<li key={id} className={s.card}>
-								<Thumbnail
-									slug={slug}
-									title={title}
-									image={image as FileField}
-									intro={intro}
-									meta={programCategory.title}
-								/>
-							</li>
-						))}
+						{filterPrograms(allPrograms, filter).map(
+							({ id, title, image, intro, programCategory, slug }) => (
+								<li key={id} className={s.card}>
+									<Thumbnail
+										slug={slug}
+										title={title}
+										image={image as FileField}
+										intro={intro}
+										meta={programCategory.title}
+									/>
+								</li>
+							)
+						)}
 					</ul>
 				</section>
 				<section>

@@ -5,6 +5,7 @@ import { GlobalDocument } from '@graphql';
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Suspense } from 'react';
 
 export type LayoutProps = {
 	children: React.ReactNode;
@@ -16,7 +17,9 @@ export default async function RootLayout({ children }: LayoutProps) {
 			<html lang='sv-SE'>
 				<body id='root'>
 					<main className={s.main}>
-						<NuqsAdapter>{children}</NuqsAdapter>
+						<Suspense>
+							<NuqsAdapter>{children}</NuqsAdapter>
+						</Suspense>
 					</main>
 				</body>
 			</html>

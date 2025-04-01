@@ -8,7 +8,7 @@ query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
 	allProgramCategories(orderBy: title_DESC, first: 100) {
 		id
 		title
-		desc
+		slug
 	}
 	_allProgramCategoriesMeta {
 		count
@@ -26,6 +26,7 @@ query AllProgramCategories {
 		id
 		title
 		desc
+		slug
 	}
 }
 
@@ -41,11 +42,12 @@ fragment ProgramFragmentLight on ProgramRecord {
 	image {
 		...ImageThumbnailFragment
 	}
+	slug
 	programCategory {
 		id
 		title
+		slug
 	}
-	slug
 }
 
 fragment ProgramFragment on ProgramRecord {
