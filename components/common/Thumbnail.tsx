@@ -5,6 +5,7 @@ import cn from 'classnames';
 import React, { useState } from 'react';
 import { Image } from 'react-datocms/image';
 import { truncateWords } from 'next-dato-utils/utils';
+import { format } from 'date-fns';
 import { remark } from 'remark';
 import strip from 'strip-markdown';
 import Link from 'next/link';
@@ -17,7 +18,8 @@ export type Props = {
 	titleRows?: number;
 	intro?: string;
 	meta?: string;
-	transformHref?: boolean;
+	startDate?: string;
+	endDate?: string;
 };
 
 export default function Thumbnail({
@@ -28,7 +30,8 @@ export default function Thumbnail({
 	titleLength,
 	titleRows = 3,
 	meta,
-	transformHref = true,
+	startDate,
+	endDate,
 }: Props) {
 	const strippedIntro = truncateWords(remark().use(strip).processSync(intro).value as string, 500);
 	const [loaded, setLoaded] = useState(false);
@@ -53,8 +56,9 @@ export default function Thumbnail({
 			</h3>
 			{(strippedIntro || meta) && (
 				<div className='thumb-intro'>
-					<p className="small">
-						{meta && <strong className="meta">{meta.trim()}</strong>}
+					<p className='small'>
+						{meta && <strong className='meta'>{meta.trim()}</strong>}
+						{startDate && <span className={s.date}>{format(new Date(startDate), 'dd MMM')}</span>}
 						{strippedIntro}
 					</p>
 				</div>

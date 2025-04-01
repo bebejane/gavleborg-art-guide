@@ -28,6 +28,8 @@ export default async function Home({ searchParams }) {
 		return programs.filter(({ programCategory: { slug } }) => slug === filter);
 	}
 
+	const programs = filterPrograms(allPrograms, filter);
+
 	return (
 		<>
 			<article className={s.page}>
@@ -40,14 +42,16 @@ export default async function Home({ searchParams }) {
 				<section>
 					<h2>April</h2>
 					<ul className={cn(s.container, 'grid')}>
-						{filterPrograms(allPrograms, filter).map(
-							({ id, title, image, intro, programCategory, slug }) => (
+						{programs.map(
+							({ id, title, image, intro, programCategory, slug, startDate, endDate }) => (
 								<li key={id} className={s.card}>
 									<Thumbnail
 										slug={slug}
 										title={title}
 										image={image as FileField}
 										intro={intro}
+										startDate={startDate}
+										endDate={endDate}
 										meta={programCategory.title}
 									/>
 								</li>
@@ -58,19 +62,17 @@ export default async function Home({ searchParams }) {
 				<section>
 					<h2>Maj</h2>
 					<ul className={cn(s.container, 'grid')}>
-						{filterPrograms(allPrograms, filter).map(
-							({ id, title, image, intro, programCategory, slug }) => (
-								<li key={id} className={s.card}>
-									<Thumbnail
-										slug={slug}
-										title={title}
-										image={image as FileField}
-										intro={intro}
-										meta={programCategory.title}
-									/>
-								</li>
-							)
-						)}
+						{programs.map(({ id, title, image, intro, programCategory, slug }) => (
+							<li key={id} className={s.card}>
+								<Thumbnail
+									slug={slug}
+									title={title}
+									image={image as FileField}
+									intro={intro}
+									meta={programCategory.title}
+								/>
+							</li>
+						))}
 					</ul>
 				</section>
 			</article>
