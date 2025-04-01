@@ -1,8 +1,8 @@
-'use client';
 import s from './Image.module.scss';
+import cn from 'classnames';
 import React from 'react';
 import { Image as DatoImage } from 'react-datocms';
-import ImageGallery from './ImageGallery';
+import { Markdown } from 'next-dato-utils/components';
 
 export type ImageBlockProps = {
 	id: string;
@@ -11,16 +11,18 @@ export type ImageBlockProps = {
 	editable?: any;
 };
 
-export default function Image({ id, data: { image: images } }: ImageBlockProps) {
-	if (!images || !images.length) return null;
-	const isSingle = images.length === 1;
-
-	return isSingle ? (
-		<figure className={s.image}>
-			<DatoImage data={images[0].responsiveImage} intersectionMargin='0px 0px 200% 0px' />
-			{images[0].title && <figcaption>{images[0].title}</figcaption>}
+export default function Image({ id, data: { image, layout }, onClick }: ImageBlockProps) {
+	return (
+		<figure
+			className={cn(s.figure, s[layout], image.height > image.width && s.portrait)}
+			onClick={() => onClick?.(image.id)}
+		>
+			<DatoImage data={image.responsiveImage} className={s.image} />
+			{image.title && (
+				<figcaption>
+					<Markdown allowedElements={['em', 'p']} content={image.title} />
+				</figcaption>
+			)}
 		</figure>
-	) : (
-		<ImageGallery id={id} images={images} />
 	);
 }

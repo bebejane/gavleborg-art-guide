@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Point of You',
-    short_name: 'Point of You',
-    description: 'Point of You',
+    name: 'Gävleborg Art Guide',
+    short_name: 'Gävleborg Art Guide',
+    description: 'Gävleborg Art Guide',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

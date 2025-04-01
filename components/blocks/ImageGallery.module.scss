@@ -1,67 +1,54 @@
 .gallery {
   position: relative;
-  margin-right: var(--full-bleed-margin);
-  margin-bottom: calc(1.5 * var(--space-big));
-  margin-top: var(--space);
+  max-width: 100vw;
+  min-width: 100%;
 
-  @include mq($from: desktop) {
-    margin-bottom: var(--space-big);
-  }
+  margin-top: calc(1.2 * var(--space));
+  margin-bottom: var(--space);
 
-  .nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: var(--outer-margin);
-    position: absolute;
-    bottom: -3.5rem;
-    right: 0;
 
-    @include mq($until: desktop) {
+  .fade {
+    @include mq($from: tablet) {
       display: none;
     }
 
-    a {
-      margin-right: 0.5rem;
-    }
-
-    button {
-      all: unset;
-      cursor: pointer;
-      padding-left: 0.5rem;
-      background-color: --white;
-    }
-
-    .back {
-      transform: rotate(180deg);
-    }
-
-    .forward {
-    }
+    height: 100%;
+    width: calc(2 * var(--outer-margin));
+    background: linear-gradient(270deg, rgba(252, 252, 252, 1) 0%, rgba(252, 252, 252, 0) 100%);
+    position: absolute;
+    right: 0;
+    z-index: 100;
   }
 
-  figcaption {
-    position: absolute;
-    left: var(--ful-margin);
-    width: calc(var(--margin) - var(--outer-margin) - var(--gutter));
-    color: var(--blue);
-    z-index: 1;
-    font-family: var(--label-font);
-    font-size: 0.7rem;
-
-    @include mq($until: desktop) {
-      top: calc(30vh + var(--space-small));
-      left: 0;
-      width: 100%;
-      padding-right: var(--outer-margin);
+  .next,
+  .prev {
+    @include mq($until: tablet) {
+      display: none;
     }
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    user-select: none;
+    width: var(--total-outer-margin);
+    //
+    top: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+    margin-right: calc(-1 * var(--total-outer-margin));
+    cursor: pointer;
+  }
+
+  .prev {
+    left: 0;
+    margin-left: calc(-1 * var(--total-outer-margin));
   }
 
   .swiper {
     position: relative;
-    width: 100%;
-
+    max-width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -69,55 +56,50 @@
     user-select: none;
     cursor: pointer;
 
-    > div {
+    >div {
       display: flex;
       flex-direction: row;
-      align-items: flex-end;
+      align-items: flex-start;
 
       .slide {
+        display: flex;
+        flex-direction: column;
         position: relative;
-        flex: 1 0 auto;
+        width: calc((100% - (var(--gutter) * 2)) / 3);
         padding-right: var(--gutter);
-        height: 30vh;
 
-        @include mq($from: desktop) {
-          height: 60vh;
+        @include mq($until: desktop) {
+          width: 100%;
         }
 
-        > figure {
-          position: relative;
+        >figure {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           justify-content: flex-start;
           cursor: pointer;
 
-          @include mq($until: desktop) {
-            width: calc(100vw - calc(4 * var(--outer-margin)));
-          }
+          figcaption {
+            flex: 0 0;
+            padding: 0;
+            margin-top: 1em;
 
-          img {
-            width: 100%;
-            height: 30vh;
-            object-fit: contain;
+            @include mq($until: tablet) {
+              padding-left: var(--outer-margin);
+              padding-right: var(--outer-margin);
 
-            @include mq($from: desktop) {
-              height: 60vh;
             }
-          }
-        }
 
-        &.portrait {
-          flex: 0 1 auto;
-
-          > figure {
-            @include mq($until: desktop) {
-              width: auto;
+            >p {
+              text-align: left;
+              margin: 0;
+              padding: 0;
             }
           }
 
-          img {
-            width: auto !important;
+          .image {
+            //min-height: 20vw;
+            //max-height: 20vw;
           }
         }
       }
