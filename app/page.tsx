@@ -45,7 +45,23 @@ export default async function Home({ searchParams }) {
 			'november',
 			'december',
 		];
-		const filteredPrograms = filterPrograms(allPrograms);
+		// Filter out inactive programs
+		const today = new Date();
+		const filteredPrograms = filterPrograms(allPrograms).filter((program) => {
+			const startDate = new Date(program.startDate);
+			const endDate = program.endDate ? new Date(program.endDate) : null;
+
+			if (endDate) {
+				// If program has end date, check if it's still active
+				return endDate >= today;
+			} else {
+				// If no end date, check if it's in the current month
+				return (
+					startDate.getMonth() === today.getMonth() &&
+					startDate.getFullYear() === today.getFullYear()
+				);
+			}
+		});
 		const programsByMonth = filteredPrograms.reduce((acc, program) => {
 			const startDate = new Date(program.startDate);
 			const endDate = program.endDate ? new Date(program.endDate) : null;
@@ -82,31 +98,41 @@ export default async function Home({ searchParams }) {
 			return acc;
 		}, {});
 
-		return Object.keys(programsByMonth)
-			.sort((a, b) => {
-				const aIdx = months.indexOf(a.toLowerCase());
-				const bIdx = months.indexOf(b.toLowerCase());
-				return aIdx - bIdx;
-			})
-			.map((month) => {
-				// Sort programs within the month
-				const monthPrograms = programsByMonth[month].sort((a, b) => {
-					const aStartMonth = format(new Date(a.startDate), 'MMMM');
-					const bStartMonth = format(new Date(b.startDate), 'MMMM');
+		const currentMonthIdx = today.getMonth();
 
-					// If program starts in this month, it should come first
-					if (aStartMonth === month && bStartMonth !== month) return -1;
-					if (bStartMonth === month && aStartMonth !== month) return 1;
+		return (
+			Object.keys(programsByMonth)
+				// Filter out months before current month
+				.filter((month) => {
+					const monthIdx = months.indexOf(month.toLowerCase());
+					return monthIdx >= currentMonthIdx;
+				})
+				// Sort remaining months
+				.sort((a, b) => {
+					const aIdx = months.indexOf(a.toLowerCase());
+					const bIdx = months.indexOf(b.toLowerCase());
+					return aIdx - bIdx;
+				})
+				.map((month) => {
+					// Sort programs within the month
+					const monthPrograms = programsByMonth[month].sort((a, b) => {
+						const aStartMonth = format(new Date(a.startDate), 'MMMM');
+						const bStartMonth = format(new Date(b.startDate), 'MMMM');
 
-					// If both programs are continuing or both starting, sort by start date
-					return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-				});
+						// If program starts in this month, it should come first
+						if (aStartMonth === month && bStartMonth !== month) return -1;
+						if (bStartMonth === month && aStartMonth !== month) return 1;
 
-				return {
-					month,
-					programs: monthPrograms,
-				};
-			});
+						// If both programs are continuing or both starting, sort by start date
+						return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+					});
+
+					return {
+						month,
+						programs: monthPrograms,
+					};
+				})
+		);
 	}
 
 	const programs = programsByMonth();
