@@ -36,6 +36,22 @@ export default async function Home() {
 						))}
 					</ul>
 				</section>
+				<section>
+					<h2>Maj</h2>
+					<ul className={s.container}>
+						{allPrograms.map(({ id, title, image, intro, programCategory, slug }) => (
+							<li key={id} className={s.card}>
+								<Thumbnail
+									slug={slug}
+									title={title}
+									image={image as FileField}
+									intro={intro}
+									meta={programCategory.title}
+								/>
+							</li>
+						))}
+					</ul>
+				</section>
 			</article>
 			<DraftMode url={draftUrl} path='/' />
 		</>
