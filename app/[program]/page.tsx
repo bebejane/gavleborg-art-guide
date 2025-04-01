@@ -6,6 +6,8 @@ import { notFound } from '@node_modules/next/navigation';
 import { DraftMode } from 'next-dato-utils/components';
 import { Metadata } from 'next';
 import Article from '@components/common/Article';
+import MetaSection from '@components/common/MetaSection';
+import { formatDate } from '@lib/utils';
 
 export type ProgramProps = {
 	params: Promise<{ program: string }>;
@@ -24,7 +26,21 @@ export default async function ProgramPage({ params }: ProgramProps) {
 
 	if (!program) return notFound();
 
-	const { id, image, title, intro, content, startDate, endDate } = program;
+	const {
+		id,
+		image,
+		title,
+		intro,
+		content,
+		startDate,
+		endDate,
+		programCategory,
+		address,
+		location,
+		time,
+		misc,
+		externalLink,
+	} = program;
 
 	return (
 		<>
@@ -37,7 +53,23 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				intro={intro}
 				content={content}
 				date={startDate}
-			/>
+			>
+				<div className={s.meta}>
+					Datum: {formatDate(startDate, endDate)}
+					<br />
+					Kategori: {programCategory.title}
+					<br />
+					Adress: {address}
+					<br />
+					Plats: {location.map(({ title }) => title).join(', ')}
+					<br />
+					Tider: {time}
+					<br />
+					Övrigt: {misc}
+					<br />
+					Länk: <a href={externalLink}>{externalLink}</a>
+				</div>
+			</Article>
 			<DraftMode url={draftUrl} path={`/${slug}`} />
 		</>
 	);

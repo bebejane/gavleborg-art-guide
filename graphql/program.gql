@@ -41,6 +41,7 @@ fragment ProgramFragmentLight on ProgramRecord {
 	time
 	startDate
 	endDate
+	groupShow
 	image {
 		...ImageThumbnailFragment
 	}
@@ -60,6 +61,7 @@ fragment ProgramFragment on ProgramRecord {
 	startDate
 	endDate
 	time
+	groupShow
 	address
 	image {
 		...ImageFragment

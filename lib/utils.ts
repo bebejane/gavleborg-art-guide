@@ -1,3 +1,5 @@
+import { capitalize } from "next-dato-utils/utils";
+import { format } from "date-fns";
 import React from "react";
 
 export const chunkArray = (array: any[] | React.ReactNode[], chunkSize: number) => {
@@ -30,4 +32,11 @@ export const recordToSlug = (record: any): string => {
   }
 
   return url
+}
+
+export const formatDate = (date: string, endDate?: string) => {
+  if (!date) return ''
+  const s = capitalize(format(new Date(date), 'dd MMM')).replace('.', '');
+  const e = endDate ? capitalize(format(new Date(endDate), 'dd MMM')).replace('.', '') : undefined;
+  return `${s}${e ? ` – ${e}` : ''}`
 }

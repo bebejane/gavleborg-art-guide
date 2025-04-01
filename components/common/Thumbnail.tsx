@@ -20,6 +20,7 @@ export type Props = {
 	meta?: string;
 	startDate?: string;
 	endDate?: string;
+	groupShow?: boolean;
 };
 
 export default function Thumbnail({
@@ -32,12 +33,13 @@ export default function Thumbnail({
 	meta,
 	startDate,
 	endDate,
+	groupShow,
 }: Props) {
 	const strippedIntro = truncateWords(remark().use(strip).processSync(intro).value as string, 500);
 	const [loaded, setLoaded] = useState(false);
 
 	return (
-		<Link href={`/${slug}`} className={s.thumbnail}>
+		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
 			{image && (
 				<div className={s.imageWrap}>
 					<>
