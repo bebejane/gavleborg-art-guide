@@ -9,8 +9,7 @@
     justify-content: center;
   }
 
-  .show {
-  }
+  .show {}
 
   ul {
     display: flex;
@@ -37,6 +36,11 @@
       button {
         margin-top: 0;
         margin: 0;
+
+        &[aria-selected="true"] {
+          color: var(--black);
+          background-color: var(--yellow);
+        }
       }
     }
   }

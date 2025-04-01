@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { remark } from 'remark';
 import strip from 'strip-markdown';
 import Link from 'next/link';
+import { formatDate } from '@lib/utils';
 
 export type Props = {
 	image?: FileField;
@@ -60,7 +61,7 @@ export default function Thumbnail({
 				<div className='thumb-intro'>
 					<p className='small'>
 						{meta && <strong className='meta'>{meta.trim()}</strong>}
-						{startDate && <span className={s.date}>{format(new Date(startDate), 'dd MMM')}</span>}
+						{startDate && <span className={s.date}>{formatDate(startDate)}</span>}
 						{strippedIntro}
 					</p>
 				</div>
