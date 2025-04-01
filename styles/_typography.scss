@@ -3,7 +3,7 @@
 
 html,
 body {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
 
   @include mq($from: tablet) {
@@ -82,8 +82,8 @@ figcaption,
 figcaption {
   font-family: var(--sans-font);
   color: var(--blue);
-  font-size: 0.7rem;
   line-height: var(--line-height);
+  padding-top: 1em;
 }
 
 nav,

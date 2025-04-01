@@ -100,7 +100,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					{externalLink && (
 						<>
 							<span>
-								Länk: <a href={externalLink}>{externalLink}</a>
+								Länk: <a href={externalLink}>Läs mer</a>
 							</span>
 							<br />
 						</>
