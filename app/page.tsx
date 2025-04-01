@@ -56,7 +56,7 @@ export default async function Home({ searchParams }) {
 				</section>
 				<section>
 					<h2>Maj</h2>
-					<ul className={s.container}>
+					<ul className={cn(s.container, 'grid')}>
 						{filterPrograms(allPrograms, filter).map(
 							({ id, title, image, intro, programCategory, slug }) => (
 								<li key={id} className={s.card}>
