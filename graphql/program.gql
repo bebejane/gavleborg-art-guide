@@ -38,6 +38,7 @@ fragment ProgramFragmentLight on ProgramRecord {
 	id
 	title
 	startDate
+	startTime
 	endDate
 	intro(markdown: false)
 	time
@@ -62,6 +63,7 @@ fragment ProgramFragment on ProgramRecord {
 	title
 	startDate
 	endDate
+	startTime
 	time
 	groupShow
 	address
