@@ -3,6 +3,7 @@ import { AllProgramsDocument } from '@/graphql';
 import Thumbnail from '@components/common/Thumbnail';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode, VideoPlayer } from 'next-dato-utils/components';
+import cn from '@node_modules/classnames';
 
 export default async function Home() {
 	const { allPrograms, draftUrl } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(
@@ -22,7 +23,7 @@ export default async function Home() {
 			<article className={s.page}>
 				<section>
 					<h2>April</h2>
-					<ul className={s.container}>
+					<ul className={cn(s.container, "grid")}>
 						{allPrograms.map(({ id, title, image, intro, programCategory, slug }) => (
 							<li key={id} className={s.card}>
 								<Thumbnail

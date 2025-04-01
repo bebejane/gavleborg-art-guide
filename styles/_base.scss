@@ -7,17 +7,18 @@
 	--background: var(--white);
 	--foreground: var(--black);
 
-	--outer-margin: 2rem;
+	--outer-margin: 4rem;
 	--gutter: 0.6rem;
 	--grid-unit: calc(100vw / 10);
 	--space: 2rem;
 	--space-big: 2.5rem;
 	--space-small: 1rem;
 
-	--body-font: "OceanicText", Times, Serif;
-	--headline-font: "BuzzBlack", Arial, Helvetica, Sans-Serif;
-	--label-font: "Jazz-Medium", Arial, Sans-serif;
-	--sans-font: "Jazz", Arial, Sans-serif;
+	--body-font: "Inter", Arial, Helvetica, Sans-Serif;
+	--headline-font: "Inter", Arial, Helvetica, Sans-Serif;
+	--label-font: "Inter", Arial, Helvetica, Sans-Serif;
+	--sans-font: "Inter", Arial, Helvetica, Sans-Serif;
+	--line-height: 1.2;
 
 	@include mq($until: desktop) {
 		--outer-margin: 1.5rem;
@@ -108,11 +109,13 @@ button {
 	}
 }
 
-hr {}
+hr {
+}
 
 input,
 textarea,
-select {}
+select {
+}
 
 select {
 	-webkit-appearance: none;
@@ -137,4 +140,11 @@ select {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-column-gap: var(--space-small);
+	grid-row-gap: var(--space-small);
 }

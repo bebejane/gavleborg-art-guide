@@ -7,11 +7,11 @@ body {
   font-weight: normal;
 
   @include mq($from: tablet) {
-    font-size: 22px;
+    font-size: 16;
   }
 
   @include mq($from: wide) {
-    font-size: 26px;
+    font-size: 18px;
   }
 }
 
@@ -21,9 +21,8 @@ h3,
 h4,
 h5 {
   font-family: var(--headline-font);
-  color: var(--blue);
-  line-height: 1;
   font-weight: normal;
+  line-height: var(--line-height);
 
   strong {
     //font-weight: normal;
@@ -33,7 +32,7 @@ h5 {
 h1 {
   font-size: 2rem;
   padding-bottom: var(--space);
-  line-height: 1.25;
+  text-align: center;
 
   @include mq($from: desktop) {
     font-size: 2.5rem;
@@ -41,16 +40,13 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5rem;
-  padding-bottom: 0.5em;
-  line-height: 1.4;
+  font-size: 2rem;
+  margin-bottom: 1em;
 }
 
 h3 {
-  font-size: 0.9rem;
-  font-family: var(--label-font);
-  margin-bottom: 0.5em;
-  line-height: var(--line-height);
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 p {
@@ -75,7 +71,7 @@ figcaption,
   font-size: 0.85rem;
 
   @include mq($from: desktop) {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -204,6 +200,7 @@ article {
 .meta {
   font-family: var(--sans-font);
   font-size: 0.7rem;
+  text-transform: uppercase;
 }
 
 button {

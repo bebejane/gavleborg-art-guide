@@ -53,8 +53,8 @@ export default function Thumbnail({
 			</h3>
 			{(strippedIntro || meta) && (
 				<div className='thumb-intro'>
-					<p>
-						{meta && <strong>{meta.trim()}</strong>}
+					<p className="small">
+						{meta && <strong className="meta">{meta.trim()}</strong>}
 						{strippedIntro}
 					</p>
 				</div>

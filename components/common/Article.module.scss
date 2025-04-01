@@ -1,5 +1,9 @@
 .article {
   position: relative;
+  margin-left: var(--outer-margin);
+  margin-right: var(--outer-margin);
+  margin-top: var(--outer-margin);
+  margin-bottom: var(--outer-margin);
 
   &.noBottom {
     padding-bottom: 0;
@@ -25,9 +29,11 @@
       padding-right: calc(2 * var(--grid-unit));
     }
 
-    &.medium {}
+    &.medium {
+    }
 
-    &.large {}
+    &.large {
+    }
 
     &.portrait {
       padding-left: calc(3 * var(--grid-unit));
@@ -75,8 +81,7 @@
     }
   }
 
-  .intro>p {
-
+  .intro > p {
     padding: 0;
   }
 }
