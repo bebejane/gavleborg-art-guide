@@ -59,11 +59,13 @@ export default function Thumbnail({
 			</h3>
 			{(strippedIntro || meta) && (
 				<div className='thumb-intro'>
+					<div className={s.meta}>
+						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span> {startDate && <strong className='meta'>{formatDate(startDate)} – {formatDate(endDate)}</strong>}
+					</div>
 					<p className='small'>
-						{meta && <strong className='meta'>{meta.trim()}</strong>}
-						{startDate && <span className={s.date}>{formatDate(startDate)}</span>}
 						{strippedIntro}
 					</p>
+
 				</div>
 			)}
 		</Link>

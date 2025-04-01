@@ -15,7 +15,7 @@
     display: flex;
     //align-items: flex-end;
     width: 100%;
-    padding-top: 0.2em;
+    padding-top: 0.3em;
     padding-bottom: 0.5em;
     text-align: left;
 
@@ -51,7 +51,17 @@
     }
   }
 
+  .meta {
+    strong {
+      font-weight: normal;
+    }
+    span {
+      color: var(--yellow);
+    }
+  }
+
   p {
+    padding-top: 0.1rem;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
