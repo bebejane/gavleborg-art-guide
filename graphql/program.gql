@@ -5,6 +5,14 @@ query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
 	_allProgramsMeta {
 		count
 	}
+	allProgramCategories(orderBy: title_DESC, first: 100) {
+		id
+		title
+		slug
+	}
+	_allProgramCategoriesMeta {
+		count
+	}
 }
 
 query Program($slug: String!) {
@@ -18,6 +26,7 @@ query AllProgramCategories {
 		id
 		title
 		desc
+		slug
 	}
 }
 
@@ -33,11 +42,12 @@ fragment ProgramFragmentLight on ProgramRecord {
 	image {
 		...ImageThumbnailFragment
 	}
+	slug
 	programCategory {
 		id
 		title
+		slug
 	}
-	slug
 }
 
 fragment ProgramFragment on ProgramRecord {

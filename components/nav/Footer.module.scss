@@ -1,101 +1,13 @@
 .footer {
   position: relative;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  background-color: var(--blue);
-  padding: var(--outer-margin);
+  background-color: var(--black);
+  width: 100%;
+  height: 100vh;
 
   * {
     color: var(--white);
   }
 
-  nav {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 70%;
 
-    figure {
-      width: calc(100vw - (2 * var(--outer-margin)));
-      margin-bottom: var(--space-small);
-
-      @include mq($from: desktop) {
-        width: calc(100vw - (2 * var(--outer-margin) + (2 * var(--margin))));
-      }
-
-      img {
-        width: 100%;
-      }
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    > ul {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-top: var(--space-small);
-
-      @include mq($until: desktop) {
-        display: none;
-        flex-direction: column;
-      }
-
-      ul {
-        display: flex;
-        flex-direction: column;
-        padding-top: 0.2rem;
-
-        li {
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          font-family: var(--sans-font);
-          font-size: 0.6rem;
-
-          & a:hover {
-            color: var(--blue-light);
-          }
-        }
-      }
-    }
-  }
-
-  .copyright {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    font-size: 0.7rem;
-    margin-top: var(--space-big);
-    position: sticky;
-    top: calc(100vh - var(--navbar-height) + var(--outer-margin) - 1rem);
-    z-index: var(--z-copyright);
-
-    .text {
-      flex: 0 0 70%;
-    }
-
-    @include mq($until: desktop) {
-      flex-direction: column;
-      align-items: center;
-
-      .text {
-        flex: 0 0;
-      }
-    }
-
-    .about {
-      display: flex;
-      justify-content: flex-end;
-      flex: 1 1 auto;
-      white-space: nowrap;
-
-      @include mq($until: desktop) {
-        //flex-direction: column;
-        align-items: center;
-      }
-    }
-  }
 }

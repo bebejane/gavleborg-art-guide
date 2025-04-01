@@ -1,96 +1,42 @@
 .filter {
-  position: relative;
+  font-family: var(--label-font);
   width: 100%;
-  text-align: center;
-  margin-top: -0.5 rem;
-  margin-bottom: var(--space);
 
-  @include mq($until: desktop) {
-    overflow: hidden;
-  }
-
-  >ul {
-    list-style: none;
+  .wrap {
     display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
+  }
 
-    @include mq($until: tablet) {
-      scrollbar-width: 0px;
-      overflow-x: scroll;
-      line-height: 2rem;
+  .show {}
 
-      &::-webkit-scrollbar {
-        height: 0px;
-      }
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    overflow-x: scroll;
+    scrollbar-width: none;
 
-      &::-webkit-scrollbar-thumb,
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
+    @include mq($until: desktop) {
+      padding-right: calc(1 * var(--outer-margin));
+    }
 
-      margin-right: calc(-1 * var(--outer-margin));
+    &::-webkit-scrollbar {
+      display: none;
     }
 
     li {
-      padding-right: 1em;
-      cursor: pointer;
+      margin-right: 0.5rem;
 
-      &.selected {
-        font-weight: bold;
-      }
-    }
-  }
-
-  .arrow {
-    display: none;
-    transform: rotate(90deg);
-    margin-left: 0.3em;
-  }
-
-  @include mq($until: tablet) {
-    overflow: visible;
-
-    >ul {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      flex-direction: column;
-      background-color: var(--white);
-      padding-bottom: 1.5em;
-
-      li {
-        display: inline-flex;
-        align-self: center;
-        padding-right: 0;
-      }
-    }
-
-    &.open {
-      .arrow {
-        display: inline-block;
+      &:last-child {
+        margin-right: 0;
       }
 
-      >ul {
-        li:not(.selected) {
-          display: none;
-        }
+      button {
+        margin-top: 0;
+        margin: 0;
       }
-    }
-  }
-
-  .description {
-    font-family: $body-font;
-    font-size: 1rem;
-    padding-top: 1em;
-    line-height: var(--line-height);
-  }
-
-  &.multi-row {
-    li {
-      padding-bottom: 1em;
     }
   }
 }
