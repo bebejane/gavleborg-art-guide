@@ -45,7 +45,8 @@ export default async function Home({ searchParams }) {
 			'november',
 			'december',
 		];
-		const programsByMonth = filterPrograms(allPrograms).reduce((acc, program) => {
+		const filteredPrograms = filterPrograms(allPrograms);
+		const programsByMonth = filteredPrograms.reduce((acc, program) => {
 			const startDate = new Date(program.startDate);
 			const endDate = program.endDate ? new Date(program.endDate) : null;
 
@@ -87,10 +88,25 @@ export default async function Home({ searchParams }) {
 				const bIdx = months.indexOf(b.toLowerCase());
 				return aIdx - bIdx;
 			})
-			.map((month) => ({
-				month,
-				programs: programsByMonth[month],
-			}));
+			.map((month) => {
+				// Sort programs within the month
+				const monthPrograms = programsByMonth[month].sort((a, b) => {
+					const aStartMonth = format(new Date(a.startDate), 'MMMM');
+					const bStartMonth = format(new Date(b.startDate), 'MMMM');
+
+					// If program starts in this month, it should come first
+					if (aStartMonth === month && bStartMonth !== month) return -1;
+					if (bStartMonth === month && aStartMonth !== month) return 1;
+
+					// If both programs are continuing or both starting, sort by start date
+					return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+				});
+
+				return {
+					month,
+					programs: monthPrograms,
+				};
+			});
 	}
 
 	const programs = programsByMonth();
