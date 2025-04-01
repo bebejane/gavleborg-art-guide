@@ -83,8 +83,10 @@
   }
 
   .content {
-    padding-left: calc(3 * var(--outer-margin));
-    padding-right: calc(3 * var(--outer-margin));
+    @include mq($from: desktop) {
+      padding-left: calc(4 * var(--outer-margin));
+      padding-right: calc(4 * var(--outer-margin));
+    }
     margin-top: var(--space-big);
   }
 
