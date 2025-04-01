@@ -39,6 +39,8 @@ fragment ProgramFragmentLight on ProgramRecord {
 	endDate
 	intro(markdown: false)
 	time
+	startDate
+	endDate
 	image {
 		...ImageThumbnailFragment
 	}
