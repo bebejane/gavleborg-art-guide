@@ -40,7 +40,7 @@ export default async function Home({ searchParams }) {
 						id: slug,
 						label: plural,
 					}))}
-					value={'all'}
+					value={filter}
 				/>
 				<section>
 					<h2>April</h2>
