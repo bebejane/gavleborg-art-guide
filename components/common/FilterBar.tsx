@@ -1,57 +1,33 @@
-import useIsDesktop from '@lib/useIsDesktop';
+'use client';
+
 import s from './FilterBar.module.scss';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useQueryState } from 'nuqs';
 
-export type FilterOption = {
-	id: string;
-	label: string;
-	description: string;
+type Props = {
+	value: string;
+	href: string;
+	options: {
+		id: string;
+		label: string;
+	}[];
 };
 
-export type Props = {
-	options: FilterOption[];
-	multi?: boolean;
-	onChange: (value: string[] | string) => void;
-};
-
-export default function FilterBar({ options = [], onChange, multi = false }: Props) {
-	const [selected, setSelected] = useState<FilterOption[]>([]);
-	const [open, setOpen] = useState(true);
-	const isDesktop = useIsDesktop();
-
-	useEffect(() => {
-		onChange(multi ? selected.map(({ id }) => id) : selected[0]?.id);
-	}, [selected]);
-
+export default function FilterBar({ options, href = '/', value }: Props) {
 	return (
-		<nav className={cn(s.filter, open && !isDesktop && s.open)}>
-			<ul onClick={() => setOpen(!open)}>
-				<li onClick={() => setSelected([])} className={cn(!selected?.length && s.selected)}>
-					Alla
-					<span className={s.arrow}>›</span>
-				</li>
-				{options.map((opt, idx) => (
-					<li
-						key={idx}
-						onClick={() =>
-							((!open && !isDesktop) || isDesktop) &&
-							setSelected(
-								selected.find(({ id }) => id === opt.id)
-									? selected.filter(({ id }) => id !== opt.id)
-									: multi
-									? [...selected, opt]
-									: [opt]
-							)
-						}
-						className={cn(selected?.find(({ id }) => id === opt.id) && s.selected)}
-					>
-						{opt.label}
-						<span className={s.arrow}>›</span>
-					</li>
-				))}
-			</ul>
-			{!multi && selected && <div className={s.description}>{selected[0]?.description}</div>}
+		<nav className={cn(s.filter)}>
+			<div className={s.wrap}>
+				<ul>
+					{options.map(({ id, label }, idx) => (
+						<li key={idx}>
+							<Link href={`${href}?filter=${id}`} shallow={true} prefetch={true}>
+								<button aria-selected={value === id}>{label}</button>
+							</Link>
+						</li>
+					))}
+				</ul>
+			</div>
 		</nav>
 	);
 }

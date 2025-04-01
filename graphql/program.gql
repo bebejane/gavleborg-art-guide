@@ -5,6 +5,14 @@ query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
 	_allProgramsMeta {
 		count
 	}
+	allProgramCategories(orderBy: title_DESC, first: 100) {
+		id
+		title
+		desc
+	}
+	_allProgramCategoriesMeta {
+		count
+	}
 }
 
 query Program($slug: String!) {
