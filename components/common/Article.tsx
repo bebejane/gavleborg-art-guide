@@ -52,6 +52,7 @@ export default function Article({
 	return (
 		<>
 			<div className={cn(s.article, 'article')}>
+				<div className={cn(s.logo, "logo")}>Gävleborg Art Guide</div>
 				<h1>{title}</h1>
 				{image && (
 					<figure

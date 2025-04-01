@@ -5,6 +5,16 @@
   margin-top: var(--outer-margin);
   margin-bottom: var(--outer-margin);
 
+  .logo {
+    position: fixed;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    width: calc(100vh - (2 * var(--outer-margin)));
+    right: calc(-1 * 13 * var(--outer-margin));
+    top: var(--outer-margin);
+    z-index: 1;
+  }
+
   &.noBottom {
     padding-bottom: 0;
   }
