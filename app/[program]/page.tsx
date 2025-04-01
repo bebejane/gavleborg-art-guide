@@ -7,8 +7,9 @@ import { DraftMode } from 'next-dato-utils/components';
 import { Metadata } from 'next';
 import Article from '@components/common/Article';
 import MetaSection from '@components/common/MetaSection';
-import { formatDate } from '@lib/utils';
+import { formatDate, formatDateTime } from '@lib/utils';
 import Link from 'next/link';
+import React from 'react';
 
 export type ProgramProps = {
 	params: Promise<{ program: string }>;
@@ -57,62 +58,64 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				date={startDate}
 			>
 				<ul className={s.meta}>
-
-					<li>
-						Datum: {formatDate(startDate, endDate)}</li>
-
+					<li>Datum: {formatDate(startDate, endDate)}</li>
 					{programCategory && (
-						<>
-							<li>
-								<span>Kategori: {programCategory.title}</span>
-							</li>
-						</>
+						<li>
+							<span>Kategori: {programCategory.title}</span>
+						</li>
 					)}
 					{address && (
-						<>
-							<li>
-								<span>Adress: {address}</span>
-							</li>
-						</>
+						<li>
+							<span>Adress: {address}</span>
+						</li>
 					)}
 					{location && (
 						<>
 							<li>
 								<span>
-									Plats: {location.map(({ title, address }) => `${title}, ${address}`).join(', ')}
+									Plats:&nbsp;
+									{location.map(({ title, address, webpage }, idx) =>
+										webpage ? (
+											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
+												{title}
+											</a>
+										) : (
+											<React.Fragment key={idx}>{title}</React.Fragment>
+										)
+									)}
+								</span>
+							</li>
+							<li>
+								<span>
+									Adress:&nbsp;
+									{location.map(({ address }, idx) => (
+										<React.Fragment key={idx}>{address}</React.Fragment>
+									))}
 								</span>
 							</li>
 						</>
 					)}
 					{startTime && (
-						<>
-							<li>
-								<span>Vernissage: {formatDate(startTime)}</span>
-							</li>
-						</>
+						<li>
+							<span>Vernissage: {formatDateTime(startTime)}</span>
+						</li>
 					)}
 					{time && (
-						<>
-							<li>
-								<span>Tid: {time}</span>
-							</li>
-						</>
+						<li>
+							<span>Tid: {time}</span>
+						</li>
 					)}
 					{misc && (
-						<>
-							<li>
-								<span>Övrigt: {misc}</span>
-							</li>
-						</>
+						<li>
+							<span>Övrigt: {misc}</span>
+						</li>
 					)}
 					{externalLink && (
-						<>
-							<li>
-								<span>
-									Länk: <a href={externalLink}>Läs mer</a>
-								</span>
-							</li>
-						</>
+						<li>
+							<span>
+								Länk: <a href={externalLink}>Läs mer</a>
+							</span>
+						</li>
 					)}
 				</ul>
 				<Link href={`/`}>
