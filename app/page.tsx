@@ -1,12 +1,12 @@
-import FilterBar from '@components/common/FilterBar';
 import s from './page.module.scss';
+import cn from 'classnames';
 import { AllProgramsDocument } from '@/graphql';
 import Thumbnail from '@components/common/Thumbnail';
+import FilterBar from '@components/common/FilterBar';
 import { apiQuery } from 'next-dato-utils/api';
-import { DraftMode, VideoPlayer } from 'next-dato-utils/components';
-import cn from '@node_modules/classnames';
+import { DraftMode } from 'next-dato-utils/components';
 import { parseAsString } from 'nuqs/server';
-import { format, getMonth } from 'date-fns';
+import { format } from 'date-fns';
 import { capitalize } from 'next-dato-utils/utils';
 
 const filterParser = parseAsString.withDefault('all');
@@ -25,27 +25,73 @@ export default async function Home({ searchParams }) {
 		tags: ['program'],
 	});
 
-	function filterPrograms(programs: any[], filter: string) {
+	function filterPrograms(programs: any[]) {
 		if (filter === 'all') return programs;
 		return programs.filter(({ programCategory: { slug } }) => slug === filter);
 	}
 
-	const programsByMonth = () => {
-		const months = filterPrograms(allPrograms, filter).reduce((acc, curr) => {
-			const month = new Date(curr.startDate).getMonth();
-			if (!acc[month]) acc[month] = [];
-			acc[month].push(curr);
+	function programsByMonth() {
+		const months = [
+			'januari',
+			'februari',
+			'mars',
+			'april',
+			'maj',
+			'juni',
+			'juli',
+			'augusti',
+			'september',
+			'oktober',
+			'november',
+			'december',
+		];
+		const programsByMonth = filterPrograms(allPrograms).reduce((acc, program) => {
+			const startDate = new Date(program.startDate);
+			const endDate = program.endDate ? new Date(program.endDate) : null;
+
+			// Get start and end months
+			const startMonth = format(startDate, 'MMMM');
+			const endMonth = endDate ? format(endDate, 'MMMM') : startMonth;
+
+			// Initialize the month in accumulator if it doesn't exist
+			if (!acc[startMonth]) acc[startMonth] = [];
+			acc[startMonth].push(program);
+
+			// If there's an end date, add the program to all months between start and end
+			if (endDate) {
+				const startIdx = months.indexOf(startMonth.toLowerCase());
+				const endIdx = months.indexOf(endMonth.toLowerCase());
+
+				// Handle case where end date is in the next year
+				const monthsToAdd =
+					endIdx >= startIdx
+						? months.slice(startIdx + 1, endIdx + 1)
+						: [...months.slice(startIdx + 1), ...months.slice(0, endIdx + 1)];
+
+				monthsToAdd.forEach((month) => {
+					const formattedMonth = format(
+						new Date(`${startDate.getFullYear()}-${months.indexOf(month) + 1}-01`),
+						'MMMM'
+					);
+					if (!acc[formattedMonth]) acc[formattedMonth] = [];
+					acc[formattedMonth].push(program);
+				});
+			}
+
 			return acc;
-		}, []);
-		const m = [];
-		months.forEach((month, idx) => {
-			m.push({
-				month: capitalize(format(new Date(month[0].startDate), 'MMMM')),
-				programs: month,
-			});
-		});
-		return m;
-	};
+		}, {});
+
+		return Object.keys(programsByMonth)
+			.sort((a, b) => {
+				const aIdx = months.indexOf(a.toLowerCase());
+				const bIdx = months.indexOf(b.toLowerCase());
+				return aIdx - bIdx;
+			})
+			.map((month) => ({
+				month,
+				programs: programsByMonth[month],
+			}));
+	}
 
 	const programs = programsByMonth();
 
@@ -61,23 +107,16 @@ export default async function Home({ searchParams }) {
 					}))}
 					value={filter}
 				/>
-				{programs.map(({ month, programs }) => (
-					<section key={month}>
-						<h2>{month}</h2>
+				{programs.map(({ month, programs }, idx) => (
+					<section key={idx}>
+						<h2>{capitalize(month)}</h2>
 						<ul className={cn(s.container, 'grid')}>
 							{programs.map(
-								({
-									id,
-									title,
-									image,
-									intro,
-									programCategory,
-									slug,
-									startDate,
-									endDate,
-									groupShow,
-								}) => (
-									<li key={id} className={s.card}>
+								(
+									{ title, image, intro, programCategory, slug, startDate, endDate, groupShow },
+									idx
+								) => (
+									<li key={idx} className={s.card}>
 										<Thumbnail
 											slug={slug}
 											title={title}
