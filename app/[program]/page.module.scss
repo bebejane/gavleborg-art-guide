@@ -1,5 +1,10 @@
 .meta {
+  list-style: none;
   background-color: var(--yellow);
   padding: 2rem;
   margin-top: 2rem;
+  line-height: 2;
+  @include mq($from: desktop) {
+    columns: 2;
+  }
 }

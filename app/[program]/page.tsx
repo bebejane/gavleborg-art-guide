@@ -56,56 +56,65 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				content={content}
 				date={startDate}
 			>
-				<div className={s.meta}>
-					Datum: {formatDate(startDate, endDate)}
-					<br />
+				<ul className={s.meta}>
+
+					<li>
+						Datum: {formatDate(startDate, endDate)}</li>
+
 					{programCategory && (
 						<>
-							<span>Kategori: {programCategory.title}</span>
-							<br />
+							<li>
+								<span>Kategori: {programCategory.title}</span>
+							</li>
 						</>
 					)}
 					{address && (
 						<>
-							<span>Adress: {address}</span>
-							<br />
+							<li>
+								<span>Adress: {address}</span>
+							</li>
 						</>
 					)}
 					{location && (
 						<>
-							<span>
-								Plats: {location.map(({ title, address }) => `${title}, ${address}`).join(', ')}
-							</span>
-							<br />
+							<li>
+								<span>
+									Plats: {location.map(({ title, address }) => `${title}, ${address}`).join(', ')}
+								</span>
+							</li>
 						</>
 					)}
 					{startTime && (
 						<>
-							<span>Vernissage: formatDate(startTime)</span>
-							<br />
+							<li>
+								<span>Vernissage: {formatDate(startTime)}</span>
+							</li>
 						</>
 					)}
 					{time && (
 						<>
-							<span>Tid: {time}</span>
-							<br />
+							<li>
+								<span>Tid: {time}</span>
+							</li>
 						</>
 					)}
 					{misc && (
 						<>
-							<span>Övrigt: {misc}</span>
-							<br />
+							<li>
+								<span>Övrigt: {misc}</span>
+							</li>
 						</>
 					)}
 					{externalLink && (
 						<>
-							<span>
-								Länk: <a href={externalLink}>Läs mer</a>
-							</span>
-							<br />
+							<li>
+								<span>
+									Länk: <a href={externalLink}>Läs mer</a>
+								</span>
+							</li>
 						</>
 					)}
-				</div>
+				</ul>
 				<Link href={`/`}>
 					<button>Tillbaka</button>
 				</Link>
