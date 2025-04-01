@@ -1,0 +1,140 @@
+@use "fonts";
+@use "mediaqueries";
+
+:root {
+	--black: #1e1e1e;
+	--white: #fcfcfc;
+	--background: var(--white);
+	--foreground: var(--black);
+
+	--outer-margin: 2rem;
+	--gutter: 0.6rem;
+	--grid-unit: calc(100vw / 10);
+	--space: 2rem;
+	--space-big: 2.5rem;
+	--space-small: 1rem;
+
+	--body-font: "OceanicText", Times, Serif;
+	--headline-font: "BuzzBlack", Arial, Helvetica, Sans-Serif;
+	--label-font: "Jazz-Medium", Arial, Sans-serif;
+	--sans-font: "Jazz", Arial, Sans-serif;
+
+	@include mq($until: desktop) {
+		--outer-margin: 1.5rem;
+	}
+}
+
+body {
+	width: 100%;
+	font-size: 100%;
+	line-height: 1em;
+	color: var(--foreground);
+	background-color: var(--background);
+	font-family: var(--body-font);
+	-webkit-font-smoothing: antialiased;
+	font-feature-settings: "liga", "kern";
+	padding-top: var(--navbar-height);
+}
+
+html {
+	box-sizing: border-box;
+}
+
+main {
+	display: block;
+}
+
+article {
+	hr {
+		margin-top: var(--space-big);
+		border: 0px;
+	}
+}
+
+::-webkit-scrollbar {
+	-webkit-appearance: none;
+	background: var(--beige-light);
+}
+
+::-webkit-scrollbar:vertical {
+	width: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+	height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--black);
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+a {
+	text-decoration: none;
+	color: var(--foreground);
+	transition: var(--color-transtion);
+}
+
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--blue);
+	background-color: var(--white);
+	border: 1px solid var(--blue);
+	padding: 1em;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	border-radius: 2rem;
+	font-family: var(--label-font);
+	cursor: pointer;
+	margin-top: 2rem;
+	text-decoration: none !important;
+	font-size: 0.7rem;
+
+	&[aria-selected="true"] {
+		color: var(--white);
+		background-color: var(--blue);
+	}
+
+	&:hover {
+		background-color: var(--blue);
+		color: var(--white);
+	}
+}
+
+hr {}
+
+input,
+textarea,
+select {}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+	background-repeat: no-repeat;
+	background-position-x: calc(100% - 1em);
+	background-position-y: center;
+	color: var(--black);
+}
+
+.page-error {
+	position: fixed;
+	top: 0;
+	left: 0;
+	min-width: 100vw;
+	min-height: 100vh;
+	z-index: 100000;
+	background-color: var(--white);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

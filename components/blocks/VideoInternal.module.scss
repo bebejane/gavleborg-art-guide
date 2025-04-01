@@ -1,0 +1,19 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  margin-right: var(--full-bleed-margin);
+  margin-left: var(--full-bleed-margin);
+
+  .video {
+    display: block;
+    height: auto;
+    width: 100%;
+    flex: 0 0;
+  }
+
+  figcaption {
+    padding-left: var(--outer-margin);
+    margin-top: var(--space-small);
+    margin-bottom: var(--space);
+  }
+}

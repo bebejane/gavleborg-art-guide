@@ -1,0 +1,8 @@
+fragment LocationFragmentLight on LocationRecord {
+	id
+	title
+	city
+	address
+	webpage
+	slug
+}

@@ -1,0 +1,12 @@
+fragment ResponsiveImageFragment on ResponsiveImage {
+	alt
+	aspectRatio
+	base64
+	height
+	sizes
+	src
+	srcSet
+	webpSrcSet
+	title
+	width
+}

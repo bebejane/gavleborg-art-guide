@@ -1,0 +1,9 @@
+query General {
+	general {
+		id
+		facebook
+		instagram
+		about
+		email
+	}
+}

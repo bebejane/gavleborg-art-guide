@@ -1,0 +1,126 @@
+.gallery {
+  position: relative;
+  margin-right: var(--full-bleed-margin);
+  margin-bottom: calc(1.5 * var(--space-big));
+  margin-top: var(--space);
+
+  @include mq($from: desktop) {
+    margin-bottom: var(--space-big);
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: var(--outer-margin);
+    position: absolute;
+    bottom: -3.5rem;
+    right: 0;
+
+    @include mq($until: desktop) {
+      display: none;
+    }
+
+    a {
+      margin-right: 0.5rem;
+    }
+
+    button {
+      all: unset;
+      cursor: pointer;
+      padding-left: 0.5rem;
+      background-color: --white;
+    }
+
+    .back {
+      transform: rotate(180deg);
+    }
+
+    .forward {
+    }
+  }
+
+  figcaption {
+    position: absolute;
+    left: var(--ful-margin);
+    width: calc(var(--margin) - var(--outer-margin) - var(--gutter));
+    color: var(--blue);
+    z-index: 1;
+    font-family: var(--label-font);
+    font-size: 0.7rem;
+
+    @include mq($until: desktop) {
+      top: calc(30vh + var(--space-small));
+      left: 0;
+      width: 100%;
+      padding-right: var(--outer-margin);
+    }
+  }
+
+  .swiper {
+    position: relative;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+
+      .slide {
+        position: relative;
+        flex: 1 0 auto;
+        padding-right: var(--gutter);
+        height: 30vh;
+
+        @include mq($from: desktop) {
+          height: 60vh;
+        }
+
+        > figure {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          cursor: pointer;
+
+          @include mq($until: desktop) {
+            width: calc(100vw - calc(4 * var(--outer-margin)));
+          }
+
+          img {
+            width: 100%;
+            height: 30vh;
+            object-fit: contain;
+
+            @include mq($from: desktop) {
+              height: 60vh;
+            }
+          }
+        }
+
+        &.portrait {
+          flex: 0 1 auto;
+
+          > figure {
+            @include mq($until: desktop) {
+              width: auto;
+            }
+          }
+
+          img {
+            width: auto !important;
+          }
+        }
+      }
+    }
+  }
+}

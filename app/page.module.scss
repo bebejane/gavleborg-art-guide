@@ -1,0 +1,21 @@
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  section {
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+
+      li {
+        flex: 0 0 25%;
+      }
+
+    }
+  }
+
+}

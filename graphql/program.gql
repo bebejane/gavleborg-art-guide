@@ -1,0 +1,112 @@
+query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
+	allPrograms(orderBy: [startDate_ASC, startTime_ASC], first: $first, skip: $skip) {
+		...ProgramFragmentLight
+	}
+	_allProgramsMeta {
+		count
+	}
+}
+
+query Program($slug: String!) {
+	program(filter: { slug: { eq: $slug } }) {
+		...ProgramFragment
+	}
+}
+
+query AllProgramCategories {
+	allProgramCategories(orderBy: title_DESC, first: 100) {
+		id
+		title
+		desc
+	}
+}
+
+fragment ProgramFragmentLight on ProgramRecord {
+	__typename
+	_modelApiKey
+	id
+	title
+	startDate
+	endDate
+	intro(markdown: false)
+	time
+	image {
+		...ImageThumbnailFragment
+	}
+	programCategory {
+		id
+		title
+	}
+	slug
+}
+
+fragment ProgramFragment on ProgramRecord {
+	__typename
+	_modelApiKey
+	id
+	title
+	startDate
+	endDate
+	time
+	address
+	image {
+		...ImageFragment
+	}
+	thumb: image {
+		...ImageThumbnailFragment
+	}
+	intro(markdown: false)
+	misc
+	location {
+		...LocationFragmentLight
+	}
+	partner {
+		...PartnerFragmentLight
+	}
+	programCategory {
+		id
+		title
+	}
+	slug
+	externalLink
+	content {
+		value
+		blocks {
+			__typename
+			... on ImageRecord {
+				__typename
+				id
+				layout
+				image {
+					...ImageFragment
+				}
+			}
+			... on ImageGalleryRecord {
+				__typename
+				id
+				images {
+					...ImageThumbnailFragment
+				}
+			}
+
+			... on VideoRecord {
+				__typename
+				id
+				title
+				video {
+					height
+					width
+					title
+					provider
+					providerUid
+					thumbnailUrl
+					url
+				}
+			}
+			... on RecordInterface {
+				__typename
+				id
+			}
+		}
+	}
+}

@@ -1,0 +1,19 @@
+.image {
+  position: relative;
+  //margin-left: var(--full-bleed-margin);
+  margin-right: var(--full-margin);
+  margin-bottom: var(--space-big);
+  margin-top: var(--space);
+
+  @include mq($until: desktop) {
+    margin-left: var(--full-bleed-margin);
+  }
+
+  figcaption {
+    padding-top: var(--space-small);
+  }
+
+  img {
+    width: 100%;
+  }
+}

@@ -1,0 +1,12 @@
+.content {
+  display: inline;
+
+  >ul {
+    //list-style: none;
+
+    li {
+      padding-left: 0.5 em;
+      margin-left: 1em;
+    }
+  }
+}

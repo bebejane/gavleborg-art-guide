@@ -1,0 +1,53 @@
+fragment PartnerFragment on PartnerRecord {
+	_createdAt
+	id
+	title
+	intro(markdown: false)
+	slug
+	image {
+		...ImageFragment
+	}
+	address
+	city
+	webpage
+	content {
+		value
+		blocks {
+			__typename
+			... on ImageRecord {
+				__typename
+				id
+				layout
+				image {
+					...ImageFragment
+				}
+			}
+			... on ImageGalleryRecord {
+				__typename
+				id
+				images {
+					...ImageThumbnailFragment
+				}
+			}
+
+			... on VideoRecord {
+				__typename
+				id
+				title
+				video {
+					height
+					width
+					title
+					provider
+					providerUid
+					thumbnailUrl
+					url
+				}
+			}
+			... on RecordInterface {
+				__typename
+				id
+			}
+		}
+	}
+}

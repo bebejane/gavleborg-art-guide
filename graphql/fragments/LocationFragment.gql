@@ -1,0 +1,11 @@
+fragment LocationFragment on LocationRecord {
+	id
+	title
+	city
+	address
+	webpage
+	slug
+	programs: _allReferencingPrograms(first: 100) {
+		...ProgramFragmentLight
+	}
+}

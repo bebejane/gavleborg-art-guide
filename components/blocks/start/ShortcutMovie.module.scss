@@ -1,0 +1,41 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  margin-left: var(--full-bleed-margin);
+  margin-right: var(--full-bleed-margin);
+  margin-top: var(--space-big);
+
+  @include mq($from: desktop) {
+    height: 100vh;
+  }
+
+  .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: var(--space-big);
+    padding-left: var(--margin);
+    padding-right: var(--margin);
+    background-image: var(--gradient);
+
+    * {
+      color: var(--white);
+    }
+  }
+
+  .video {
+    height: 60vh;
+    width: 100%;
+    object-fit: cover;
+
+    @include mq($from: desktop) {
+      height: 100vh;
+    }
+  }
+}

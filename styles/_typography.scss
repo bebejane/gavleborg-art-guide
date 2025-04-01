@@ -1,0 +1,233 @@
+@use "fonts";
+@use "mediaqueries";
+
+html,
+body {
+  font-size: 16px;
+  font-weight: normal;
+
+  @include mq($from: tablet) {
+    font-size: 22px;
+  }
+
+  @include mq($from: wide) {
+    font-size: 26px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--headline-font);
+  color: var(--blue);
+  line-height: 1;
+  font-weight: normal;
+
+  strong {
+    //font-weight: normal;
+  }
+}
+
+h1 {
+  font-size: 2rem;
+  padding-bottom: var(--space);
+  line-height: 1.25;
+
+  @include mq($from: desktop) {
+    font-size: 2.5rem;
+  }
+}
+
+h2 {
+  font-size: 1.5rem;
+  padding-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+h3 {
+  font-size: 0.9rem;
+  font-family: var(--label-font);
+  margin-bottom: 0.5em;
+  line-height: var(--line-height);
+}
+
+p {
+  line-height: var(--line-height);
+}
+
+p.intro,
+.intro p,
+.intro {
+  font-size: 1.15rem;
+  padding-bottom: 0;
+  font-weight: normal;
+  line-height: var(--line-height);
+}
+
+.small,
+.small p,
+footer,
+footer nav,
+figcaption,
+.caption label {
+  font-size: 0.85rem;
+
+  @include mq($from: desktop) {
+    font-size: 0.8rem;
+  }
+}
+
+.very-small {
+  font-size: 0.6rem;
+}
+
+figcaption {
+  font-family: var(--sans-font);
+  color: var(--blue);
+  font-size: 0.7rem;
+  line-height: var(--line-height);
+}
+
+nav,
+.mid,
+button,
+.mid input,
+.mid select {
+  font-size: 0.8rem;
+}
+
+strong,
+b {
+  font-weight: bold;
+}
+
+// För Article
+article {
+  blockquote {
+    margin-left: 0;
+    font-family: var(--label-font);
+    color: var(--blue);
+    margin-bottom: 1.5em;
+    position: relative;
+    p {
+      padding-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    footer {
+      color: var(--black);
+      font-family: var(--sans-font);
+      font-size: 0.7rem;
+    }
+    &::before {
+      @include mq($from: desktop) {
+        content: "’’";
+        position: absolute;
+        left: -7rem;
+        top: 4rem;
+        font-family: var(--headline-font);
+        font-size: 8rem;
+        color: var(--white);
+        --line-tickness: 0.06rem;
+        -webkit-text-stroke: var(--line-tickness) var(--blue);
+        /* text-shadow:
+          var(--line-tickness) var(--line-tickness) 0 var(--blue),
+          calc(-1 * var(--line-tickness)) var(--line-tickness) 0 var(--blue),
+          calc(-1 * var(--line-tickness)) calc(-1 * var(--line-tickness)) 0 var(--blue),
+          var(--line-tickness) calc(-1 * var(--line-tickness)) 0 var(--blue); */
+      }
+    }
+  }
+
+  a:hover {
+    color: var(--blue);
+
+    p {
+      color: var(--black);
+    }
+  }
+
+  p a {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
+    text-decoration-color: --blue;
+  }
+
+  ul {
+    p:last-of-type {
+      margin-bottom: 0.7em;
+    }
+
+    & li:last-child p {
+      margin-bottom: 1em;
+    }
+  }
+
+  p,
+  .intro,
+  h2,
+  .structured h3,
+  ul {
+    text-align: left;
+  }
+
+  .structured h3 {
+    padding-bottom: 0.25em;
+  }
+
+  ul p {
+    padding-left: 0;
+  }
+
+  p + h3,
+  ul + h3,
+  ul + h2,
+  p + h2 {
+    padding-top: 1rem;
+  }
+
+  p strong,
+  p b {
+    font-weight: normal !important;
+    font-family: var(--label-font);
+    font-size: 0.95rem;
+  }
+
+  p.center {
+    text-align: center;
+  }
+}
+
+.meta {
+  font-family: var(--sans-font);
+  font-size: 0.7rem;
+}
+
+button {
+  font-family: var(--headline-font);
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+.sans {
+  font-family: var(--sans-font);
+}
+
+.medium-weight {
+  font-family: var(--label-font) !important;
+}
+
+.shortcut {
+  font-family: var(--sans-font);
+  font-size: 0.9rem;
+
+  &:hover {
+    //  color: var(--blue);
+  }
+}

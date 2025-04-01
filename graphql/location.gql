@@ -1,0 +1,15 @@
+query AllLocations($first: IntType = 100, $skip: IntType = 0) {
+	locations: allLocations(first: $first, skip: $skip, orderBy: [title_ASC], fallbackLocales: [sv]) {
+		...LocationFragmentLight
+	}
+
+	pagination: _allLocationsMeta {
+		count
+	}
+}
+
+query Location($slug: String!) {
+	location(filter: { slug: { eq: $slug } }) {
+		...LocationFragment
+	}
+}

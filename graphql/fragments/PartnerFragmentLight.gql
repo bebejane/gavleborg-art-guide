@@ -1,0 +1,9 @@
+fragment PartnerFragmentLight on PartnerRecord {
+	id
+	title
+	intro(markdown: false)
+	image {
+		...ImageThumbnailFragment
+	}
+	slug
+}
