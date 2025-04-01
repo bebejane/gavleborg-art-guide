@@ -58,17 +58,46 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				<div className={s.meta}>
 					Datum: {formatDate(startDate, endDate)}
 					<br />
-					Kategori: {programCategory.title}
-					<br />
-					Adress: {address}
-					<br />
-					Plats: {location.map(({ title }) => title).join(', ')}
-					<br />
-					Tider: {time}
-					<br />
-					Övrigt: {misc}
-					<br />
-					Länk: <a href={externalLink}>{externalLink}</a>
+					{programCategory && (
+						<>
+							<span>Kategori: {programCategory.title}</span>
+							<br />
+						</>
+					)}
+					{address && (
+						<>
+							<span>Adress: {address}</span>
+							<br />
+						</>
+					)}
+					{location && (
+						<>
+							<span>
+								Plats: {location.map(({ title, address }) => `${title}, ${address}`).join(', ')}
+							</span>
+							<br />
+						</>
+					)}
+					{time && (
+						<>
+							<span>Tid: {time}</span>
+							<br />
+						</>
+					)}
+					{misc && (
+						<>
+							<span>Övrigt: {misc}</span>
+							<br />
+						</>
+					)}
+					{externalLink && (
+						<>
+							<span>
+								Länk: <a href={externalLink}>{externalLink}</a>
+							</span>
+							<br />
+						</>
+					)}
 				</div>
 				<Link href={`/`}>
 					<button>Tillbaka</button>
