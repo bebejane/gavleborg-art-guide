@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Suspense } from 'react';
+import Footer from '@components/nav/Footer';
 
 export type LayoutProps = {
 	children: React.ReactNode;
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 							<NuqsAdapter>{children}</NuqsAdapter>
 						</Suspense>
 					</main>
+					<Footer />
 				</body>
 			</html>
 		</>
