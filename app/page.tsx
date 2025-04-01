@@ -6,6 +6,8 @@ import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode, VideoPlayer } from 'next-dato-utils/components';
 import cn from '@node_modules/classnames';
 import { parseAsString } from 'nuqs/server';
+import { format, getMonth } from 'date-fns';
+import { capitalize } from 'next-dato-utils/utils';
 
 const filterParser = parseAsString.withDefault('all');
 
@@ -28,7 +30,24 @@ export default async function Home({ searchParams }) {
 		return programs.filter(({ programCategory: { slug } }) => slug === filter);
 	}
 
-	const programs = filterPrograms(allPrograms, filter);
+	const programsByMonth = () => {
+		const months = filterPrograms(allPrograms, filter).reduce((acc, curr) => {
+			const month = new Date(curr.startDate).getMonth();
+			if (!acc[month]) acc[month] = [];
+			acc[month].push(curr);
+			return acc;
+		}, []);
+		const m = [];
+		months.forEach((month, idx) => {
+			m.push({
+				month: capitalize(format(new Date(month[0].startDate), 'MMMM')),
+				programs: month,
+			});
+		});
+		return m;
+	};
+
+	const programs = programsByMonth();
 
 	return (
 		<>
@@ -42,68 +61,39 @@ export default async function Home({ searchParams }) {
 					}))}
 					value={filter}
 				/>
-				<section>
-					<h2>April</h2>
-					<ul className={cn(s.container, 'grid')}>
-						{programs.map(
-							({
-								id,
-								title,
-								image,
-								intro,
-								programCategory,
-								slug,
-								startDate,
-								endDate,
-								groupShow,
-							}) => (
-								<li key={id} className={s.card}>
-									<Thumbnail
-										slug={slug}
-										title={title}
-										image={image as FileField}
-										intro={intro}
-										startDate={startDate}
-										endDate={endDate}
-										groupShow={groupShow}
-										meta={programCategory.title}
-									/>
-								</li>
-							)
-						)}
-					</ul>
-				</section>
-				<section>
-					<h2>Maj</h2>
-					<ul className={cn(s.container, 'grid')}>
-						{programs.map(
-							({
-								id,
-								title,
-								image,
-								intro,
-								programCategory,
-								slug,
-								startDate,
-								endDate,
-								groupShow,
-							}) => (
-								<li key={id} className={s.card}>
-									<Thumbnail
-										slug={slug}
-										title={title}
-										image={image as FileField}
-										intro={intro}
-										startDate={startDate}
-										endDate={endDate}
-										groupShow={groupShow}
-										meta={programCategory.title}
-									/>
-								</li>
-							)
-						)}
-					</ul>
-				</section>
+				{programs.map(({ month, programs }) => (
+					<section key={month}>
+						<h2>{month}</h2>
+						<ul className={cn(s.container, 'grid')}>
+							{programs.map(
+								({
+									id,
+									title,
+									image,
+									intro,
+									programCategory,
+									slug,
+									startDate,
+									endDate,
+									groupShow,
+								}) => (
+									<li key={id} className={s.card}>
+										<Thumbnail
+											slug={slug}
+											title={title}
+											image={image as FileField}
+											intro={intro}
+											startDate={startDate}
+											endDate={endDate}
+											groupShow={groupShow}
+											meta={programCategory.title}
+										/>
+									</li>
+								)
+							)}
+						</ul>
+					</section>
+				))}
 			</article>
 			<DraftMode url={draftUrl} path='/' />
 		</>
