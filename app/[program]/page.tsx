@@ -41,6 +41,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 		time,
 		misc,
 		externalLink,
+		startTime,
 	} = program;
 
 	return (
@@ -75,6 +76,12 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							<span>
 								Plats: {location.map(({ title, address }) => `${title}, ${address}`).join(', ')}
 							</span>
+							<br />
+						</>
+					)}
+					{startTime && (
+						<>
+							<span>Vernissage: formatDate(startTime)</span>
 							<br />
 						</>
 					)}
