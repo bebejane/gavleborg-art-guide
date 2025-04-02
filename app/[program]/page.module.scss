@@ -1,12 +1,13 @@
 .meta {
   list-style: none;
   background-color: var(--yellow);
-  padding: 2rem;
+  padding: 1.2rem;
   line-height: var(--line-height);
   margin-top: 2rem;
   margin-bottom: 2rem;
 
   @include mq($from: desktop) {
+    padding: 2rem;
     columns: 2;
     margin-top: 4rem;
     margin-bottom: 4rem;
