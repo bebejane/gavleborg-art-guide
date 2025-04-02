@@ -20,14 +20,9 @@ export default function FilterBar({ options, href = '/', value }: Props) {
 			<div className={s.wrap}>
 				Visa:
 				<ul>
-					<li>
-						<Link href={`${href}`} shallow={true} prefetch={true}>
-							<button aria-selected={value === 'all' || !value}>Alla</button>
-						</Link>
-					</li>
-					{options.map(({ id, label }, idx) => (
+					{[{ id: 'all', label: 'Alla' }].concat(options).map(({ id, label }, idx) => (
 						<li key={idx}>
-							<Link href={`${href}?filter=${id}`} shallow={true} prefetch={true}>
+							<Link href={`${href}?filter=${id}`} shallow={true} prefetch={true} replace={true}>
 								<button aria-selected={value === id}>{label}</button>
 							</Link>
 						</li>
