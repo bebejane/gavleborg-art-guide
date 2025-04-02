@@ -55,6 +55,7 @@
     strong {
       font-weight: normal;
     }
+
     span {
       color: var(--yellow);
     }
@@ -114,6 +115,17 @@
       overflow: hidden;
       max-width: 100% !important;
       transition: transform 0.2s ease-in-out;
+    }
+
+    .circle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 1em;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      background-color: var(--yellow);
     }
   }
 }

@@ -21,6 +21,8 @@
 	--sans-font: "Inter", Arial, Helvetica, Sans-Serif;
 	--line-height: 1.3;
 
+	--z-logo: 100;
+
 	@include mq($until: desktop) {
 		--outer-margin: 1.5rem;
 	}
@@ -110,13 +112,11 @@ button {
 	}
 }
 
-hr {
-}
+hr {}
 
 input,
 textarea,
-select {
-}
+select {}
 
 select {
 	-webkit-appearance: none;

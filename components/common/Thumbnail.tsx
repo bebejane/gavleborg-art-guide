@@ -50,7 +50,8 @@ export default function Thumbnail({
 							pictureClassName={s.picture}
 							onLoad={() => setLoaded(true)}
 						/>
-						<div className={s.border}></div>
+						<div className={s.border} />
+						{groupShow && <div className={s.circle} />}
 					</>
 				</div>
 			)}
@@ -60,12 +61,14 @@ export default function Thumbnail({
 			{(strippedIntro || meta) && (
 				<div className='thumb-intro'>
 					<div className={s.meta}>
-						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span> {startDate && <strong className='meta'>{formatDate(startDate)} – {formatDate(endDate)}</strong>}
+						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
+						{startDate && (
+							<strong className='meta'>
+								{formatDate(startDate)} – {formatDate(endDate)}
+							</strong>
+						)}
 					</div>
-					<p className='small'>
-						{strippedIntro}
-					</p>
-
+					<p className='small'>{strippedIntro}</p>
 				</div>
 			)}
 		</Link>

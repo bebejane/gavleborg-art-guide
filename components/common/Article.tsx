@@ -7,6 +7,7 @@ import { Image } from 'react-datocms';
 import format from 'date-fns/format';
 import { Markdown } from 'next-dato-utils/components';
 import useIsDesktop from '@/lib/useIsDesktop';
+import Link from 'next/link';
 
 export type ArticleProps = {
 	id: string;
@@ -51,8 +52,10 @@ export default function Article({
 
 	return (
 		<>
+			<div className={cn(s.logo, 'logo')}>
+				<Link href='/'>Gävleborg Art Guide</Link>
+			</div>
 			<div className={cn(s.article, 'article')}>
-				<div className={cn(s.logo, "logo")}>Gävleborg Art Guide</div>
 				<h1>{title}</h1>
 				{image && (
 					<figure

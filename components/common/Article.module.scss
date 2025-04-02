@@ -1,3 +1,13 @@
+.logo {
+  position: fixed;
+  top: 0;
+  right: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin: var(--outer-margin);
+  z-index: var(--z-logo);
+}
+
 .article {
   position: relative;
   margin-left: var(--outer-margin);
@@ -98,6 +108,7 @@
       padding-left: calc(4 * var(--outer-margin));
       padding-right: calc(4 * var(--outer-margin));
     }
+
     margin-top: var(--space-big);
   }
 
