@@ -10,9 +10,10 @@
     transform: rotate(90deg);
     transform-origin: top left;
     width: calc(100vh - (2 * var(--outer-margin)));
-    right: calc(-1 * 13 * var(--outer-margin));
+    right: calc(-1 * 10 * var(--outer-margin));
     top: var(--outer-margin);
     z-index: 1;
+    color: var(--yellow);
   }
 
   &.noBottom {
