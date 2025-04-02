@@ -52,11 +52,9 @@
       padding-right: calc(2 * var(--grid-unit));
     }
 
-    &.medium {
-    }
+    &.medium {}
 
-    &.large {
-    }
+    &.large {}
 
     &.portrait {
       padding-left: calc(3 * var(--grid-unit));
@@ -106,6 +104,8 @@
   }
 
   .content {
+    margin-top: var(--space-big);
+
     @include mq($from: desktop) {
       padding-left: calc(4 * var(--outer-margin));
       padding-right: calc(4 * var(--outer-margin));
@@ -116,7 +116,7 @@
     }
   }
 
-  .intro > p {
+  .intro>p {
     padding: 0;
   }
 }
