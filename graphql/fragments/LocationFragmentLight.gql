@@ -3,6 +3,7 @@ fragment LocationFragmentLight on LocationRecord {
 	title
 	city
 	address
+	map
 	webpage
 	slug
 }

@@ -1,12 +1,10 @@
 import s from './page.module.scss';
-import cn from 'classnames';
 import { apiQuery } from 'next-dato-utils/api';
 import { AllProgramsDocument, ProgramDocument } from '@/graphql';
 import { notFound } from '@node_modules/next/navigation';
 import { DraftMode } from 'next-dato-utils/components';
 import { Metadata } from 'next';
 import Article from '@components/common/Article';
-import MetaSection from '@components/common/MetaSection';
 import { formatDate, formatDateTime } from '@lib/utils';
 import Link from 'next/link';
 import React from 'react';
@@ -58,13 +56,15 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				date={startDate}
 			>
 				<ul className={s.meta}>
-					<li><strong>Datum:</strong> {formatDate(startDate, endDate)}</li>
+					<li>
+						<strong>Datum:</strong> {formatDate(startDate, endDate)}
+					</li>
 					{location && (
 						<>
 							<li>
 								<span>
 									<strong>Plats:</strong>&nbsp;
-									{location.map(({ title, address, webpage }, idx) =>
+									{location.map(({ title, webpage }, idx) =>
 										webpage ? (
 											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
 												{title} →
@@ -78,38 +78,55 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							<li>
 								<span>
 									<strong>Adress: </strong>
-									{location.map(({ address }, idx) => (
-										<React.Fragment key={idx}>{address} →</React.Fragment>
-									))}
+									{location.map(({ address, city, map }, idx) =>
+										map ? (
+											<a key={idx} href={map} target='_blank' rel='noreferrer'>
+												{address}, {city} →
+											</a>
+										) : (
+											<React.Fragment key={idx}>
+												{address}, {city} →
+											</React.Fragment>
+										)
+									)}
 								</span>
 							</li>
 						</>
 					)}
 					{startTime && (
 						<li>
-							<span><strong>Vernissage: </strong>{formatDateTime(startTime)}</span>
+							<span>
+								<strong>Vernissage: </strong>
+								{formatDateTime(startTime)}
+							</span>
 						</li>
 					)}
 					{time && (
 						<li>
-							<span><strong>Öppettider: </strong> {time}</span>
+							<span>
+								<strong>Öppettider: </strong> {time}
+							</span>
 						</li>
 					)}
 					{misc && (
 						<li>
-							<span><strong>Övrigt: </strong>{misc}</span>
+							<span>
+								<strong>Övrigt: </strong>
+								{misc}
+							</span>
 						</li>
 					)}
 					{externalLink && (
 						<li>
 							<span>
-								<strong>Extern länk: </strong><a href={externalLink}>Läs mer →</a>
+								<strong>Extern länk: </strong>
+								<a href={externalLink}>Läs mer →</a>
 							</span>
 						</li>
 					)}
 				</ul>
 				<Link href={`/`}>
-					<button>Tillbaka</button>
+					<button className={s.back}>Tillbaka</button>
 				</Link>
 			</Article>
 			<DraftMode url={draftUrl} path={`/${slug}`} />

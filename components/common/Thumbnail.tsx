@@ -2,12 +2,10 @@
 
 import s from './Thumbnail.module.scss';
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { Image } from 'react-datocms/image';
 import { truncateWords } from 'next-dato-utils/utils';
-import { format } from 'date-fns';
-import { remark } from 'remark';
-import strip from 'strip-markdown';
+import { Markdown } from 'next-dato-utils/components';
 import Link from 'next/link';
 import { formatDate } from '@lib/utils';
 
@@ -36,20 +34,12 @@ export default function Thumbnail({
 	endDate,
 	groupShow,
 }: Props) {
-	const strippedIntro = truncateWords(remark().use(strip).processSync(intro).value as string, 500);
-	const [loaded, setLoaded] = useState(false);
-
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
 			{image && (
 				<div className={s.imageWrap}>
 					<>
-						<Image
-							data={image.responsiveImage}
-							className={s.image}
-							pictureClassName={s.picture}
-							onLoad={() => setLoaded(true)}
-						/>
+						<Image data={image.responsiveImage} className={s.image} pictureClassName={s.picture} />
 						<div className={s.border} />
 						{groupShow && <div className={s.circle} />}
 					</>
@@ -58,7 +48,7 @@ export default function Thumbnail({
 			<h3 className={cn(s[`rows-${titleRows}`])}>
 				<span>{titleLength ? truncateWords(title, titleLength) : title}</span>
 			</h3>
-			{(strippedIntro || meta) && (
+			{(intro || meta) && (
 				<div className='thumb-intro'>
 					<div className={s.meta}>
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
@@ -68,7 +58,7 @@ export default function Thumbnail({
 							</strong>
 						)}
 					</div>
-					<p className='small'>{strippedIntro}</p>
+					<Markdown content={intro} className={'small'} />
 				</div>
 			)}
 		</Link>

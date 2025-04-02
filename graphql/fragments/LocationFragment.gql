@@ -4,6 +4,7 @@ fragment LocationFragment on LocationRecord {
 	city
 	address
 	webpage
+	map
 	slug
 	programs: _allReferencingPrograms(first: 100) {
 		...ProgramFragmentLight

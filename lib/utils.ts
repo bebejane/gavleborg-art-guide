@@ -39,13 +39,13 @@ export const recordToSlug = (record: any): string => {
 export const formatDate = (date: string, endDate?: string) => {
   if (!date) return ''
   setDefaultOptions({ locale: sv });
-  const s = capitalize(format(new Date(date), 'dd MMM')).replace('.', '');
-  const e = endDate ? capitalize(format(new Date(endDate), 'dd MMM')).replace('.', '') : undefined;
+  const s = capitalize(format(new Date(date), 'd MMM')).replace('.', '');
+  const e = endDate ? capitalize(format(new Date(endDate), 'd MMM')).replace('.', '') : undefined;
   return `${s}${e ? ` – ${e}` : ''}`
 }
 
 export const formatDateTime = (date: string) => {
   if (!date) return ''
   setDefaultOptions({ locale: sv });
-  return capitalize(format(new Date(date), 'dd MMM, HH:mm')).replace('.', '');
+  return capitalize(format(new Date(date), 'd MMM, HH:mm')).replace('.', '');
 }
