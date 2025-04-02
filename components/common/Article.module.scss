@@ -1,11 +1,24 @@
 .logo {
-  position: fixed;
-  top: 0;
-  right: 0;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  margin: var(--outer-margin);
-  z-index: var(--z-logo);
+  @include mq($from: desktop) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    margin: var(--outer-margin);
+    z-index: var(--z-logo);
+    color: var(--yellow) !important;
+    height: calc(100vh - var(--outer-margin));
+  }
+
+  @include mq($until: desktop) {
+    padding-top: var(--outer-margin);
+    padding-bottom: 0.2em;
+  }
+
+  a {
+    color: var(--yellow);
+  }
 }
 
 .article {
@@ -14,17 +27,6 @@
   margin-right: var(--outer-margin);
   margin-top: var(--outer-margin);
   margin-bottom: var(--outer-margin);
-
-  .logo {
-    position: fixed;
-    transform: rotate(90deg);
-    transform-origin: top left;
-    width: calc(100vh - (2 * var(--outer-margin)));
-    right: calc(-1 * 10 * var(--outer-margin));
-    top: var(--outer-margin);
-    z-index: 1;
-    color: var(--yellow);
-  }
 
   &.noBottom {
     padding-bottom: 0;
@@ -109,7 +111,9 @@
       padding-right: calc(4 * var(--outer-margin));
     }
 
-    margin-top: var(--space-big);
+    @include mq($from: desktop) {
+      margin-top: var(--space-big);
+    }
   }
 
   .intro > p {

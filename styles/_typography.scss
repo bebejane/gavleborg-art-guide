@@ -36,13 +36,16 @@ h1,
   text-align: center;
 
   @include mq($from: desktop) {
-    font-size: 3rem;
+    font-size: 4vw;
   }
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.4rem;
   margin-bottom: 1em;
+  @include mq($from: desktop) {
+    font-size: 2rem;
+  }
 }
 
 h3 {
@@ -200,8 +203,11 @@ article {
 
 .meta {
   font-family: var(--sans-font);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
+  @include mq($from: desktop) {
+    font-size: 0.7rem;
+  }
 }
 
 button {

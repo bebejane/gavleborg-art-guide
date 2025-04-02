@@ -58,26 +58,16 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				date={startDate}
 			>
 				<ul className={s.meta}>
-					<li>Datum: {formatDate(startDate, endDate)}</li>
-					{programCategory && (
-						<li>
-							<span>Kategori: {programCategory.title}</span>
-						</li>
-					)}
-					{address && (
-						<li>
-							<span>Adress: {address}</span>
-						</li>
-					)}
+					<li><strong>Datum:</strong> {formatDate(startDate, endDate)}</li>
 					{location && (
 						<>
 							<li>
 								<span>
-									Plats:&nbsp;
+									<strong>Plats:</strong>&nbsp;
 									{location.map(({ title, address, webpage }, idx) =>
 										webpage ? (
 											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
-												{title}
+												{title} →
 											</a>
 										) : (
 											<React.Fragment key={idx}>{title}</React.Fragment>
@@ -87,9 +77,9 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							</li>
 							<li>
 								<span>
-									Adress:&nbsp;
+									<strong>Adress: </strong>
 									{location.map(({ address }, idx) => (
-										<React.Fragment key={idx}>{address}</React.Fragment>
+										<React.Fragment key={idx}>{address} →</React.Fragment>
 									))}
 								</span>
 							</li>
@@ -97,23 +87,23 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					)}
 					{startTime && (
 						<li>
-							<span>Vernissage: {formatDateTime(startTime)}</span>
+							<span><strong>Vernissage: </strong>{formatDateTime(startTime)}</span>
 						</li>
 					)}
 					{time && (
 						<li>
-							<span>Tid: {time}</span>
+							<span><strong>Öppettider: </strong> {time}</span>
 						</li>
 					)}
 					{misc && (
 						<li>
-							<span>Övrigt: {misc}</span>
+							<span><strong>Övrigt: </strong>{misc}</span>
 						</li>
 					)}
 					{externalLink && (
 						<li>
 							<span>
-								Länk: <a href={externalLink}>Läs mer</a>
+								<strong>Extern länk: </strong><a href={externalLink}>Läs mer →</a>
 							</span>
 						</li>
 					)}
