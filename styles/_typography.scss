@@ -34,6 +34,8 @@ h1,
   font-size: 2rem;
   padding-bottom: 1em;
   text-align: center;
+  font-family: "Abel";
+  text-transform: uppercase;
 
   @include mq($from: desktop) {
     font-size: 4vw;
