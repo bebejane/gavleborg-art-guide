@@ -43,11 +43,17 @@ h1,
 }
 
 h2 {
-  font-size: 1.4rem;
+  font-size: 2rem;
   margin-bottom: 1em;
+  padding-left: 0.3em;
+  font-family: "Abel";
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   @include mq($from: desktop) {
     font-size: 2rem;
   }
+  background: repeating-linear-gradient(-45deg, var(--yellow), var(--yellow) 1px, white 1px, white 7px);
 }
 
 h3 {

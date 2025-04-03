@@ -53,7 +53,7 @@ export default function Article({
 	return (
 		<>
 			<div className={cn(s.logo, 'logo')}>
-				<Link href='/'>Gävleborg Art Guide</Link>
+				<Link href='/'>Gavleborg Art Guide</Link>
 			</div>
 			<div className={cn(s.article, 'article')}>
 				<h1>{title}</h1>

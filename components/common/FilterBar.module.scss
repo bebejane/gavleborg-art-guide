@@ -7,14 +7,43 @@
     margin-bottom: var(--space-big);
   }
 
+  .part {
+    display: flex;
+    align-items: center;
+
+    @include mq($from: desktop) {
+      position: absolute;
+      right: var(--outer-margin);
+    }
+    @include mq($until: desktop) {
+      width: 100%;
+      padding-top: 1rem;
+      justify-content: center;
+    }
+    span {
+      position: relative;
+      margin: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: var(--yellow);
+      display: inline-block;
+    }
+  }
+
   .wrap {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    @include mq($until: desktop) {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
-  .show {}
+  .show {
+  }
 
   ul {
     display: flex;

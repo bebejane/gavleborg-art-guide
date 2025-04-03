@@ -57,7 +57,9 @@
     }
 
     span {
-      color: var(--yellow);
+      font-size: 0.7em;
+      margin-top: -0.2em; //color: var(--yellow);
+      display: inline-block;
     }
   }
 

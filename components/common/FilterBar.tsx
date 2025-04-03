@@ -28,6 +28,7 @@ export default function FilterBar({ options, href = '/', value }: Props) {
 						</li>
 					))}
 				</ul>
+				<div className={s.part}>Del av&nbsp;<i>I samlad rörelse</i> <span></span></div>
 			</div>
 		</nav>
 	);
