@@ -8,7 +8,7 @@ import { truncateWords } from 'next-dato-utils/utils';
 import { Markdown } from 'next-dato-utils/components';
 import Link from 'next/link';
 import { formatDate } from '@lib/utils';
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
+import { differenceInCalendarDays, differenceInMilliseconds } from 'date-fns';
 
 export type Props = {
 	image?: FileField;
@@ -39,7 +39,8 @@ export default function Thumbnail({
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -3 &&
-		  differenceInCalendarDays(new Date(), new Date(startTime)) <= 0
+		  differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+		  differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	return (
