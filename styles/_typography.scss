@@ -5,6 +5,7 @@ html,
 body {
   font-size: 14px;
   font-weight: normal;
+  font-family: var(--headline-font);
 
   @include mq($from: tablet) {
     font-size: 16;
