@@ -51,10 +51,11 @@ h2 {
   font-weight: 500;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  background: repeating-linear-gradient(-45deg, var(--yellow), var(--yellow) 1px, white 1px, white 7px);
+
   @include mq($from: desktop) {
     font-size: 2rem;
   }
-  background: repeating-linear-gradient(-45deg, var(--yellow), var(--yellow) 1px, white 1px, white 7px);
 }
 
 h3 {
@@ -120,6 +121,7 @@ article {
     color: var(--blue);
     margin-bottom: 1.5em;
     position: relative;
+
     p {
       padding-top: 0.5em;
       margin-bottom: 0.5em;
@@ -130,6 +132,7 @@ article {
       font-family: var(--sans-font);
       font-size: 0.7rem;
     }
+
     &::before {
       @include mq($from: desktop) {
         content: "’’";
@@ -191,10 +194,10 @@ article {
     padding-left: 0;
   }
 
-  p + h3,
-  ul + h3,
-  ul + h2,
-  p + h2 {
+  p+h3,
+  ul+h3,
+  ul+h2,
+  p+h2 {
     padding-top: 1rem;
   }
 
@@ -214,6 +217,7 @@ article {
   font-family: var(--sans-font);
   font-size: 0.6rem;
   text-transform: uppercase;
+
   @include mq($from: desktop) {
     font-size: 0.7rem;
   }
