@@ -75,6 +75,20 @@
     }
   }
 
+  .soon {
+    background-color: var(--black) !important;
+    position: absolute;
+    display: inline-block;
+    margin-top: -3.5rem;
+    margin-left: 1.5em;
+    padding: 1em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    color: var(--white);
+    font-weight: 600;
+    z-index: 2;
+  }
+
   .imageWrap {
     position: relative;
 

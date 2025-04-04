@@ -38,9 +38,9 @@ export default function Thumbnail({
 	groupShow,
 }: Props) {
 	const exhibithionIsSoon = startTime
-		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -3 &&
-		  differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-		  differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
+		differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+		differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	return (
@@ -50,9 +50,9 @@ export default function Thumbnail({
 					<Image data={image.responsiveImage} className={s.image} pictureClassName={s.picture} />
 					<div className={s.border} />
 					{groupShow && <div className={s.circle} />}
-					{exhibithionIsSoon && <span className={s.soon}>Snart vernissage</span>}
 				</figure>
 			)}
+			{exhibithionIsSoon && <div className={cn("meta", s.soon)}>snart Vernissage</div>}
 			<h3 className={cn(s[`rows-${titleRows}`])}>
 				<span>{titleLength ? truncateWords(title, titleLength) : title}</span>
 			</h3>
