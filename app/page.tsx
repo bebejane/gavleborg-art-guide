@@ -8,6 +8,7 @@ import { DraftMode } from 'next-dato-utils/components';
 import { parseAsString } from 'nuqs/server';
 import { format } from 'date-fns';
 import { capitalize } from 'next-dato-utils/utils';
+import { start } from 'repl';
 
 const filterParser = parseAsString.withDefault('all');
 
@@ -50,7 +51,17 @@ export default async function Home({ searchParams }) {
 						<ul className={cn(s.container, 'grid')}>
 							{programs.map(
 								(
-									{ title, image, intro, programCategory, slug, startDate, endDate, groupShow },
+									{
+										title,
+										image,
+										intro,
+										programCategory,
+										slug,
+										startDate,
+										endDate,
+										startTime,
+										groupShow,
+									},
 									idx: number
 								) => (
 									<li key={idx} className={s.card}>
@@ -61,6 +72,7 @@ export default async function Home({ searchParams }) {
 											intro={intro}
 											startDate={startDate}
 											endDate={endDate}
+											startTime={startTime}
 											groupShow={groupShow}
 											meta={programCategory.title}
 										/>
