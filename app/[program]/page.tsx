@@ -56,18 +56,32 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				date={startDate}
 			>
 				<ul className={s.meta}>
-					<li>
-						<strong>Datum:</strong> {formatDate(startDate, endDate)}
-					</li>
 					{location && (
 						<>
+							<li>
+								<span>
+									<strong>Arrangör:</strong>&nbsp;
+									{location.map(({ title, webpage }, idx) =>
+										webpage ? (
+											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
+												{title}
+											</a>
+										) : (
+											<React.Fragment key={idx}>{title}</React.Fragment>
+										)
+									)}
+								</span>
+							</li>
+							<li>
+								<strong>Datum:</strong> {formatDate(startDate, endDate)}
+							</li>
 							<li>
 								<span>
 									<strong>Plats:</strong>&nbsp;
 									{location.map(({ title, webpage }, idx) =>
 										webpage ? (
 											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
-												{title} ›
+												{title}
 											</a>
 										) : (
 											<React.Fragment key={idx}>{title}</React.Fragment>
@@ -81,11 +95,11 @@ export default async function ProgramPage({ params }: ProgramProps) {
 									{location.map(({ address, city, map }, idx) =>
 										map ? (
 											<a key={idx} href={map} target='_blank' rel='noreferrer'>
-												{address}, {city} ›
+												{address}, {city}
 											</a>
 										) : (
 											<React.Fragment key={idx}>
-												{address}, {city} ›
+												{address}, {city}
 											</React.Fragment>
 										)
 									)}
@@ -119,11 +133,27 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					{externalLink && (
 						<li>
 							<span>
-								<strong>Extern länk: </strong>
-								<a href={externalLink}>Läs mer ›</a>
+								<strong>Läs mer: </strong>
+								<a href={externalLink}>Besök arrangörens sida ›</a>
 							</span>
 						</li>
 					)}
+					<li>
+						<span>
+							<strong>Hitta: </strong>
+							{location.map(({ address, city, map }, idx) =>
+								map ? (
+									<a key={idx} href={map} target='_blank' rel='noreferrer'>
+										Visa karta ›
+									</a>
+								) : (
+									<React.Fragment key={idx}>
+										{address}, {city} ›
+									</React.Fragment>
+								)
+							)}
+						</span>
+					</li>
 				</ul>
 				<Link href={`/`}>
 					<button className={s.back}>Tillbaka</button>
