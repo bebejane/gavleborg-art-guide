@@ -6,6 +6,7 @@
   width: 100%;
   padding: var(--outer-margin);
   color: var(--white);
+  line-height: var(--line-height);
 
   * {
     color: var(--white);
@@ -16,8 +17,13 @@
   }
 
   .contact {
+    @include mq($from: desktop) {
+      width: 50em;
+    }
+    text-align: right;
     a {
       margin-left: 1em;
+      white-space: nowrap;
     }
   }
 }
