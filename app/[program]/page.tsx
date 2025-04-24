@@ -55,6 +55,13 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				content={content}
 				date={startDate}
 			>
+				<section className={s.misc}>
+					<p><i>
+						{misc}
+					</i>
+					</p>
+				</section>
+
 				<ul className={s.meta}>
 					{location && (
 						<>
@@ -119,14 +126,6 @@ export default async function ProgramPage({ params }: ProgramProps) {
 						<li>
 							<span>
 								<strong>Öppettider: </strong> {time}
-							</span>
-						</li>
-					)}
-					{misc && (
-						<li>
-							<span>
-								<strong>Övrigt: </strong>
-								{misc}
 							</span>
 						</li>
 					)}
