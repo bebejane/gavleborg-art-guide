@@ -67,6 +67,7 @@ fragment ProgramFragment on ProgramRecord {
 	time
 	groupShow
 	address
+	organizer
 	image {
 		...ImageFragment
 	}

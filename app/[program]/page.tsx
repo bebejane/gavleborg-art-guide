@@ -36,6 +36,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 		endDate,
 		programCategory,
 		address,
+		organizer,
 		location,
 		time,
 		misc,
@@ -56,9 +57,8 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				date={startDate}
 			>
 				<section className={s.misc}>
-					<p><i>
-						{misc}
-					</i>
+					<p>
+						<i>{misc}</i>
 					</p>
 				</section>
 
@@ -96,23 +96,15 @@ export default async function ProgramPage({ params }: ProgramProps) {
 									)}
 								</span>
 							</li>
-							<li>
-								<span>
-									<strong>Adress: </strong>
-									{location.map(({ address, city, map }, idx) =>
-										map ? (
-											<a key={idx} href={map} target='_blank' rel='noreferrer'>
-												{address}, {city}
-											</a>
-										) : (
-											<React.Fragment key={idx}>
-												{address}, {city}
-											</React.Fragment>
-										)
-									)}
-								</span>
-							</li>
 						</>
+					)}
+					{address && (
+						<li>
+							<span>
+								<strong>Adress: </strong>
+								{address}
+							</span>
+						</li>
 					)}
 					{startTime && (
 						<li>
@@ -137,22 +129,14 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							</span>
 						</li>
 					)}
-					<li>
-						<span>
-							<strong>Hitta: </strong>
-							{location.map(({ address, city, map }, idx) =>
-								map ? (
-									<a key={idx} href={map} target='_blank' rel='noreferrer'>
-										Visa karta ›
-									</a>
-								) : (
-									<React.Fragment key={idx}>
-										{address}, {city} ›
-									</React.Fragment>
-								)
-							)}
-						</span>
-					</li>
+					{organizer && (
+						<li>
+							<span>
+								<strong>Arrangör: </strong>
+								{organizer}
+							</span>
+						</li>
+					)}
 				</ul>
 				<Link href={`/`}>
 					<button className={s.back}>Tillbaka</button>
