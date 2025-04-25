@@ -62,8 +62,14 @@ export default function Thumbnail({
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
 						{startDate && (
 							<strong className='meta'>
-								{formatDate(startDate)} – {formatDate(endDate)}
-							</strong>
+								{startDate && (
+									<>
+										{formatDate(startDate)}
+										{endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString() && (
+											<> – {formatDate(endDate)}</>
+										)}
+									</>
+								)}							</strong>
 						)}
 					</div>
 					<Markdown content={intro} className={'small'} />

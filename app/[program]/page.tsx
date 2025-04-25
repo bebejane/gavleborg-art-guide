@@ -66,20 +66,6 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					{location && (
 						<>
 							<li>
-								<span>
-									<strong>Arrangör:</strong>&nbsp;
-									{location.map(({ title, webpage }, idx) =>
-										webpage ? (
-											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
-												{title}
-											</a>
-										) : (
-											<React.Fragment key={idx}>{title}</React.Fragment>
-										)
-									)}
-								</span>
-							</li>
-							<li>
 								<strong>Datum:</strong> {formatDate(startDate, endDate)}
 							</li>
 							<li>
@@ -121,19 +107,19 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							</span>
 						</li>
 					)}
-					{externalLink && (
-						<li>
-							<span>
-								<strong>Läs mer: </strong>
-								<a href={externalLink}>Besök arrangörens sida ›</a>
-							</span>
-						</li>
-					)}
 					{organizer && (
 						<li>
 							<span>
 								<strong>Arrangör: </strong>
 								{organizer}
+							</span>
+						</li>
+					)}
+					{externalLink && (
+						<li>
+							<span>
+								<strong>Läs mer: </strong>
+								<a href={externalLink}>Besök arrangörens sida ›</a>
 							</span>
 						</li>
 					)}

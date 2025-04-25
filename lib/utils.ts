@@ -37,12 +37,20 @@ export const recordToSlug = (record: any): string => {
 }
 
 export const formatDate = (date: string, endDate?: string) => {
-  if (!date) return ''
+  if (!date) return '';
   setDefaultOptions({ locale: sv });
-  const s = capitalize(format(new Date(date), 'd MMM')).replace('.', '');
-  const e = endDate ? capitalize(format(new Date(endDate), 'd MMM')).replace('.', '') : undefined;
-  return `${s}${e ? ` – ${e}` : ''}`
-}
+
+  const sDate = new Date(date);
+  const eDate = endDate ? new Date(endDate) : undefined;
+
+  const s = capitalize(format(sDate, 'd MMM')).replace('.', '');
+  const e = eDate ? capitalize(format(eDate, 'd MMM')).replace('.', '') : undefined;
+
+  // Jämför datumen utan tid
+  const isSameDate = eDate && sDate.toDateString() === eDate.toDateString();
+
+  return `${s}${e && !isSameDate ? ` – ${e}` : ''}`;
+};
 
 export const formatDateTime = (date: string) => {
   if (!date) return ''
