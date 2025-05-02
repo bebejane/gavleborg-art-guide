@@ -8,7 +8,6 @@ import { DraftMode } from 'next-dato-utils/components';
 import { parseAsString } from 'nuqs/server';
 import { format } from 'date-fns';
 import { capitalize } from 'next-dato-utils/utils';
-import { start } from 'repl';
 
 const filterParser = parseAsString.withDefault('all');
 
@@ -61,6 +60,7 @@ export default async function Home({ searchParams }) {
 										endDate,
 										startTime,
 										groupShow,
+										location,
 									},
 									idx: number
 								) => (
@@ -74,6 +74,10 @@ export default async function Home({ searchParams }) {
 											endDate={endDate}
 											startTime={startTime}
 											groupShow={groupShow}
+											city={location
+												?.map(({ city }) => city)
+												.filter(Boolean)
+												.join(', ')}
 											meta={programCategory.title}
 										/>
 									</li>

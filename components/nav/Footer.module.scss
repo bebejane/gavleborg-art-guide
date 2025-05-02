@@ -17,13 +17,16 @@
   }
 
   .contact {
-    @include mq($from: desktop) {
-      width: 50em;
-    }
     text-align: right;
+
     a {
       margin-left: 1em;
       white-space: nowrap;
     }
+
+    @include mq($from: desktop) {
+      width: 50em;
+    }
+
   }
 }

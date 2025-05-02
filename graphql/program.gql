@@ -35,6 +35,7 @@ fragment ProgramCategoryFragment on ProgramCategoryRecord {
 fragment ProgramFragmentLight on ProgramRecord {
 	__typename
 	_modelApiKey
+	_createdAt
 	id
 	title
 	startDate
@@ -45,6 +46,9 @@ fragment ProgramFragmentLight on ProgramRecord {
 	startDate
 	endDate
 	groupShow
+	location {
+		...LocationFragmentLight
+	}
 	image {
 		...ImageThumbnailFragment
 	}
@@ -59,6 +63,7 @@ fragment ProgramFragmentLight on ProgramRecord {
 fragment ProgramFragment on ProgramRecord {
 	__typename
 	_modelApiKey
+	_createdAt
 	id
 	title
 	startDate
@@ -66,7 +71,6 @@ fragment ProgramFragment on ProgramRecord {
 	startTime
 	time
 	groupShow
-	address
 	organizer
 	image {
 		...ImageFragment

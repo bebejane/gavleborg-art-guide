@@ -35,7 +35,6 @@ export default async function ProgramPage({ params }: ProgramProps) {
 		startDate,
 		endDate,
 		programCategory,
-		address,
 		organizer,
 		location,
 		time,
@@ -82,15 +81,19 @@ export default async function ProgramPage({ params }: ProgramProps) {
 									)}
 								</span>
 							</li>
+							<li>
+								<strong>Address:</strong>&nbsp;
+								{location.map(({ address, map }, idx) =>
+									map ? (
+										<a key={idx} href={map} target='_blank' rel='noreferrer'>
+											{address}
+										</a>
+									) : (
+										<React.Fragment key={idx}>{address}</React.Fragment>
+									)
+								)}
+							</li>
 						</>
-					)}
-					{address && (
-						<li>
-							<span>
-								<strong>Adress: </strong>
-								{address}
-							</span>
-						</li>
 					)}
 					{startTime && (
 						<li>

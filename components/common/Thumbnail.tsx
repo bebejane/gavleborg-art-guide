@@ -22,6 +22,7 @@ export type Props = {
 	endDate?: string;
 	startTime?: string;
 	groupShow?: boolean;
+	city?: string;
 };
 
 export default function Thumbnail({
@@ -36,12 +37,19 @@ export default function Thumbnail({
 	endDate,
 	startTime,
 	groupShow,
+	city,
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
-		differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-		differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+		  differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+		  differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
+
+	const metaFields = [
+		formatDate(startDate),
+		new Date(startDate).toDateString() !== new Date(endDate).toDateString() && formatDate(endDate),
+		city,
+	].filter(Boolean);
 
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
@@ -52,7 +60,7 @@ export default function Thumbnail({
 					{groupShow && <div className={s.circle} />}
 				</figure>
 			)}
-			{exhibithionIsSoon && <div className={cn("meta", s.soon)}>snart Vernissage</div>}
+			{exhibithionIsSoon && <div className={cn('meta', s.soon)}>snart Vernissage</div>}
 			<h3 className={cn(s[`rows-${titleRows}`])}>
 				<span>{titleLength ? truncateWords(title, titleLength) : title}</span>
 			</h3>
@@ -60,17 +68,7 @@ export default function Thumbnail({
 				<div className='thumb-intro'>
 					<div className={s.meta}>
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
-						{startDate && (
-							<strong className='meta'>
-								{startDate && (
-									<>
-										{formatDate(startDate)}
-										{endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString() && (
-											<> – {formatDate(endDate)}</>
-										)}
-									</>
-								)}							</strong>
-						)}
+						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>}
 					</div>
 					<Markdown content={intro} className={'small'} />
 				</div>
