@@ -45,7 +45,6 @@
 
     &.mainImage {
       padding-bottom: var(--space);
-      cursor: pointer;
     }
 
     &.small {
@@ -53,11 +52,9 @@
       padding-right: calc(2 * var(--grid-unit));
     }
 
-    &.medium {
-    }
+    &.medium {}
 
-    &.large {
-    }
+    &.large {}
 
     &.portrait {
       padding-left: calc(3 * var(--grid-unit));
@@ -117,7 +114,7 @@
     }
   }
 
-  .intro > p {
+  .intro>p {
     padding: 0;
   }
 }
