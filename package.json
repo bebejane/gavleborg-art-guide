@@ -29,7 +29,7 @@
 		"graphql": "^16.10.0",
 		"hamburger-react": "^2.5.2",
 		"is-integer": "^1.0.7",
-		"next": "15.2.4",
+		"next": "15.3.1",
 		"next-dato-utils": "github:bebejane/next-dato-utils#next15",
 		"next-seo": "^5.15.0",
 		"next-sitemap": "^3.1.55",
