@@ -41,8 +41,8 @@ export default function Thumbnail({
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
-		  differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-		  differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+			differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+			differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	const metaFields = [

@@ -8,6 +8,7 @@ import Article from '@components/common/Article';
 import { formatDate, formatDateTime } from '@lib/utils';
 import Link from 'next/link';
 import React from 'react';
+import BackButton from '@components/nav/BackButton';
 
 export type ProgramProps = {
 	params: Promise<{ program: string }>;
@@ -127,9 +128,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 						</li>
 					)}
 				</ul>
-				<Link href={`/`}>
-					<button className={s.back}>Tillbaka</button>
-				</Link>
+				<BackButton />
 			</Article>
 			<DraftMode url={draftUrl} path={`/${slug}`} />
 		</>
