@@ -41,15 +41,13 @@ export default function Thumbnail({
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
-			differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-			differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+		differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+		differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	const metaFields = [
 		formatDate(startDate),
-		new Date(startDate).toDateString() !== new Date(endDate).toDateString() && formatDate(endDate),
-		city,
-	].filter(Boolean);
+		new Date(startDate).toDateString() !== new Date(endDate).toDateString() && formatDate(endDate)].filter(Boolean);
 
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
@@ -68,7 +66,7 @@ export default function Thumbnail({
 				<div className='thumb-intro'>
 					<div className={s.meta}>
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
-						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>}
+						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>} <span>•</span> <strong className="meta">{city}</strong>
 					</div>
 					<Markdown content={intro} className={'small'} />
 				</div>
