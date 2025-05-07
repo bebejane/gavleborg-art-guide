@@ -28,7 +28,7 @@ export default function FilterBar({ options, href = '/', value }: Props) {
 						</li>
 					))}
 				</ul>
-				<div className={s.part}>Del av&nbsp;<i>I samlad rörelse</i> <span></span></div>
+				<div className={s.part}>Del av&nbsp;<a href="https://isamladrorelse.se/" target="new"><i>I samlad rörelse</i></a> <span></span></div>
 			</div>
 		</nav>
 	);

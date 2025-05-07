@@ -83,10 +83,10 @@ export default async function ProgramPage({ params }: ProgramProps) {
 								</span>
 							</li>
 							<li>
-								<strong>Address:</strong>&nbsp;
+								<strong>Adress:</strong>&nbsp;
 								{location.map(({ address, map }, idx) =>
 									map ? (
-										<a key={idx} href={map} target='_blank' rel='noreferrer'>
+										<a key={idx} href={map} target='_new' rel='noreferrer'>
 											{address}
 										</a>
 									) : (
