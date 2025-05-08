@@ -6,6 +6,10 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
 
+  a {
+    border-bottom: 1px solid var(--white);
+  }
+
   @include mq($from: desktop) {
     padding: 2rem;
     columns: 2;
