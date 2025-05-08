@@ -158,6 +158,7 @@ export async function generateMetadata({ params }: GenerateMetadataParams) {
 			slug,
 		},
 	});
+	if (!program) return notFound();
 
 	return {
 		title: program.title,
