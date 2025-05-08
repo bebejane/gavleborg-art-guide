@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import React from "react";
 import { sv } from 'date-fns/locale';
 import { TZDate } from "@date-fns/tz";
-import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 
 export const chunkArray = (array: any[] | React.ReactNode[], chunkSize: number) => {
   const newArr = []
@@ -56,5 +56,6 @@ export const formatDate = (date: string, endDate?: string) => {
 export const formatDateTime = (date: string) => {
   if (!date) return ''
   setDefaultOptions({ locale: sv });
+  console.log(date)
   return capitalize(format(new TZDate(date, 'Europe/Stockholm'), 'd MMM, HH:mm')).replace('.', '');
 }

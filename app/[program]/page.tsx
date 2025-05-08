@@ -6,7 +6,6 @@ import { DraftMode } from 'next-dato-utils/components';
 import { Metadata } from 'next';
 import Article from '@components/common/Article';
 import { formatDate, formatDateTime } from '@lib/utils';
-import Link from 'next/link';
 import React from 'react';
 import BackButton from '@components/nav/BackButton';
 
@@ -16,7 +15,7 @@ export type ProgramProps = {
 
 export default async function ProgramPage({ params }: ProgramProps) {
 	const { program: slug } = await params;
-	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>(
+	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>( // This line also uses ProgramQuery and ProgramQueryVariables
 		ProgramDocument,
 		{
 			variables: {
@@ -146,7 +145,13 @@ export async function generateStaticParams() {
 	return allPrograms.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({ params }) {
+type GenerateMetadataParams = {
+	params: Promise<{
+		program: string;
+	}>;
+};
+
+export async function generateMetadata({ params }: GenerateMetadataParams) {
 	const { program: slug } = await params;
 	const { program } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, {
 		variables: {

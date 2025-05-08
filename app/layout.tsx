@@ -8,7 +8,8 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Suspense } from 'react';
 import Footer from '@components/nav/Footer';
 import { sv } from 'date-fns/locale';
-import setDefaultOptions from 'date-fns/setDefaultOptions';
+import { setDefaultOptions } from 'date-fns/setDefaultOptions';
+
 setDefaultOptions({ locale: sv });
 
 export type LayoutProps = {
