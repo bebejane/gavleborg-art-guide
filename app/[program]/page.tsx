@@ -151,7 +151,7 @@ type GenerateMetadataParams = {
 	}>;
 };
 
-export async function generateMetadata({ params }: GenerateMetadataParams) {
+export async function generateMetadata({ params }: GenerateMetadataParams): Promise<Metadata> {
 	const { program: slug } = await params;
 	const { program } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, {
 		variables: {
