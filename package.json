@@ -15,6 +15,7 @@
 		"update-utils": "pnpm up github:bebejane/next-dato-util && git add . && git commit -m \"next-dato-utils up\" && git push"
 	},
 	"dependencies": {
+		"@date-fns/tz": "^1.2.0",
 		"@datocms/cma-client-browser": "^4.0.1",
 		"@datocms/cma-client-node": "^4.0.1",
 		"@graphql-typed-document-node/core": "^3.2.0",

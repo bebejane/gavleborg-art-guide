@@ -2,6 +2,7 @@ import { capitalize } from "next-dato-utils/utils";
 import { format } from "date-fns";
 import React from "react";
 import { sv } from 'date-fns/locale';
+import { TZDate } from "@date-fns/tz";
 import setDefaultOptions from 'date-fns/setDefaultOptions';
 
 export const chunkArray = (array: any[] | React.ReactNode[], chunkSize: number) => {
@@ -40,8 +41,8 @@ export const formatDate = (date: string, endDate?: string) => {
   if (!date) return '';
   setDefaultOptions({ locale: sv });
 
-  const sDate = new Date(date);
-  const eDate = endDate ? new Date(endDate) : undefined;
+  const sDate = new TZDate(date, 'Europe/Stockholm');
+  const eDate = endDate ? new TZDate(endDate, 'Europe/Stockholm') : undefined;
 
   const s = capitalize(format(sDate, 'd MMM')).replace('.', '');
   const e = eDate ? capitalize(format(eDate, 'd MMM')).replace('.', '') : undefined;
@@ -55,5 +56,5 @@ export const formatDate = (date: string, endDate?: string) => {
 export const formatDateTime = (date: string) => {
   if (!date) return ''
   setDefaultOptions({ locale: sv });
-  return capitalize(format(new Date(date), 'd MMM, HH:mm')).replace('.', '');
+  return capitalize(format(new TZDate(date, 'Europe/Stockholm'), 'd MMM, HH:mm')).replace('.', '');
 }
