@@ -73,7 +73,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 									{location.map(({ title, webpage }, idx) =>
 										webpage ? (
 											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
-												{title}
+												{title} ›
 											</a>
 										) : (
 											<React.Fragment key={idx}>{title}</React.Fragment>
@@ -86,7 +86,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 								{location.map(({ address, map }, idx) =>
 									map ? (
 										<a key={idx} href={map} target='_new' rel='noreferrer'>
-											{address}
+											{address} ›
 										</a>
 									) : (
 										<React.Fragment key={idx}>{address}</React.Fragment>
