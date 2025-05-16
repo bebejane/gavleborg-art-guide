@@ -12,7 +12,7 @@ const routes: DatoCmsConfig['routes'] = {
 }
 
 export default {
-  description: 'Under sommaren 2023 arrangerade Smålands konstinstitutioner, konstaktörer och mindre föreningar Smålandstriennalen tillsammans, och lanserade även det nybildade distriktet Konstfrämjandet Småland.',
+  description: 'Gävleborg Art Guide drivs av Konstfrämjandet Gävleborg, och har startat upp med stöd av Region Gävleborg och Folkrörelsernas Konstfrämjande.',
   name: 'Gävleborg Art Guide',
   url: {
     dev: 'http://localhost:3000',

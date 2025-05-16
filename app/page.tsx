@@ -35,7 +35,7 @@ export default async function Home({ searchParams }) {
 	return (
 		<>
 			<article className={s.page}>
-				<h1>Gavleborg Art Guide</h1>
+				<h1>Gävleborg Art Guide</h1>
 				<FilterBar
 					href={'/'}
 					options={allProgramCategories.map(({ slug, plural }) => ({
