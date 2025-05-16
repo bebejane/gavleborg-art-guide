@@ -1,8 +1,8 @@
 import s from './page.module.scss';
 import cn from 'classnames';
 import { AllProgramsDocument } from '@/graphql';
-import Thumbnail from '@components/common/Thumbnail';
-import FilterBar from '@components/common/FilterBar';
+import Thumbnail from '@/components/common/Thumbnail';
+import FilterBar from '@/components/common/FilterBar';
 import { apiQuery } from 'next-dato-utils/api';
 import { DraftMode } from 'next-dato-utils/components';
 import { parseAsString } from 'nuqs/server';

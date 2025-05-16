@@ -1,12 +1,12 @@
-import '@styles/index.scss';
+import '@/styles/index.scss';
 import s from './layout.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
-import { GlobalDocument } from '@graphql';
+import { GlobalDocument } from '@/graphql';
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Suspense } from 'react';
-import Footer from '@components/nav/Footer';
+import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 
@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 	);
 }
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
 	const {
 		site: { globalSeo, faviconMetaTags },
 	} = await apiQuery<GlobalQuery, GlobalQueryVariables>(GlobalDocument, {

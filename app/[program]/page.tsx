@@ -1,13 +1,13 @@
 import s from './page.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { AllProgramsDocument, ProgramDocument } from '@/graphql';
-import { notFound } from '@node_modules/next/navigation';
+import { notFound } from 'next/navigation';
 import { DraftMode } from 'next-dato-utils/components';
 import { Metadata } from 'next';
-import Article from '@components/common/Article';
-import { formatDate, formatDateTime } from '@lib/utils';
+import Article from '@/components/common/Article';
+import { formatDate, formatDateTime } from '@/lib/utils';
 import React from 'react';
-import BackButton from '@components/nav/BackButton';
+import BackButton from '@/components/nav/BackButton';
 
 export type ProgramProps = {
 	params: Promise<{ program: string }>;

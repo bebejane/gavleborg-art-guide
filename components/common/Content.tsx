@@ -1,5 +1,5 @@
 import { StructuredContent } from 'next-dato-utils/components';
-import Blocks from '@components/blocks';
+import Blocks from '@/components/blocks';
 import s from './Content.module.scss';
 import cn from 'classnames';
 
