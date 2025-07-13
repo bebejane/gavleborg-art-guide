@@ -13,17 +13,17 @@ const filterParser = parseAsString.withDefault('all');
 
 export default async function Home({ searchParams }) {
 	const filter = filterParser.parseServerSide((await searchParams).filter);
-	const { allPrograms, allProgramCategories, draftUrl } = await apiQuery<
-		AllProgramsQuery,
-		AllProgramsQueryVariables
-	>(AllProgramsDocument, {
-		all: true,
-		tags: ['program', 'program_category'],
-		variables: {
-			first: 100,
-			skip: 0,
-		},
-	});
+	const { allPrograms, allProgramCategories, draftUrl } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(
+		AllProgramsDocument,
+		{
+			all: true,
+			tags: ['program', 'program_category'],
+			variables: {
+				first: 100,
+				skip: 0,
+			},
+		}
+	);
 
 	function filterPrograms(programs: any[]) {
 		if (filter === 'all') return programs;
@@ -50,18 +50,7 @@ export default async function Home({ searchParams }) {
 						<ul className={cn(s.container, 'grid')}>
 							{programs.map(
 								(
-									{
-										title,
-										image,
-										intro,
-										programCategory,
-										slug,
-										startDate,
-										endDate,
-										startTime,
-										groupShow,
-										location,
-									},
+									{ title, image, intro, programCategory, slug, startDate, endDate, startTime, groupShow, location },
 									idx: number
 								) => (
 									<li key={idx} className={s.card}>
@@ -109,19 +98,20 @@ function programsByMonth(programs: AllProgramsQuery['allPrograms']) {
 	];
 	// Filter out inactive programs
 	const today = new Date();
+	today.setHours(0, 0, 0, 0);
 	const filteredPrograms = programs.filter((program) => {
 		const startDate = new Date(program.startDate);
 		const endDate = program.endDate ? new Date(program.endDate) : null;
-
+		let active = false;
 		if (endDate) {
 			// If program has end date, check if it's still active
-			return endDate >= today;
+			endDate.setHours(0, 0, 0, 0);
+			active = endDate >= today;
 		} else {
 			// If no end date, check if it's in the current month
-			return (
-				startDate.getMonth() === today.getMonth() && startDate.getFullYear() === today.getFullYear()
-			);
+			active = startDate.getMonth() === today.getMonth() && startDate.getFullYear() === today.getFullYear();
 		}
+		return active;
 	});
 	const programsByMonth = filteredPrograms.reduce((acc, program) => {
 		const startDate = new Date(program.startDate);
@@ -147,10 +137,7 @@ function programsByMonth(programs: AllProgramsQuery['allPrograms']) {
 					: [...months.slice(startIdx + 1), ...months.slice(0, endIdx + 1)];
 
 			monthsToAdd.forEach((month) => {
-				const formattedMonth = format(
-					new Date(`${startDate.getFullYear()}-${months.indexOf(month) + 1}-01`),
-					'MMMM'
-				);
+				const formattedMonth = format(new Date(`${startDate.getFullYear()}-${months.indexOf(month) + 1}-01`), 'MMMM');
 				if (!acc[formattedMonth]) acc[formattedMonth] = [];
 				acc[formattedMonth].push(program);
 			});
