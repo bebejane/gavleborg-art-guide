@@ -7,7 +7,7 @@ import { Image } from 'react-datocms/image';
 import { truncateWords } from 'next-dato-utils/utils';
 import { Markdown } from 'next-dato-utils/components';
 import Link from 'next/link';
-import { formatDate } from '@lib/utils';
+import { formatDate } from '@/lib/utils';
 import { differenceInCalendarDays, differenceInMilliseconds } from 'date-fns';
 
 const formatDateSmart = (d?: string, isStart = false) => {
@@ -96,7 +96,8 @@ export default function Thumbnail({
 				<div className='thumb-intro'>
 					<div className={s.meta}>
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
-						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>} <span>•</span> <strong className="meta">{city}</strong>
+						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>}{' '}
+						<span>•</span> <strong className='meta'>{city}</strong>
 					</div>
 					<Markdown content={intro} className={'small'} />
 				</div>
