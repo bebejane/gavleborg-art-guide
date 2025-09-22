@@ -9,6 +9,48 @@ import { formatDate, formatDateTime } from '@/lib/utils';
 import React from 'react';
 import BackButton from '@/components/nav/BackButton';
 
+// --- Smarta datum utan punkt i månadsförkortning ---
+const monthNames = [
+	'jan', 'feb', 'mar', 'apr', 'maj', 'jun',
+	'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
+];
+
+const formatDateSmart = (d?: string, isStart = false) => {
+	if (!d) return '';
+	const dt = new Date(d);
+	if (isNaN(dt.getTime())) return '';
+
+	const nowYear = new Date().getFullYear();
+	const day = dt.getDate();
+	const month = monthNames[dt.getMonth()];
+	const year = dt.getFullYear();
+
+	let showYear = false;
+	if (isStart) {
+		// Startdatum: visa år om det är äldre än innevarande år
+		if (year < nowYear) showYear = true;
+	} else {
+		// Slutdatum: visa år om det skiljer sig från innevarande år
+		if (year !== nowYear) showYear = true;
+	}
+
+	return [day, month, showYear ? year : null].filter(Boolean).join(' ');
+};
+
+const sameDay = (a?: string, b?: string) => {
+	if (!a || !b) return false;
+	const da = new Date(a), db = new Date(b);
+	return da.getFullYear() === db.getFullYear()
+		&& da.getMonth() === db.getMonth()
+		&& da.getDate() === db.getDate();
+};
+
+const dateRangeSmart = (start?: string, end?: string) => {
+	if (!start) return '';
+	if (!end || sameDay(start, end)) return formatDateSmart(start, true);
+	return `${formatDateSmart(start, true)} – ${formatDateSmart(end, false)}`;
+};
+
 export type ProgramProps = {
 	params: Promise<{ program: string }>;
 };
@@ -65,7 +107,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					{location && (
 						<>
 							<li>
-								<strong>Datum:</strong> {formatDate(startDate, endDate)}
+								<strong>Datum:</strong> {dateRangeSmart(startDate, endDate)}
 							</li>
 							<li>
 								<span>
