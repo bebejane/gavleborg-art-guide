@@ -10,6 +10,33 @@ import Link from 'next/link';
 import { formatDate } from '@lib/utils';
 import { differenceInCalendarDays, differenceInMilliseconds } from 'date-fns';
 
+const formatDateSmart = (d?: string, isStart = false) => {
+	if (!d) return '';
+	const dt = new Date(d);
+	if (isNaN(dt.getTime())) return '';
+
+	const nowYear = new Date().getFullYear();
+	const monthNames = [
+		'jan', 'feb', 'mar', 'apr', 'maj', 'jun',
+		'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
+	];
+
+	const day = dt.getDate();
+	const month = monthNames[dt.getMonth()];
+	const year = dt.getFullYear();
+
+	let showYear = false;
+	if (isStart) {
+		// Startdatum: visa år om det är äldre än innevarande år
+		if (year < nowYear) showYear = true;
+	} else {
+		// Slutdatum: visa år om det skiljer sig från innevarande år
+		if (year !== nowYear) showYear = true;
+	}
+
+	return [day, month, showYear ? year : null].filter(Boolean).join(' ');
+};
+
 export type Props = {
 	image?: FileField;
 	slug: string;
@@ -46,8 +73,11 @@ export default function Thumbnail({
 		: false;
 
 	const metaFields = [
-		formatDate(startDate),
-		new Date(startDate).toDateString() !== new Date(endDate).toDateString() && formatDate(endDate)].filter(Boolean);
+		formatDateSmart(startDate, true),
+		(startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString())
+			? formatDateSmart(endDate, false)
+			: ''
+	].filter(Boolean);
 
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
