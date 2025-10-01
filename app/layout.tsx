@@ -1,4 +1,5 @@
 import '@/styles/index.scss';
+import '@mantine/core/styles.css';
 import s from './layout.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { GlobalDocument } from '@/graphql';
@@ -9,6 +10,7 @@ import { Suspense } from 'react';
 import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps, createTheme } from '@mantine/core';
 
 setDefaultOptions({ locale: sv });
 
@@ -16,14 +18,24 @@ export type LayoutProps = {
 	children: React.ReactNode;
 };
 
+const mantineTheme = createTheme({
+	colors: {},
+	defaultRadius: 0,
+});
+
 export default async function RootLayout({ children }: LayoutProps) {
 	return (
 		<>
-			<html lang='sv-SE'>
+			<html lang='sv-SE' {...mantineHtmlProps}>
+				<head>
+					<ColorSchemeScript />
+				</head>
 				<body id='root'>
 					<main className={s.main}>
 						<Suspense>
-							<NuqsAdapter>{children}</NuqsAdapter>
+							<MantineProvider theme={mantineTheme}>
+								<NuqsAdapter>{children}</NuqsAdapter>
+							</MantineProvider>
 						</Suspense>
 					</main>
 					<Footer />

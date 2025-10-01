@@ -1,0 +1,15 @@
+query AllPartners($first: IntType = 500, $skip: IntType = 0) {
+	allPartners(first: $first, skip: $skip, orderBy: [title_ASC], fallbackLocales: [sv]) {
+		...PartnerFragmentLight
+	}
+
+	_allPartnersMeta {
+		count
+	}
+}
+
+query Partner($slug: String!) {
+	partner(filter: { slug: { eq: $slug } }) {
+		...PartnerFragment
+	}
+}

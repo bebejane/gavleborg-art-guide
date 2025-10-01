@@ -1,0 +1,9 @@
+.editor {
+}
+
+.label {
+	font-size: var(--input-label-size, var(--mantine-font-size-sm));
+	.asterisk {
+		color: var(--mantine-color-error);
+	}
+}

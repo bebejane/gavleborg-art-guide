@@ -126,6 +126,16 @@ export const Location: DocumentNode;
 }
     
 
+declare module '*/partner.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AllPartners: DocumentNode;
+export const Partner: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/program.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -1,5 +1,5 @@
-@use "fonts";
-@use "mediaqueries";
+@use 'fonts';
+@use 'mediaqueries';
 
 :root {
 	--black: #1e1e1e;
@@ -7,6 +7,7 @@
 	--yellow: #ffdd00;
 	--background: var(--white);
 	--foreground: var(--black);
+	--error: rgb(215, 0, 0);
 
 	--outer-margin: 4rem;
 	--gutter: 0.6rem;
@@ -15,10 +16,10 @@
 	--space-big: 2.5rem;
 	--space-small: 2rem;
 
-	--body-font: "Inter", Arial, Helvetica, Sans-Serif;
-	--headline-font: "Inter", Arial, Helvetica, Sans-Serif;
-	--label-font: "Inter", Arial, Helvetica, Sans-Serif;
-	--sans-font: "Inter", Arial, Helvetica, Sans-Serif;
+	--body-font: 'Inter', Arial, Helvetica, Sans-Serif;
+	--headline-font: 'Inter', Arial, Helvetica, Sans-Serif;
+	--label-font: 'Inter', Arial, Helvetica, Sans-Serif;
+	--sans-font: 'Inter', Arial, Helvetica, Sans-Serif;
 	--line-height: 1.4;
 
 	--z-logo: 100;
@@ -38,7 +39,7 @@ body {
 	background-color: var(--background);
 	font-family: var(--body-font);
 	-webkit-font-smoothing: antialiased;
-	font-feature-settings: "liga", "kern";
+	font-feature-settings: 'liga', 'kern';
 	padding-top: var(--navbar-height);
 }
 
@@ -103,7 +104,7 @@ button {
 	text-decoration: none !important;
 	font-size: 0.8rem;
 
-	&[aria-selected="true"] {
+	&[aria-selected='true'] {
 		color: var(--white);
 		background-color: var(--blue);
 	}

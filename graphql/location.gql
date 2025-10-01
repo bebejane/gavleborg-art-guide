@@ -1,9 +1,9 @@
-query AllLocations($first: IntType = 100, $skip: IntType = 0) {
-	locations: allLocations(first: $first, skip: $skip, orderBy: [title_ASC], fallbackLocales: [sv]) {
+query AllLocations($first: IntType = 500, $skip: IntType = 0) {
+	allLocations(first: $first, skip: $skip, orderBy: [title_ASC], fallbackLocales: [sv]) {
 		...LocationFragmentLight
 	}
 
-	pagination: _allLocationsMeta {
+	_allLocationsMeta {
 		count
 	}
 }
