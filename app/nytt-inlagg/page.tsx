@@ -1,7 +1,7 @@
 import s from './page.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { AllProgramCategoriesDocument, AllLocationsDocument, AllPartnersDocument } from '@/graphql';
-import NewPostForm from '@/app/admin/NewPostForm';
+import NewPostForm from '@/app/nytt-inlagg/components/NewPostForm';
 
 export default async function AdminPage() {
 	const { allProgramCategories } = await apiQuery<AllProgramCategoriesQuery, AllProgramCategoriesQueryVariables>(

@@ -1,6 +1,4 @@
-'use client';
-
-import { useEffect, useState, useCallback, RefObject, RefCallback, useRef, use } from 'react';
+import { useEffect, useState, useCallback, RefObject, RefCallback, useRef } from 'react';
 import { OnProgressInfo } from '@datocms/cma-client-browser';
 import { buildClient } from '@datocms/cma-client-browser';
 import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
@@ -46,16 +44,13 @@ export default function FileUpload({
 	const [allTags, setAllTags] = useState<string[]>(['upload']);
 	const [upload, setUpload] = useState<Upload | undefined>();
 	const [progress, setProgress] = useState<number | null>(null);
-	const [generatingObject, setGeneratingObject] = useState<boolean>(false);
 	const internalInputRef = useRef<HTMLInputElement>(null);
-	const loading = generatingObject || progress !== null;
 
 	const resetInput = useCallback(() => {
 		setProgress(null);
 		setUpload(undefined);
 		onUploading?.(false);
 		setError(undefined);
-		setGeneratingObject(false);
 		onStatusChange?.(null);
 		onChange(null);
 	}, [setUpload, setError, onUploading]);
@@ -89,7 +84,6 @@ export default function FileUpload({
 							}
 							//@ts-ignore
 							if (info.type === 'CREATING_UPLOAD_OBJECT') {
-								setGeneratingObject(true);
 								onStatusChange?.('generating');
 							}
 						},
@@ -102,7 +96,6 @@ export default function FileUpload({
 					.finally(() => {
 						onUploading?.(false);
 						setProgress(null);
-						setGeneratingObject(false);
 						onStatusChange?.(null);
 					});
 			});

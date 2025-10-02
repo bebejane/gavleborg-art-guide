@@ -3,6 +3,8 @@ import { parse } from 'parse5';
 import slugify from 'slugify';
 import { buildClient, ApiError } from '@datocms/cma-client';
 import { Program, Location } from '@/@types/datocms-cma';
+import { schema } from '../schema';
+import { z } from 'zod';
 
 const environment = 'dev'; //process.env.DATOCMS_ENVIRONMENT;
 const client = buildClient({
@@ -12,7 +14,7 @@ const client = buildClient({
 
 export async function POST(req: Request) {
 	try {
-		const body = await req.json();
+		const body = (await req.json()) as z.infer<typeof schema>;
 		const itemTypes = await client.itemTypes.list();
 		const programTypeId = itemTypes.find(({ api_key }) => api_key === 'program')?.id;
 		const locationTypeId = itemTypes.find(({ api_key }) => api_key === 'location')?.id;
@@ -26,41 +28,41 @@ export async function POST(req: Request) {
 
 		const data = {
 			...body,
-			location: [body.location],
 			slug: await generateSlug(body.title, programTypeId),
 			content: body.content ? await parse5ToStructuredText(parse(body.content)) : null,
 			image: body.image ? { upload_id: body.image } : null,
 		};
 
-		// New location
-		const new_location = data.new_location;
+		const location: string[] = [];
 
-		if (data.location?.includes('new') && typeof new_location === 'object' && Object.keys(new_location).length > 0) {
+		// New location
+		if (!Array.isArray(data.location) && data.location.id === 'new') {
 			try {
 				const l = {
-					...body.new_location,
-					slug: await generateSlug(body.new_location.title, locationTypeId),
+					...data.location,
+					slug: await generateSlug(data.location.name, locationTypeId),
 				};
 				console.log(l);
-				const location = await client.items.create<Location>({
+				const loc = await client.items.create<Location>({
+					//@ts-ignore
 					item_type: { type: 'item_type', id: locationTypeId },
 					...l,
 				});
-				console.log(location);
-				data.location = [location.id];
+				console.log(loc);
+				location.push(loc.id);
 			} catch (e) {
 				console.log(e);
 				throw new Error('Något gick fel');
 			}
-		}
-
-		delete data.new_location;
+		} else location.push(data.location.id);
 
 		console.log(data);
 
 		const item = await client.items.create<Program>({
+			//@ts-ignore
 			item_type: { type: 'item_type', id: programTypeId },
 			...data,
+			location,
 		});
 
 		if (item)
@@ -85,12 +87,12 @@ async function generateSlug(str: string, api_key: string) {
 
 	const items = await client.items.list<Program>({
 		item_type: { type: 'item_type', id: api_key },
-		filter: { slug: { eq: slug } },
-		//filter: { slug: { matches: { pattern: `^${slug}-` } } },
+		//filter: { slug: { eq: slug } },
+		filter: { slug: { matches: { pattern: `^${slug}` } } },
 		limit: 500,
 	});
 
-	//console.log(items);
+	console.log(items.map((item) => item.slug));
 
 	if (items.length > 0) {
 		const lastNo = items

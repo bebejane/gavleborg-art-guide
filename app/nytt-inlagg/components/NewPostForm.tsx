@@ -1,16 +1,41 @@
 'use client';
 
 import s from './NewPostForm.module.scss';
+import cn from 'classnames';
 import '@mantine/dates/styles.css';
+import 'dayjs/locale/sv';
 import { Button, TextInput, Switch, FileButton, Select, Space, Progress } from '@mantine/core';
 import { DatePickerInput, DatesProvider, DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
 import RichTextEditor from './RichTextEditor';
 import NewLocationForm from './NewLocationForm';
 import React, { useEffect, useState } from 'react';
-import 'dayjs/locale/sv';
-import FileUpload from '@/app/admin/FileUpload';
-import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
+import FileUpload from './FileUpload';
+import { schema } from '../schema';
+import { zod4Resolver } from 'mantine-form-zod-resolver';
+
+type FormValues = {
+	title: string;
+	intro: string;
+	content: string;
+	image: string;
+	program_category: string;
+	group_show: boolean;
+	organizer: string;
+	location: {
+		id: string;
+		[key: string]: string;
+	};
+	partner: string;
+	start_time: Date;
+	start_date: Date;
+	end_date: Date;
+	permanent: boolean;
+	time: string;
+	misc: string;
+	external_link: string;
+};
 
 export type NewPostFormProps = {
 	allProgramCategories: AllProgramCategoriesQuery['allProgramCategories'];
@@ -28,18 +53,17 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 	const [uploadStatus, setUploadStatus] = useState<'uploading' | 'generating' | null>(null);
 	const [uploadProgress, setUploadProgress] = useState<number | null>(null);
 
-	const form = useForm({
+	const form = useForm<FormValues>({
 		mode: 'controlled',
 		initialValues: {
 			title: '',
-			intro: null,
+			intro: '',
+			content: '',
 			image: '',
-			group_show: false,
-			content: null,
 			program_category: '',
+			group_show: false,
 			organizer: '',
-			location: '',
-			new_location: {},
+			location: { id: null },
 			partner: '',
 			start_time: new Date(),
 			start_date: new Date(),
@@ -49,20 +73,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 			misc: '',
 			external_link: '',
 		},
-		validate: {
-			title: (value) => (value?.length > 0 ? null : 'Title är obligatoriskt'),
-			intro: (value) => (value?.length > 0 ? null : 'Ingress är obligatoriskt'),
-			content: (value) => (value?.length > 0 ? null : 'Innehåll är obligatoriskt'),
-			//image: (value) => (value.length > 0 ? null : 'Image is required'),
-			program_category: (value) => (value?.length > 0 ? null : 'Program kategori är obligatoriskt'),
-			location: (value) => (value?.length > 0 ? null : 'Plats är obligatoriskt'),
-			//start_time: (value) => (value ? null : 'Start time is required'),
-			//start_date: (value) => (value ? null : 'Start date is required'),
-			//end_date: (value) => (value ? null : 'End date is required'),
-			//time: (value) => (value.length > 0 ? null : 'Time is required'),
-			//misc: (value) => (value.length > 0 ? null : 'Misc is required'),
-			//external_link: (value) => (value.length > 0 ? null : 'External link is required'),
-		},
+		validate: zod4Resolver(schema),
 	});
 
 	function reset() {
@@ -86,7 +97,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		setSuccess(false);
 
 		try {
-			const res = await fetch('/admin/new', {
+			const res = await fetch('/nytt-inlagg/spara', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -109,18 +120,18 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		const el = document.querySelector(`[data-path='${errorField}']`);
 		el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	}, [form.errors]);
-	console.log(upload);
+
 	return (
 		<>
 			<DatesProvider settings={{ locale, firstDayOfWeek: 0, weekendDays: [0] }}>
 				<form className={s.form} onSubmit={form.onSubmit(handleSubmit)}>
 					<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
 					<Space h='md' />
-					<div className={s.image}>
+					<div className={cn(s.image, form.errors.image && s.error)}>
 						<div className={s.wrap}>
 							<FileButton
-								key={form.key('image')}
 								{...form.getInputProps('image')}
+								key={form.key('image')}
 								accept='image/png,image/jpeg'
 								onChange={handleImageChange}
 							>
@@ -130,14 +141,20 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 									</Button>
 								)}
 							</FileButton>
-							<Space h='md' />
+
 							{uploadStatus !== null && (
 								<>
+									<Space h='md' />
 									<Progress value={uploadProgress} animated={uploadStatus === 'generating'} />
 									<Space h='md' />
 								</>
 							)}
-							{upload && <img src={upload.url} alt={upload.filename} />}
+							{upload && (
+								<>
+									<Space h='md' />
+									<img src={upload.url} alt={upload.filename} />
+								</>
+							)}
 							<FileUpload
 								file={image}
 								onChange={(upload) => {
@@ -149,6 +166,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							/>
 						</div>
 					</div>
+					<Space h='md' />
 					<RichTextEditor
 						{...form.getInputProps('intro')}
 						id={'intro'}
@@ -177,17 +195,19 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 					/>
 					<Space h='md' />
 					<Select
-						label='Plats'
-						key={form.key('location')}
 						{...form.getInputProps('location')}
+						label='Plats'
+						value={form.values.location.id ?? undefined}
+						key={form.key('location')}
 						data={[{ value: 'new', label: 'Ny plats...' }].concat(
-							allLocations.map(({ id: value, title: label }) => ({ value, label }))
+							allLocations.map(({ id: value, name: label }) => ({ value, label }))
 						)}
+						onChange={(value) => form.setValues({ location: { id: value } })}
 					/>
 					<NewLocationForm
-						show={form.values.location === 'new'}
-						onChange={(values) => {
-							form.setValues({ new_location: values });
+						show={form.values.location?.id === 'new'}
+						onChange={(location) => {
+							form.setValues({ location });
 						}}
 					/>
 					<Space h='md' />

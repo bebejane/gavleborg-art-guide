@@ -1,5 +1,5 @@
 query AllLocations($first: IntType = 500, $skip: IntType = 0) {
-	allLocations(first: $first, skip: $skip, orderBy: [title_ASC], fallbackLocales: [sv]) {
+	allLocations(first: $first, skip: $skip, orderBy: [name_ASC], fallbackLocales: [sv]) {
 		...LocationFragmentLight
 	}
 
@@ -12,4 +12,27 @@ query Location($slug: String!) {
 	location(filter: { slug: { eq: $slug } }) {
 		...LocationFragment
 	}
+}
+
+fragment LocationFragment on LocationRecord {
+	id
+	name
+	city
+	address
+	webpage
+	map
+	slug
+	programs: _allReferencingPrograms(first: 100) {
+		...ProgramFragmentLight
+	}
+}
+
+fragment LocationFragmentLight on LocationRecord {
+	id
+	name
+	city
+	address
+	map
+	webpage
+	slug
 }

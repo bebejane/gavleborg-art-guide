@@ -10,7 +10,11 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		border: calc(0.0625rem * var(--mantine-scale)) solid var(--input-bd);
+
+		&.error {
+			border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-red-5);
+		}
+
 		.wrap {
 			text-align: center;
 			//width: 50%;

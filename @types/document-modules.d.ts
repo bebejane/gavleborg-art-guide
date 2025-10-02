@@ -17,46 +17,10 @@ declare module '*/ImageThumbnailFragment.gql' {
 }
     
 
-declare module '*/LocationFragment.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const LocationFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/LocationFragmentLight.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const LocationFragmentLight: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
 declare module '*/MediaFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const MediaFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/PartnerFragment.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const PartnerFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/PartnerFragmentLight.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const PartnerFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }
@@ -121,6 +85,8 @@ declare module '*/location.gql' {
   const defaultDocument: DocumentNode;
   export const AllLocations: DocumentNode;
 export const Location: DocumentNode;
+export const LocationFragment: DocumentNode;
+export const LocationFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }
@@ -131,6 +97,8 @@ declare module '*/partner.gql' {
   const defaultDocument: DocumentNode;
   export const AllPartners: DocumentNode;
 export const Partner: DocumentNode;
+export const PartnerFragment: DocumentNode;
+export const PartnerFragmentLight: DocumentNode;
 
   export default defaultDocument;
 }

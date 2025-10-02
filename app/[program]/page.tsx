@@ -10,10 +10,7 @@ import React from 'react';
 import BackButton from '@/components/nav/BackButton';
 
 // --- Smarta datum utan punkt i månadsförkortning ---
-const monthNames = [
-	'jan', 'feb', 'mar', 'apr', 'maj', 'jun',
-	'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
-];
+const monthNames = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
 
 const formatDateSmart = (d?: string, isStart = false) => {
 	if (!d) return '';
@@ -39,10 +36,9 @@ const formatDateSmart = (d?: string, isStart = false) => {
 
 const sameDay = (a?: string, b?: string) => {
 	if (!a || !b) return false;
-	const da = new Date(a), db = new Date(b);
-	return da.getFullYear() === db.getFullYear()
-		&& da.getMonth() === db.getMonth()
-		&& da.getDate() === db.getDate();
+	const da = new Date(a),
+		db = new Date(b);
+	return da.getFullYear() === db.getFullYear() && da.getMonth() === db.getMonth() && da.getDate() === db.getDate();
 };
 
 const dateRangeSmart = (start?: string, end?: string) => {
@@ -57,14 +53,11 @@ export type ProgramProps = {
 
 export default async function ProgramPage({ params }: ProgramProps) {
 	const { program: slug } = await params;
-	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>( // This line also uses ProgramQuery and ProgramQueryVariables
-		ProgramDocument,
-		{
-			variables: {
-				slug,
-			},
-		}
-	);
+	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, { // This line also uses ProgramQuery and ProgramQueryVariables
+		variables: {
+			slug,
+		},
+	});
 
 	if (!program) return notFound();
 
@@ -112,13 +105,13 @@ export default async function ProgramPage({ params }: ProgramProps) {
 							<li>
 								<span>
 									<strong>Plats:</strong>&nbsp;
-									{location.map(({ title, webpage }, idx) =>
+									{location.map(({ name, webpage }, idx) =>
 										webpage ? (
 											<a key={idx} href={webpage} target='_blank' rel='noreferrer'>
-												{title} ›
+												{name} ›
 											</a>
 										) : (
-											<React.Fragment key={idx}>{title}</React.Fragment>
+											<React.Fragment key={idx}>{name}</React.Fragment>
 										)
 									)}
 								</span>
@@ -177,12 +170,9 @@ export default async function ProgramPage({ params }: ProgramProps) {
 }
 
 export async function generateStaticParams() {
-	const { allPrograms } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(
-		AllProgramsDocument,
-		{
-			all: true,
-		}
-	);
+	const { allPrograms } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(AllProgramsDocument, {
+		all: true,
+	});
 
 	return allPrograms.map(({ slug }) => ({ slug }));
 }
