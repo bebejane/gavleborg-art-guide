@@ -1,3 +1,4 @@
+import '@mantine/core/styles.css';
 import s from './page.module.scss';
 import { apiQuery } from 'next-dato-utils/api';
 import { AllProgramCategoriesDocument, AllLocationsDocument, AllPartnersDocument } from '@/graphql';

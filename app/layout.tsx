@@ -1,6 +1,6 @@
 import '@/styles/index.scss';
-import '@mantine/core/styles.css';
 import s from './layout.module.scss';
+import cn from 'classnames';
 import { apiQuery } from 'next-dato-utils/api';
 import { GlobalDocument } from '@/graphql';
 import { Metadata } from 'next';
@@ -11,6 +11,10 @@ import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { MantineColorsTuple, ColorSchemeScript, MantineProvider, mantineHtmlProps, createTheme } from '@mantine/core';
+import { Inter, Abel } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], weight: ['400'] });
+const abel = Abel({ subsets: ['latin'], weight: ['400'] });
 
 setDefaultOptions({ locale: sv });
 
@@ -34,7 +38,6 @@ const yellow: MantineColorsTuple = [
 const theme = createTheme({
 	white: '#fff',
 	black: '#000',
-	//primaryColor: 'var(--yellow)',
 	primaryColor: 'yellow',
 	defaultRadius: 3,
 	colors: {
@@ -45,7 +48,7 @@ const theme = createTheme({
 export default async function RootLayout({ children }: LayoutProps) {
 	return (
 		<>
-			<html lang='sv-SE' {...mantineHtmlProps}>
+			<html lang='sv-SE' {...mantineHtmlProps} className={cn(inter.className, abel.className)}>
 				<head>
 					<ColorSchemeScript />
 				</head>
