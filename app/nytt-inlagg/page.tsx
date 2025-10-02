@@ -13,6 +13,7 @@ export default async function AdminPage() {
 
 	return (
 		<div className={s.admin}>
+			<h1>Nytt inlägg</h1>
 			<NewPostForm allProgramCategories={allProgramCategories} allLocations={allLocations} allPartners={allPartners} />
 		</div>
 	);

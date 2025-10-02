@@ -45,7 +45,7 @@ const initialValues = {
 	program_category: '',
 	group_show: false,
 	organizer: '',
-	location: { id: null },
+	location: null,
 	partner: '',
 	start_time: null,
 	start_date: null,
@@ -129,6 +129,9 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 				<form className={s.form} onSubmit={form.onSubmit(handleSubmit)}>
 					<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
 					<Space h='md' />
+					<label className={s.label}>
+						Bild <span className={s.asterisk}>*</span>
+					</label>
 					<div className={cn(s.image, form.errors.image && s.error)}>
 						<div className={s.wrap}>
 							<FileButton
@@ -199,9 +202,9 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 					<Select
 						{...form.getInputProps('location')}
 						label='Plats'
-						value={form.values.location.id ?? undefined}
+						value={form.values.location?.id ?? undefined}
 						key={form.key('location')}
-						onChange={(id) => form.setValues({ location: { id } })}
+						onChange={(id) => id && form.setValues({ location: { id } })}
 						data={[{ value: 'new', label: 'Ny plats...' }].concat(
 							allLocations.map(({ id: value, name: label }) => ({ value, label }))
 						)}
@@ -260,7 +263,13 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							<Space h='md' />
 						</>
 					)}
-					<Button type='submit' disabled={submitting || uploadStatus !== null} className={s.submit} fullWidth={true}>
+					<Button
+						type='submit'
+						size='xl'
+						disabled={submitting || uploadStatus !== null}
+						className={s.submit}
+						fullWidth={true}
+					>
 						Spara
 					</Button>
 

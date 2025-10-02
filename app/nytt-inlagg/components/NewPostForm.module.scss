@@ -10,6 +10,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		padding: 1em;
+		border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-gray-4);
 
 		&.error {
 			border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-red-5);
@@ -17,14 +19,11 @@
 
 		.wrap {
 			text-align: center;
-			//width: 50%;
 		}
 		img {
-			//position: absolute;
 			top: 0;
 			left: 0;
 			width: 100%;
-			//height: 200px;
 			object-fit: contain;
 			margin-left: auto;
 			margin-right: auto;
@@ -41,7 +40,12 @@
 	.error {
 		color: var(--error);
 	}
-
+	.label {
+		font-size: var(--input-label-size, var(--mantine-font-size-sm));
+		.asterisk {
+			color: var(--mantine-color-error);
+		}
+	}
 	.success {
 		position: fixed;
 		top: 0;
