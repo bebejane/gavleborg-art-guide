@@ -7,7 +7,6 @@ import { Image } from 'react-datocms/image';
 import { truncateWords } from 'next-dato-utils/utils';
 import { Markdown } from 'next-dato-utils/components';
 import Link from 'next/link';
-import { formatDate } from '@/lib/utils';
 import { differenceInCalendarDays, differenceInMilliseconds } from 'date-fns';
 
 const formatDateSmart = (d?: string, isStart = false) => {
@@ -16,10 +15,7 @@ const formatDateSmart = (d?: string, isStart = false) => {
 	if (isNaN(dt.getTime())) return '';
 
 	const nowYear = new Date().getFullYear();
-	const monthNames = [
-		'jan', 'feb', 'mar', 'apr', 'maj', 'jun',
-		'jul', 'aug', 'sep', 'okt', 'nov', 'dec'
-	];
+	const monthNames = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
 
 	const day = dt.getDate();
 	const month = monthNames[dt.getMonth()];
@@ -68,15 +64,15 @@ export default function Thumbnail({
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
-		differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-		differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+			differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+			differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	const metaFields = [
 		formatDateSmart(startDate, true),
-		(startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString())
+		startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString()
 			? formatDateSmart(endDate, false)
-			: ''
+			: '',
 	].filter(Boolean);
 
 	return (
@@ -96,8 +92,8 @@ export default function Thumbnail({
 				<div className='thumb-intro'>
 					<div className={s.meta}>
 						{meta && <strong className='meta'>{meta.trim()}</strong>} <span>•</span>{' '}
-						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>}{' '}
-						<span>•</span> <strong className='meta'>{city}</strong>
+						{metaFields.length > 0 && <strong className='meta'>{metaFields.join(' – ')}</strong>} <span>•</span>{' '}
+						<strong className='meta'>{city}</strong>
 					</div>
 					<Markdown content={intro} className={'small'} />
 				</div>

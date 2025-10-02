@@ -5,6 +5,7 @@ import { buildClient, ApiError } from '@datocms/cma-client';
 import { Program, Location } from '@/@types/datocms-cma';
 import { schema } from '../schema';
 import { revalidatePath } from 'next/cache';
+import { sendPostmarkEmail } from 'next-dato-utils/utils';
 import { z } from 'zod';
 
 const environment = 'dev'; //process.env.DATOCMS_ENVIRONMENT;
@@ -75,12 +76,17 @@ export async function POST(req: Request) {
 			location,
 		});
 
-		if (item)
-			console.log(
-				`https://gavleborg-art-guide.admin.datocms.com/environments/${environment}/editor/item_types/${programTypeId}/items/${item.id}`
-			);
+		const itemUrl = `https://gavleborg-art-guide.admin.datocms.com/environments/${environment}/editor/item_types/${programTypeId}/items/${item?.id}`;
+
+		await sendPostmarkEmail({
+			to: process.env.POSTMARK_FROM_EMAIL,
+			subject: 'Nytt inlägg',
+			text: `Nytt inlägg\n\n${itemUrl}`,
+			html: `<p>Nytt inlägg</p><p><a href="${itemUrl}">Gå till inlägg</a></p>`,
+		});
 
 		revalidatePath('/nytt-inlagg');
+
 		return new Response('ok');
 	} catch (e) {
 		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel: ${e.message}`;
@@ -94,7 +100,6 @@ async function generateSlug(str: string, api_key: string) {
 
 	const items = await client.items.list<Program>({
 		item_type: { type: 'item_type', id: api_key },
-		//filter: { slug: { eq: slug } },
 		filter: { slug: { matches: { pattern: `^${slug}` } } },
 		limit: 500,
 	});
