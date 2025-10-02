@@ -27,10 +27,9 @@ type FormValues = {
 		id: string;
 		[key: string]: string;
 	};
-	partner: string;
-	start_time: Date;
-	start_date: Date;
-	end_date: Date;
+	start_time: string;
+	start_date: string;
+	end_date: string;
 	permanent: boolean;
 	time: string;
 	misc: string;
@@ -46,7 +45,6 @@ const initialValues = {
 	group_show: false,
 	organizer: '',
 	location: null,
-	partner: '',
 	start_time: null,
 	start_date: null,
 	end_date: null,
@@ -197,6 +195,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						key={form.key('program_category')}
 						{...form.getInputProps('program_category')}
 						data={allProgramCategories.map(({ id: value, title: label }) => ({ value, label }))}
+						withAsterisk={true}
 					/>
 					<Space h='md' />
 					<Select
@@ -208,6 +207,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						data={[{ value: 'new', label: 'Ny plats...' }].concat(
 							allLocations.map(({ id: value, name: label }) => ({ value, label }))
 						)}
+						withAsterisk={true}
 					/>
 					<NewLocationForm
 						key={form.values.location?.id}
@@ -219,25 +219,13 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 					<Space h='md' />
 					<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
 					<Space h='md' />
-					<Select
-						label='Partner'
-						key={form.key('partner')}
-						{...form.getInputProps('partner')}
-						data={allPartners.map(({ id: value, title: label }) => ({ value, label }))}
-					/>
-					<Space h='md' />
-					<DateTimePicker
-						styles={{ day: { margin: 0 } }}
-						label='Starttid'
-						key={form.key('start_time')}
-						{...form.getInputProps('start_time')}
-					/>
-					<Space h='md' />
+
 					<DatePickerInput
 						styles={{ day: { margin: 0 } }}
 						label='Startdatum'
 						key={form.key('start_date')}
 						{...form.getInputProps('start_date')}
+						withAsterisk={true}
 					/>
 					<Space h='md' />
 					<DatePickerInput
@@ -247,6 +235,16 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						{...form.getInputProps('end_date')}
 					/>
 					<Space h='md' />
+					<DateTimePicker
+						styles={{ day: { margin: 0 } }}
+						label='Starttid'
+						valueFormat=''
+						key={form.key('start_time')}
+						{...form.getInputProps('start_time')}
+						onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
+					/>
+					<Space h='md' />
+
 					<TextInput label='Tider' key={form.key('time')} {...form.getInputProps('time')} />
 					<Space h='md' />
 					<TextInput label='Extra info' key={form.key('misc')} {...form.getInputProps('misc')} />

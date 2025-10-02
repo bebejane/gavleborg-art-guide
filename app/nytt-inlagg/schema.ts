@@ -15,7 +15,6 @@ export const schema = z.object({
 		map: z.url({ message: 'Ogiltig url' }).optional(),
 	}),
 	organizer: z.string(),
-	partner: z.string(),
 	start_time: z.coerce.date(),
 	start_date: z.coerce.date().min(1),
 	end_date: z.coerce.date(),
