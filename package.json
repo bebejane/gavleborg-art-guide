@@ -44,7 +44,7 @@
     "hamburger-react": "^2.5.2",
     "is-integer": "^1.0.7",
     "mantine-form-zod-resolver": "^1.3.0",
-    "next": "15.3.2",
+    "next": "15.5.4",
     "next-dato-utils": "github:bebejane/next-dato-utils#next15",
     "next-seo": "^5.15.0",
     "nextjs-google-analytics": "^2.3.7",
