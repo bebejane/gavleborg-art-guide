@@ -2,18 +2,21 @@
 
 import s from './NewLocationForm.module.scss';
 import '@mantine/dates/styles.css';
-import { Space, TextInput } from '@mantine/core';
+import { Space, TextInput, Collapse } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 export type NewLocationFormFieldsProps = {
+	show: boolean;
 	onChange?: (values: any) => void;
 };
 
-export default function NewLocationFormFields({ onChange }: NewLocationFormFieldsProps) {
+export default function NewLocationFormFields({ show, onChange }: NewLocationFormFieldsProps) {
 	const form = useForm({
 		mode: 'controlled',
 		initialValues: {
 			title: '',
+			address: '',
+			city: '',
 			webpage: '',
 			map: '',
 		},
@@ -28,7 +31,7 @@ export default function NewLocationFormFields({ onChange }: NewLocationFormField
 	});
 
 	return (
-		<div className={s.form}>
+		<Collapse in={show} className={s.form}>
 			<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
 			<Space h='md' />
 			<TextInput label='Adress' key={form.key('address')} {...form.getInputProps('address')} />
@@ -37,6 +40,6 @@ export default function NewLocationFormFields({ onChange }: NewLocationFormField
 			<TextInput label='Webbplats' key={form.key('webpage')} {...form.getInputProps('webpage')} />
 			<Space h='md' />
 			<TextInput label='Karta' key={form.key('map')} {...form.getInputProps('map')} />
-		</div>
+		</Collapse>
 	);
 }

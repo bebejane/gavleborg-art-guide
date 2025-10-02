@@ -4,9 +4,10 @@ import slugify from 'slugify';
 import { buildClient, ApiError } from '@datocms/cma-client';
 import { Program, Location } from '@/@types/datocms-cma';
 
+const environment = 'dev'; //process.env.DATOCMS_ENVIRONMENT;
 const client = buildClient({
 	apiToken: process.env.DATOCMS_API_TOKEN,
-	environment: 'dev', // process.env.DATOCMS_ENVIRONMENT,
+	environment,
 });
 
 export async function POST(req: Request) {
@@ -28,11 +29,8 @@ export async function POST(req: Request) {
 			location: [body.location],
 			slug: await generateSlug(body.title, programTypeId),
 			content: body.content ? await parse5ToStructuredText(parse(body.content)) : null,
+			image: body.image ? { upload_id: body.image } : null,
 		};
-
-		delete data.image;
-
-		console.log('input', console.log(JSON.stringify(data, null, 2)));
 
 		// New location
 		const new_location = data.new_location;
@@ -65,11 +63,16 @@ export async function POST(req: Request) {
 			...data,
 		});
 
+		if (item)
+			console.log(
+				`https://gavleborg-art-guide.admin.datocms.com/environments/${environment}/editor/item_types/${programTypeId}/items/${item.id}`
+			);
+
 		return new Response('ok');
 	} catch (e) {
-		const statusText = e.request ? (e as ApiError).response.statusText : `Något gick fel : ${e.message}`;
+		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel : ${e.message}`;
 
-		console.log(e);
+		console.log(e.errors);
 		console.log(statusText);
 
 		return new Response('error', { status: 500, statusText });
@@ -82,6 +85,7 @@ async function generateSlug(str: string, api_key: string) {
 
 	const items = await client.items.list<Program>({
 		item_type: { type: 'item_type', id: api_key },
+		filter: { slug: { eq: slug } },
 		//filter: { slug: { matches: { pattern: `^${slug}-` } } },
 		limit: 500,
 	});

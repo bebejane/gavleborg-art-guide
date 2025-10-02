@@ -1,6 +1,7 @@
 'use client';
 
 import s from './RichTextEditor.module.scss';
+import cn from 'classnames';
 import '@mantine/tiptap/styles.css';
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
@@ -9,14 +10,16 @@ import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
 
 export type RichTextEditorProps = {
+	id: string;
+	value?: string;
 	withAsterisk?: boolean;
 	label: string;
 	onChange?: (value: string) => void;
-	value?: string;
-	id: string;
+	error?: string;
 };
 
-export default function RichTextEditorComponent({ withAsterisk, id, label, value, onChange }: RichTextEditorProps) {
+export default function RichTextEditorComponent(props: RichTextEditorProps) {
+	const { id, value, withAsterisk, label, error, onChange } = props;
 	const editor = useEditor({
 		shouldRerenderOnTransaction: true,
 		immediatelyRender: false,
@@ -37,7 +40,7 @@ export default function RichTextEditorComponent({ withAsterisk, id, label, value
 			<label htmlFor={id} className={s.label}>
 				{label} {withAsterisk && <span className={s.asterisk}>*</span>}
 			</label>
-			<RichTextEditor editor={editor} id={id} className={s.editor}>
+			<RichTextEditor editor={editor} id={id} className={cn(s.editor, error && s.invalid)} data-path={id}>
 				<RichTextEditor.Toolbar>
 					<RichTextEditor.ControlsGroup>
 						<RichTextEditor.Bold />
@@ -63,6 +66,11 @@ export default function RichTextEditorComponent({ withAsterisk, id, label, value
 
 				<RichTextEditor.Content />
 			</RichTextEditor>
+			{error && (
+				<p className={s.error} data-size='sm'>
+					Plats är obligatoriskt
+				</p>
+			)}
 		</>
 	);
 }

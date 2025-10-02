@@ -1,4 +1,10 @@
 .editor {
+	&.invalid {
+		border: 1px solid var(--mantine-color-error);
+		&:hover {
+			border: 1px solid var(--mantine-color-error);
+		}
+	}
 }
 
 .label {
@@ -6,4 +12,12 @@
 	.asterisk {
 		color: var(--mantine-color-error);
 	}
+}
+
+.error {
+	color: var(--mantine-color-error);
+	line-height: 1.2;
+	margin: 0;
+	margin-top: 0.2em;
+	font-size: var(--input-error-size, calc(var(--mantine-font-size-sm) - calc(0.125rem * var(--mantine-scale))));
 }

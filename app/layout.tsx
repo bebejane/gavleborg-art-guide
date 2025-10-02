@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps, createTheme } from '@mantine/core';
+import { MantineColorsTuple, ColorSchemeScript, MantineProvider, mantineHtmlProps, createTheme } from '@mantine/core';
 
 setDefaultOptions({ locale: sv });
 
@@ -18,9 +18,28 @@ export type LayoutProps = {
 	children: React.ReactNode;
 };
 
-const mantineTheme = createTheme({
-	colors: {},
-	defaultRadius: 0,
+const yellow: MantineColorsTuple = [
+	'#fffde1',
+	'#fff9cb',
+	'#fff29a',
+	'#ffea64',
+	'#ffe438',
+	'#ffe01d',
+	'#ffdd00',
+	'#e3c500',
+	'#caaf00',
+	'#ae9600',
+];
+
+const theme = createTheme({
+	white: '#fff',
+	black: '#000',
+	//primaryColor: 'var(--yellow)',
+	primaryColor: 'yellow',
+	defaultRadius: 3,
+	colors: {
+		yellow,
+	},
 });
 
 export default async function RootLayout({ children }: LayoutProps) {
@@ -33,7 +52,7 @@ export default async function RootLayout({ children }: LayoutProps) {
 				<body id='root'>
 					<main className={s.main}>
 						<Suspense>
-							<MantineProvider theme={mantineTheme}>
+							<MantineProvider theme={theme}>
 								<NuqsAdapter>{children}</NuqsAdapter>
 							</MantineProvider>
 						</Suspense>
