@@ -1,5 +1,6 @@
 'use client';
 import s from './BackButton.module.scss';
+import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +13,7 @@ export default function BackButton() {
 	}, [router]);
 
 	return (
-		<button className={s.back} onClick={() => (haveBack ? router.back() : router.push('/'))}>
+		<button className={cn('button', s.back)} onClick={() => (haveBack ? router.back() : router.push('/'))}>
 			Tillbaka
 		</button>
 	);

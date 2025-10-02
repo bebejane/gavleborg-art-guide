@@ -23,12 +23,20 @@ export default function FilterBar({ options, href = '/', value }: Props) {
 					{[{ id: 'all', label: 'Alla' }].concat(options).map(({ id, label }, idx) => (
 						<li key={idx}>
 							<Link href={`${href}?filter=${id}`} shallow={true} prefetch={true} replace={true}>
-								<button aria-selected={value === id}>{label}</button>
+								<button className='button' aria-selected={value === id}>
+									{label}
+								</button>
 							</Link>
 						</li>
 					))}
 				</ul>
-				<div className={s.part}>Del av&nbsp;<a href="https://isamladrorelse.se/" target="new"><i>I samlad rörelse</i></a> <span></span></div>
+				<div className={s.part}>
+					Del av&nbsp;
+					<a href='https://isamladrorelse.se/' target='new'>
+						<i>I samlad rörelse</i>
+					</a>{' '}
+					<span></span>
+				</div>
 			</div>
 		</nav>
 	);

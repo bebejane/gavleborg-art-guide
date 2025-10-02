@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import { buildClient, ApiError } from '@datocms/cma-client';
 import { Program, Location } from '@/@types/datocms-cma';
 import { schema } from '../schema';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const environment = 'dev'; //process.env.DATOCMS_ENVIRONMENT;
@@ -15,6 +16,15 @@ const client = buildClient({
 export async function POST(req: Request) {
 	try {
 		const body = (await req.json()) as z.infer<typeof schema>;
+		console.log('save', body);
+		try {
+			schema.parse(body);
+		} catch (error) {
+			console.log(error);
+			if (error instanceof z.ZodError) throw new Error(JSON.stringify(error.issues));
+			else throw error;
+		}
+
 		const itemTypes = await client.itemTypes.list();
 		const programTypeId = itemTypes.find(({ api_key }) => api_key === 'program')?.id;
 		const locationTypeId = itemTypes.find(({ api_key }) => api_key === 'location')?.id;
@@ -70,13 +80,10 @@ export async function POST(req: Request) {
 				`https://gavleborg-art-guide.admin.datocms.com/environments/${environment}/editor/item_types/${programTypeId}/items/${item.id}`
 			);
 
+		revalidatePath('/nytt-inlagg');
 		return new Response('ok');
 	} catch (e) {
-		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel : ${e.message}`;
-
-		console.log(e.errors);
-		console.log(statusText);
-
+		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel: ${e.message}`;
 		return new Response('error', { status: 500, statusText });
 	}
 }

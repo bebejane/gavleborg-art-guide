@@ -8,6 +8,7 @@ import { useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
+import { useEffect } from 'react';
 
 export type RichTextEditorProps = {
 	id: string;
@@ -35,12 +36,22 @@ export default function RichTextEditorComponent(props: RichTextEditorProps) {
 		content: value,
 	});
 
+	useEffect(() => {
+		if (!value && editor) editor.commands.clearContent();
+	}, [editor, value]);
+
 	return (
 		<>
 			<label htmlFor={id} className={s.label}>
 				{label} {withAsterisk && <span className={s.asterisk}>*</span>}
 			</label>
-			<RichTextEditor editor={editor} id={id} className={cn(s.editor, error && s.invalid)} data-path={id}>
+			<RichTextEditor
+				editor={editor}
+				defaultValue={value}
+				id={id}
+				className={cn(s.editor, error && s.invalid)}
+				data-path={id}
+			>
 				<RichTextEditor.Toolbar>
 					<RichTextEditor.ControlsGroup>
 						<RichTextEditor.Bold />

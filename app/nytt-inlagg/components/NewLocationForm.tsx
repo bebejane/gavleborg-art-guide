@@ -5,8 +5,9 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { schema } from '../schema';
 
-type FormValues = {
-	title: string;
+export type FormValues = {
+	id: string;
+	name: string;
 	address?: string;
 	city?: string;
 	webpage?: string;
@@ -15,30 +16,29 @@ type FormValues = {
 
 export type NewLocationFormFieldsProps = {
 	show: boolean;
-	onChange?: (values: any) => void;
+	onChange?: (values: FormValues) => void;
 };
 
 export default function NewLocationFormFields({ show, onChange }: NewLocationFormFieldsProps) {
 	const form = useForm<FormValues>({
 		mode: 'controlled',
 		initialValues: {
-			title: '',
+			id: 'new',
+			name: '',
 			address: '',
 			city: '',
 			webpage: '',
 			map: '',
 		},
 		onValuesChange(values) {
-			const res = form.validate();
-			if (!res.hasErrors) onChange({ ...values, id: 'new' });
-			else console.log('There are errors', res.errors);
+			onChange({ ...values, id: 'new' });
 		},
 		validate: zod4Resolver(schema['location']),
 	});
 
 	return (
 		<Collapse in={show} className={s.form}>
-			<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
+			<TextInput withAsterisk label='Namn' key={form.key('name')} {...form.getInputProps('name')} />
 			<Space h='md' />
 			<TextInput label='Adress' key={form.key('address')} {...form.getInputProps('address')} />
 			<Space h='md' />

@@ -37,6 +37,24 @@ type FormValues = {
 	external_link: string;
 };
 
+const initialValues = {
+	title: '',
+	intro: '',
+	content: '',
+	image: '',
+	program_category: '',
+	group_show: false,
+	organizer: '',
+	location: { id: null },
+	partner: '',
+	start_time: null,
+	start_date: null,
+	end_date: null,
+	permanent: false,
+	time: '',
+	misc: '',
+	external_link: '',
+};
 export type NewPostFormProps = {
 	allProgramCategories: AllProgramCategoriesQuery['allProgramCategories'];
 	allLocations: AllLocationsQuery['allLocations'];
@@ -55,24 +73,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 
 	const form = useForm<FormValues>({
 		mode: 'controlled',
-		initialValues: {
-			title: '',
-			intro: '',
-			content: '',
-			image: '',
-			program_category: '',
-			group_show: false,
-			organizer: '',
-			location: { id: null },
-			partner: '',
-			start_time: new Date(),
-			start_date: new Date(),
-			end_date: new Date(),
-			permanent: false,
-			time: '',
-			misc: '',
-			external_link: '',
-		},
+		initialValues,
 		validate: zod4Resolver(schema),
 	});
 
@@ -84,6 +85,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		setUpload(null);
 		setUploadStatus(null);
 		setUploadProgress(null);
+		form.setValues(initialValues);
 	}
 
 	function handleImageChange(file: File) {
@@ -199,12 +201,13 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						label='Plats'
 						value={form.values.location.id ?? undefined}
 						key={form.key('location')}
+						onChange={(id) => form.setValues({ location: { id } })}
 						data={[{ value: 'new', label: 'Ny plats...' }].concat(
 							allLocations.map(({ id: value, name: label }) => ({ value, label }))
 						)}
-						onChange={(value) => form.setValues({ location: { id: value } })}
 					/>
 					<NewLocationForm
+						key={form.values.location?.id}
 						show={form.values.location?.id === 'new'}
 						onChange={(location) => {
 							form.setValues({ location });
@@ -257,7 +260,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							<Space h='md' />
 						</>
 					)}
-					<Button type='submit' disabled={submitting} className={s.submit} fullWidth={true}>
+					<Button type='submit' disabled={submitting || uploadStatus !== null} className={s.submit} fullWidth={true}>
 						Spara
 					</Button>
 
