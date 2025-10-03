@@ -153,7 +153,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 									onChange={handleImageChange}
 								>
 									{(props) => (
-										<Button {...props} disabled={uploadStatus !== null}>
+										<Button {...props} disabled={uploadStatus !== null} size='lg' className={s.button}>
 											{uploadProgress !== null ? 'Laddar upp...' : 'Välj bild'}
 										</Button>
 									)}
@@ -323,7 +323,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							type='submit'
 							size='lg'
 							disabled={submitting || uploadStatus !== null}
-							className={s.submit}
+							className={cn(s.submit, s.button)}
 							fullWidth={true}
 							radius='xl'
 							variant='outline'

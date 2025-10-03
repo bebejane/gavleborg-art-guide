@@ -36,13 +36,17 @@
 			margin-right: auto;
 		}
 	}
+	.button:hover {
+		background-color: var(--yellow);
+		color: var(--black);
+	}
+
+	.button[data-disabled='true'] {
+		background-color: var(--mantine-color-disabled);
+	}
 
 	.submit {
 		margin-top: var(--space);
-		//color: var(--black);
-		&:hover {
-			//background-color: var(--yellow);
-		}
 	}
 	.error {
 		color: var(--error);

@@ -10,14 +10,8 @@ import { Suspense } from 'react';
 import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import {
-	MantineColorsTuple,
-	ColorSchemeScript,
-	MantineProvider,
-	mantineHtmlProps,
-	createTheme,
-	Button,
-} from '@mantine/core';
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import { theme } from '@/lib/mantine';
 import { Inter, Abel } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400'] });
@@ -28,40 +22,6 @@ setDefaultOptions({ locale: sv });
 export type LayoutProps = {
 	children: React.ReactNode;
 };
-
-const yellow: MantineColorsTuple = [
-	'#fffde1',
-	'#fff9cb',
-	'#fff29a',
-	'#ffea64',
-	'#ffe438',
-	'#ffe01d',
-	'#ffdd00',
-	'#e3c500',
-	'#caaf00',
-	'#ae9600',
-];
-
-const theme = createTheme({
-	white: 'var(--white)',
-	black: 'var(--black)',
-	primaryColor: 'yellow',
-	fontFamily: 'var(--body-font)',
-	headings: {
-		fontFamily: 'var(--headline-font)',
-	},
-	defaultRadius: 2,
-	components: {
-		Button: {
-			styles: {
-				border: '1px solid #000',
-			},
-		},
-	},
-	colors: {
-		yellow,
-	},
-});
 
 export default async function RootLayout({ children }: LayoutProps) {
 	return (
