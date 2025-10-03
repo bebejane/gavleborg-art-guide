@@ -25,6 +25,9 @@ export default async function Home({ searchParams }) {
 		}
 	);
 
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
 	function filterPrograms(programs: any[]) {
 		if (filter === 'all') return programs;
 		return programs.filter(({ programCategory: { slug } }) => slug === filter);
@@ -48,7 +51,10 @@ export default async function Home({ searchParams }) {
 				{programs.map(({ year, months }, idx) =>
 					months.map(({ month, programs }, idx2) => (
 						<section key={idx2}>
-							<h2>{capitalize(month)}</h2>
+							<h2>
+								<span>{capitalize(month)}</span>
+								{year !== today.getFullYear() && idx2 === 0 && <span>{year}</span>}
+							</h2>
 							<ul className={cn(s.container, 'grid')}>
 								{programs.map(
 									(
