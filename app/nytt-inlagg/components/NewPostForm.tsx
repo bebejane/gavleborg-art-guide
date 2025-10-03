@@ -45,13 +45,14 @@ const initialValues = {
 	intro: '',
 	content: '',
 	image: null,
-	program_category: null,
+	program_category: '',
 	organizer: '',
-	location: null,
+	location: '',
 	start_time: null,
 	start_date: null,
 	end_date: null,
 	group_show: false,
+	permanent: false,
 	time: '',
 	misc: '',
 	external_link: '',
@@ -300,7 +301,19 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<Space h='md' />
 						<TextInput label='Extern länk' key={form.key('external_link')} {...form.getInputProps('external_link')} />
 						<Space h='md' />
-						<Switch label='Grupputsällning' key={form.key('group_show')} {...form.getInputProps('group_show')} />
+						<Switch
+							label='Grupputsällning'
+							key={form.key('group_show')}
+							{...form.getInputProps('group_show')}
+							value={form.values.group_show}
+						/>
+						<Space h='md' />
+						<Switch
+							label='Permanent'
+							key={form.key('permanent')}
+							{...form.getInputProps('permanent')}
+							value={form.values.permanent}
+						/>
 						<Space h='md' />
 						{error && (
 							<>

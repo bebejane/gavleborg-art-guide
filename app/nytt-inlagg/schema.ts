@@ -7,20 +7,25 @@ export const schema = z.object({
 	image: z.string().min(1, { message: 'Bild är obligatoriskt' }),
 	program_category: z.string().min(1, { message: 'Program kategori är obligatoriskt' }),
 	location: z
-		.object({
-			id: z.literal('new'),
-			name: z.string().min(1, { message: 'Namn är obligatoriskt' }),
-			address: z.string().optional(),
-			city: z.string().optional(),
-			webpage: z.url({ message: 'Ogiltig URL' }).optional().or(z.literal('')),
-			map: z.url({ message: 'Ogiltig URL' }).optional().or(z.literal('')),
-		})
-		.or(z.object({ id: z.string().min(5) })),
+		.object(
+			{
+				id: z.literal('new'),
+				name: z.string().min(1, { message: 'Namn är obligatoriskt' }),
+				address: z.string().optional(),
+				city: z.string().optional(),
+				webpage: z.url({ message: 'Ogiltig URL' }).optional().or(z.literal('')),
+				map: z.url({ message: 'Ogiltig URL' }).optional().or(z.literal('')),
+			},
+			{ message: 'Plats är obligatoriskt' }
+		)
+		.or(z.object({ id: z.string().min(5, { message: 'Plats är obligatoriskt' }) })),
 	organizer: z.string(),
 	start_time: z.coerce.date(),
-	start_date: z.coerce.date().min(1),
+	start_date: z.coerce.date().min(1, { message: 'Startdatum är obligatoriskt' }),
 	end_date: z.coerce.date(),
 	time: z.string(),
 	misc: z.string(),
+	group_show: z.boolean(),
+	permanent: z.boolean(),
 	external_link: z.url({ message: 'Ogiltig url' }).optional().or(z.literal('')),
 });
