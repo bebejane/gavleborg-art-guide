@@ -82,8 +82,12 @@ export async function POST(req: Request) {
 		await sendPostmarkEmail({
 			to: process.env.POSTMARK_FROM_EMAIL,
 			subject: 'Nytt inlägg',
-			text: `Nytt inlägg\n\n${itemUrl}`,
-			html: `<p>Nytt inlägg</p><p><a href="${itemUrl}">Gå till inlägg</a></p>`,
+			text: `Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna den.\n\n${itemUrl}`,
+			html: `
+					<p>Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna den.</p>
+					<br/>
+					<p><a href="${itemUrl}">Gå till inlägg</a></p>
+			`,
 		});
 
 		revalidatePath('/nytt-inlagg');
