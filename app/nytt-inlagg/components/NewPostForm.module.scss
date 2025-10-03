@@ -36,14 +36,6 @@
 			margin-right: auto;
 		}
 	}
-	.button:hover {
-		background-color: var(--yellow);
-		color: var(--black);
-	}
-
-	.button[data-disabled='true'] {
-		background-color: var(--mantine-color-disabled);
-	}
 
 	.date {
 		> div > button {
@@ -97,4 +89,13 @@
 		}
 		height: 90vh;
 	}
+}
+
+.button:hover {
+	background-color: var(--yellow);
+	color: var(--black);
+}
+
+.button[data-disabled='true'] {
+	background-color: var(--mantine-color-disabled);
 }

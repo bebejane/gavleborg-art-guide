@@ -68,7 +68,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 	const locale = 'sv';
 	const [submitting, setSubmitting] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-	const [success, setSuccess] = useState<boolean>(false);
+	const [success, setSuccess] = useState<boolean>(true);
 	const [image, setImage] = useState<File | null>(null);
 	const [upload, setUpload] = useState<Upload | null>(null);
 	const [uploadStatus, setUploadStatus] = useState<'uploading' | 'generating' | null>(null);
@@ -354,7 +354,9 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 				<div className={s.success}>
 					<h3>Tack!</h3>
 					<p>Inlägget har skickats in till oss och vi kommer att granska det inom kort för publicering.</p>
-					<Button onClick={reset}>Skriv ett inlägg till</Button>
+					<Button onClick={reset} className={s.button}>
+						Skriv ett inlägg till
+					</Button>
 				</div>
 			)}
 		</>
