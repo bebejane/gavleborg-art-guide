@@ -9,7 +9,7 @@ import { useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export type RichTextEditorProps = {
 	id: string;
@@ -24,9 +24,16 @@ export type RichTextEditorProps = {
 
 export default function RichTextEditorComponent(props: RichTextEditorProps) {
 	const { id, value, withAsterisk, label, error, markdown, simple, onChange } = props;
+	const [focused, setFocused] = useState(false);
 	const editor = useEditor({
 		shouldRerenderOnTransaction: true,
 		immediatelyRender: false,
+		onFocus({ editor }) {
+			setFocused(editor.isFocused);
+		},
+		onBlur({ editor }) {
+			setFocused(editor.isFocused);
+		},
 		extensions: [
 			StarterKit.configure({ link: false }),
 			Link,
@@ -56,10 +63,11 @@ export default function RichTextEditorComponent(props: RichTextEditorProps) {
 				editor={editor}
 				defaultValue={value}
 				id={id}
-				className={cn(s.editor, error && s.invalid)}
+				className={cn(s.editor, focused && s.focused, error && s.invalid)}
 				data-path={id}
+				variant='subtle'
 			>
-				<RichTextEditor.Toolbar>
+				<RichTextEditor.Toolbar className={s.toolbar}>
 					{simple ? (
 						<RichTextEditor.ControlsGroup>
 							<RichTextEditor.Italic />

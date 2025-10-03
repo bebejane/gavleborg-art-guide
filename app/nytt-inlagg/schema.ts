@@ -6,6 +6,15 @@ export const schema = z.object({
 	content: z.string().min(1, { message: 'Innehåll är obligatoriskt' }),
 	image: z.string().min(1, { message: 'Bild är obligatoriskt' }),
 	program_category: z.string().min(1, { message: 'Program kategori är obligatoriskt' }),
+	organizer: z.string(),
+	start_date: z.coerce.date().min(1, { message: 'Startdatum är obligatoriskt' }),
+	end_date: z.coerce.date(),
+	start_time: z.coerce.date(),
+	time: z.string(),
+	misc: z.string(),
+	group_show: z.boolean(),
+	permanent: z.boolean(),
+	external_link: z.url({ message: 'Ogiltig url' }).optional().or(z.literal('')),
 	location: z
 		.object(
 			{
@@ -19,13 +28,4 @@ export const schema = z.object({
 			{ message: 'Plats är obligatoriskt' }
 		)
 		.or(z.object({ id: z.string().min(5, { message: 'Plats är obligatoriskt' }) })),
-	organizer: z.string(),
-	start_time: z.coerce.date(),
-	start_date: z.coerce.date().min(1, { message: 'Startdatum är obligatoriskt' }),
-	end_date: z.coerce.date(),
-	time: z.string(),
-	misc: z.string(),
-	group_show: z.boolean(),
-	permanent: z.boolean(),
-	external_link: z.url({ message: 'Ogiltig url' }).optional().or(z.literal('')),
 });

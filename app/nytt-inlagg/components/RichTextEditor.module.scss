@@ -1,4 +1,18 @@
 .editor {
+	&.focused {
+		border-color: var(--yellow);
+	}
+
+	.toolbar {
+		button {
+			margin-right: 3px;
+			&[data-active='true'] {
+				color: var(--black);
+				background-color: var(--mantine-color-gray-2);
+			}
+		}
+	}
+
 	&.invalid {
 		border: 1px solid var(--mantine-color-error);
 		&:hover {

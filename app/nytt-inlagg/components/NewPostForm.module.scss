@@ -45,12 +45,19 @@
 		background-color: var(--mantine-color-disabled);
 	}
 
+	.date {
+		> div > button {
+			text-transform: capitalize;
+		}
+	}
+
 	.submit {
 		margin-top: var(--space);
 	}
 	.error {
 		color: var(--error);
 	}
+
 	.label {
 		font-size: var(--input-label-size, var(--mantine-font-size-sm));
 		.asterisk {

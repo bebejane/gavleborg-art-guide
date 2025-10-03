@@ -47,7 +47,7 @@ const initialValues = {
 	image: null,
 	program_category: '',
 	organizer: '',
-	location: { id: '' },
+	location: { id: null },
 	start_time: null,
 	start_date: null,
 	end_date: null,
@@ -169,7 +169,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 								{upload && (
 									<>
 										<Space h='md' />
-										<img src={upload.url} alt={upload.filename} />
+										<img src={`${upload.url}?w=1000`} alt={upload.filename} />
 									</>
 								)}
 								<FileUpload
@@ -270,10 +270,12 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<Space h='md' />
 
 						<DatePickerInput
+							{...form.getInputProps('start_date')}
 							styles={{ day: { margin: 0 } }}
 							label='Startdatum'
 							key={form.key('start_date')}
-							{...form.getInputProps('start_date')}
+							valueFormat='D MMMM, YYYY'
+							className={s.date}
 							withAsterisk={true}
 						/>
 						<Space h='md' />
@@ -282,14 +284,17 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							styles={{ day: { margin: 0 } }}
 							label='Slutdatum'
 							key={form.key('end_date')}
+							className={s.date}
+							valueFormat='D MMMM, YYYY'
 						/>
 						<Space h='md' />
 						<DateTimePicker
 							{...form.getInputProps('start_time')}
 							styles={{ day: { margin: 0 } }}
-							label='Starttid'
-							valueFormat=''
+							label='Starttid (vernissage)'
 							key={form.key('start_time')}
+							valueFormat='D MMMM, YYYY - HH:mm'
+							className={s.date}
 							onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
 						/>
 						<Space h='md' />
