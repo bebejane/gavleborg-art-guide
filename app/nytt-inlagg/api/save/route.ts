@@ -40,7 +40,6 @@ export async function POST(req: Request) {
 		const data = {
 			...body,
 			slug: await generateSlug(body.title, programTypeId),
-			intro: body.intro ? await parse5ToStructuredText(parse(body.intro)) : null,
 			content: body.content ? await parse5ToStructuredText(parse(body.content)) : null,
 			image: body.image ? { upload_id: body.image } : null,
 		};
@@ -52,23 +51,22 @@ export async function POST(req: Request) {
 			try {
 				const l = {
 					...data.location,
+					id: null,
 					slug: await generateSlug(data.location.name, locationTypeId),
 				};
-				console.log(l);
+
 				const loc = await client.items.create<Location>({
 					//@ts-ignore
 					item_type: { type: 'item_type', id: locationTypeId },
 					...l,
 				});
-				console.log(loc);
+
 				location.push(loc.id);
 			} catch (e) {
 				console.log(e);
-				throw new Error('Något gick fel');
+				throw e;
 			}
 		} else location.push(data.location.id);
-
-		console.log(data);
 
 		const item = await client.items.create<Program>({
 			//@ts-ignore
@@ -82,10 +80,9 @@ export async function POST(req: Request) {
 		await sendPostmarkEmail({
 			to: process.env.POSTMARK_FROM_EMAIL,
 			subject: 'Nytt inlägg',
-			text: `Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna den.\n\n${itemUrl}`,
+			text: `Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna det.\n\n${itemUrl}`,
 			html: `
-					<p>Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna den.</p>
-					<br/>
+					<p>Det har inkommit ett nytt inlägg för Gavleborg Art Guide. Klicka på länken för att godkänna det.</p>
 					<p><a href="${itemUrl}">Gå till inlägg</a></p>
 			`,
 		});
@@ -103,24 +100,27 @@ async function generateSlug(str: string, api_key: string) {
 	let slug = slugify(str, { lower: true, locale: 'en' });
 	let suffix = null;
 
-	const items = await client.items.list<Program>({
-		item_type: { type: 'item_type', id: api_key },
-		filter: { slug: { matches: { pattern: `^${slug}` } } },
-		limit: 500,
-	});
+	try {
+		const items = (
+			await client.items.list<Program>({
+				filter: { type: api_key, query: `^${slug}` },
+				limit: 500,
+			})
+		).filter((item) => item.slug.startsWith(slug));
 
-	console.log(items.map((item) => item.slug));
-
-	if (items.length > 0) {
-		const lastNo = items
-			.filter((item) => item.slug.startsWith(slug))
-			.reduce((acc, item) => {
+		if (items.length > 0) {
+			const lastNo = items.reduce<number>((acc, item) => {
 				const n = parseInt(item.slug.split('-').pop());
+				console.log(n);
 				if (!isNaN(n) && n > acc) return n;
+
 				return acc;
 			}, 0);
-		suffix = lastNo ? `-${lastNo + 1}` : '';
-		slug = `${slug}${suffix}`;
+
+			slug = `${slug}-${lastNo + 1}`;
+		}
+	} catch (e) {
+		console.log(e);
 	}
 
 	return slug;

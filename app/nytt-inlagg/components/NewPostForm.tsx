@@ -46,13 +46,12 @@ const initialValues = {
 	content: '',
 	image: null,
 	program_category: null,
-	group_show: false,
 	organizer: '',
 	location: null,
 	start_time: null,
 	start_date: null,
 	end_date: null,
-	permanent: false,
+	group_show: false,
 	time: '',
 	misc: '',
 	external_link: '',
@@ -140,7 +139,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		<>
 			<DatesProvider settings={{ locale, firstDayOfWeek: 0, weekendDays: [0] }}>
 				<form className={s.form} onSubmit={handleSubmit}>
-					<Collapse in={!success} transitionDuration={500}>
+					<Collapse in={!success} transitionDuration={300}>
 						<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
 						<Space h='md' />
 						<label className={s.label}>
@@ -231,27 +230,40 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						/>
 						<Collapse in={form.values.location?.id === 'new'} className={s.newlocation}>
 							<TextInput
+								{...form.getInputProps('location.name')}
 								withAsterisk
 								label='Namn'
 								key={form.key('location.name')}
-								{...form.getInputProps('location.name')}
+								value={form.values.location?.name ?? ''}
 							/>
 							<Space h='md' />
 							<TextInput
+								{...form.getInputProps('location.address')}
 								label='Adress'
 								key={form.key('location.address')}
-								{...form.getInputProps('location.address')}
+								value={form.values.location?.address ?? ''}
 							/>
-							<Space h='md' />
-							<TextInput label='Stad' key={form.key('location.city')} {...form.getInputProps('location.city')} />
 							<Space h='md' />
 							<TextInput
-								label='Webbplats'
-								key={form.key('location.webpage')}
-								{...form.getInputProps('location.webpage')}
+								{...form.getInputProps('location.city')}
+								value={form.values.location?.city ?? ''}
+								label='Stad'
+								key={form.key('location.city')}
 							/>
 							<Space h='md' />
-							<TextInput label='Karta' key={form.key('location.map')} {...form.getInputProps('location.map')} />
+							<TextInput
+								{...form.getInputProps('location.webpage')}
+								label='Webbplats'
+								key={form.key('location.webpage')}
+								value={form.values.location?.webpage ?? ''}
+							/>
+							<Space h='md' />
+							<TextInput
+								{...form.getInputProps('location.map')}
+								label='Karta'
+								key={form.key('location.map')}
+								value={form.values.location?.map}
+							/>
 						</Collapse>
 
 						<Space h='md' />
