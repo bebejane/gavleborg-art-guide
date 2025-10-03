@@ -97,21 +97,32 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		setImage(file ?? null);
 	}
 
-	async function handleSubmit(e: React.FormEvent) {
-		e.preventDefault();
-		try {
-			const { hasErrors, errors } = form.validate();
+	function scrollToField(field: string) {
+		document.querySelector(`[data-path='${field}']`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	}
 
-			if (hasErrors) {
-				document
-					.querySelector(`[data-path='${Object.keys(errors)[0]}']`)
-					?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-				return;
+	async function handleSubmit(e: React.FormEvent) {
+		e?.preventDefault();
+
+		try {
+			let { hasErrors, errors } = form.validate();
+			const endDateIsBeforeStartDate =
+				form.values.start_date && form.values.end_date && form.values.start_date > form.values.end_date;
+
+			if (hasErrors) scrollToField(Object.keys(errors)[0]);
+
+			if (endDateIsBeforeStartDate) {
+				form.setFieldError('end_date', 'Slutdatum måste vara efter startdatum');
+				hasErrors = true;
+				scrollToField('end_date');
 			}
+
+			if (hasErrors) return;
 		} catch (e) {
 			console.log(e);
 			return;
 		}
+
 		setSubmitting(true);
 		setError(null);
 		setSuccess(false);
@@ -266,8 +277,6 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						</Collapse>
 
 						<Space h='md' />
-						<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
-						<Space h='md' />
 
 						<DatePickerInput
 							{...form.getInputProps('start_date')}
@@ -297,6 +306,8 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							className={s.date}
 							onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
 						/>
+						<Space h='md' />
+						<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
 						<Space h='md' />
 						<TextInput label='Tider' key={form.key('time')} {...form.getInputProps('time')} />
 						<Space h='md' />
