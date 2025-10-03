@@ -10,7 +10,14 @@ import { Suspense } from 'react';
 import Footer from '@/components/nav/Footer';
 import { sv } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { MantineColorsTuple, ColorSchemeScript, MantineProvider, mantineHtmlProps, createTheme } from '@mantine/core';
+import {
+	MantineColorsTuple,
+	ColorSchemeScript,
+	MantineProvider,
+	mantineHtmlProps,
+	createTheme,
+	Button,
+} from '@mantine/core';
 import { Inter, Abel } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400'] });
@@ -36,10 +43,21 @@ const yellow: MantineColorsTuple = [
 ];
 
 const theme = createTheme({
-	white: '#fff',
-	black: '#000',
+	white: 'var(--white)',
+	black: 'var(--black)',
 	primaryColor: 'yellow',
-	defaultRadius: 3,
+	fontFamily: 'var(--body-font)',
+	headings: {
+		fontFamily: 'var(--headline-font)',
+	},
+	defaultRadius: 2,
+	components: {
+		Button: {
+			styles: {
+				border: '1px solid #000',
+			},
+		},
+	},
 	colors: {
 		yellow,
 	},

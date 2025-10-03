@@ -15,6 +15,7 @@ type Props = {
 };
 
 export default function FilterBar({ options, href = '/', value }: Props) {
+	console.log(options.length);
 	return (
 		<nav className={cn(s.filter)}>
 			<div className={s.wrap}>

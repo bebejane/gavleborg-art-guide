@@ -47,7 +47,7 @@ const initialValues = {
 	image: null,
 	program_category: '',
 	organizer: '',
-	location: '',
+	location: { id: '' },
 	start_time: null,
 	start_date: null,
 	end_date: null,
@@ -134,7 +134,6 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		}
 	}
 
-	console.log(form.values.intro);
 	return (
 		<>
 			<DatesProvider settings={{ locale, firstDayOfWeek: 0, weekendDays: [0] }}>
@@ -279,18 +278,18 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						/>
 						<Space h='md' />
 						<DatePickerInput
+							{...form.getInputProps('end_date')}
 							styles={{ day: { margin: 0 } }}
 							label='Slutdatum'
 							key={form.key('end_date')}
-							{...form.getInputProps('end_date')}
 						/>
 						<Space h='md' />
 						<DateTimePicker
+							{...form.getInputProps('start_time')}
 							styles={{ day: { margin: 0 } }}
 							label='Starttid'
 							valueFormat=''
 							key={form.key('start_time')}
-							{...form.getInputProps('start_time')}
 							onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
 						/>
 						<Space h='md' />
@@ -301,17 +300,17 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<TextInput label='Extern länk' key={form.key('external_link')} {...form.getInputProps('external_link')} />
 						<Space h='md' />
 						<Switch
+							{...form.getInputProps('group_show')}
 							label='Grupputsällning'
 							key={form.key('group_show')}
-							{...form.getInputProps('group_show')}
-							value={form.values.group_show}
+							checked={form.values.group_show}
 						/>
 						<Space h='md' />
 						<Switch
+							{...form.getInputProps('permanent')}
 							label='Permanent'
 							key={form.key('permanent')}
-							{...form.getInputProps('permanent')}
-							value={form.values.permanent}
+							checked={form.values.permanent}
 						/>
 						<Space h='md' />
 						{error && (
@@ -326,6 +325,9 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							disabled={submitting || uploadStatus !== null}
 							className={s.submit}
 							fullWidth={true}
+							radius='xl'
+							variant='outline'
+							color='yellow'
 						>
 							{submitting ? 'Skickar...' : 'Skicka in'}
 						</Button>

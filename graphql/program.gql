@@ -5,7 +5,7 @@ query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
 	_allProgramsMeta {
 		count
 	}
-	allProgramCategories(orderBy: title_ASC, first: 100) {
+	allProgramCategories(orderBy: title_ASC, first: $first, skip: $skip) {
 		...ProgramCategoryFragment
 	}
 	_allProgramCategoriesMeta {

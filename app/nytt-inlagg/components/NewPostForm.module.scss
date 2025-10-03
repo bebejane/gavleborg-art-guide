@@ -18,9 +18,10 @@
 		justify-content: center;
 		padding: 1em;
 		border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-gray-4);
+		border-radius: var(--mantine-radius-default);
 
 		&.error {
-			border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-red-5);
+			border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-error);
 		}
 
 		.wrap {
@@ -38,10 +39,9 @@
 
 	.submit {
 		margin-top: var(--space);
-		border: 1 px solid var(--yellow);
+		//color: var(--black);
 		&:hover {
-			background-color: var(--yellow);
-			color: var(--white);
+			//background-color: var(--yellow);
 		}
 	}
 	.error {
