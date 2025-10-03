@@ -18,6 +18,7 @@ export async function POST(req: Request) {
 	try {
 		const body = (await req.json()) as z.infer<typeof schema>;
 		console.log('save', body);
+
 		try {
 			schema.parse(body);
 		} catch (error) {
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
 
 		const data = {
 			...body,
-			slug: await generateSlug(body.title, programTypeId),
+			slug: await generateSlug(body.title, 'program'),
 			content: body.content ? await parse5ToStructuredText(parse(body.content)) : null,
 			image: body.image ? { upload_id: body.image } : null,
 		};
@@ -52,7 +53,7 @@ export async function POST(req: Request) {
 				const l = {
 					...data.location,
 					id: null,
-					slug: await generateSlug(data.location.name, locationTypeId),
+					slug: await generateSlug(data.location.name, 'location'),
 				};
 
 				const loc = await client.items.create<Location>({
@@ -111,7 +112,6 @@ async function generateSlug(str: string, api_key: string) {
 		if (items.length > 0) {
 			const lastNo = items.reduce<number>((acc, item) => {
 				const n = parseInt(item.slug.split('-').pop());
-				console.log(n);
 				if (!isNaN(n) && n > acc) return n;
 
 				return acc;

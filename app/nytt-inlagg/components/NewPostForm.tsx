@@ -315,7 +315,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							className={s.submit}
 							fullWidth={true}
 						>
-							Skicka in
+							{submitting ? 'Skickar...' : 'Skicka in'}
 						</Button>
 					</Collapse>
 				</form>
