@@ -103,7 +103,6 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 			const { hasErrors, errors } = form.validate();
 
 			if (hasErrors) {
-				console.log(errors);
 				document
 					.querySelector(`[data-path='${Object.keys(errors)[0]}']`)
 					?.scrollIntoView({ behavior: 'smooth', block: 'center' });

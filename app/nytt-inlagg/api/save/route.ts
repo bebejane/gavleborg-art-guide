@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { sendPostmarkEmail } from 'next-dato-utils/utils';
 import { z } from 'zod';
 
-const environment = 'dev'; //process.env.DATOCMS_ENVIRONMENT;
+const environment = process.env.DATOCMS_ENVIRONMENT;
 const client = buildClient({
 	apiToken: process.env.DATOCMS_API_TOKEN,
 	environment,
