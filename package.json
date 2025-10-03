@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@date-fns/tz": "^1.2.0",
-    "@datocms/cma-client": "5.1.19",
-    "@datocms/cma-client-browser": "^5.1.19",
-    "@datocms/cma-client-node": "^5.1.19",
+    "@datocms/cma-client": "5.1.20",
+    "@datocms/cma-client-browser": "^5.1.20",
+    "@datocms/cma-client-node": "^5.1.20",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@mantine/core": "^8.3.2",
     "@mantine/dates": "^8.3.2",

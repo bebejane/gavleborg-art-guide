@@ -12,7 +12,7 @@ import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
 import RichTextEditor from './RichTextEditor';
 import React, { useEffect, useState } from 'react';
 import FileUpload from './FileUpload';
-import { schema } from '../schema';
+import { schema } from './schema';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 
 type FormValues = {
@@ -45,7 +45,7 @@ const initialValues = {
 	intro: '',
 	content: '',
 	image: null,
-	program_category: '',
+	program_category: null,
 	organizer: '',
 	location: { id: null },
 	start_time: null,
@@ -106,18 +106,12 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 
 		try {
 			let { hasErrors, errors } = form.validate();
-			const endDateIsBeforeStartDate =
-				form.values.start_date && form.values.end_date && form.values.start_date > form.values.end_date;
 
-			if (hasErrors) scrollToField(Object.keys(errors)[0]);
-
-			if (endDateIsBeforeStartDate) {
-				form.setFieldError('end_date', 'Slutdatum måste vara efter startdatum');
-				hasErrors = true;
-				scrollToField('end_date');
+			if (hasErrors) {
+				console.log(errors);
+				scrollToField(Object.keys(errors).pop());
+				return;
 			}
-
-			if (hasErrors) return;
 		} catch (e) {
 			console.log(e);
 			return;
@@ -136,8 +130,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 				body: JSON.stringify(form.values),
 			});
 			if (res.status === 200) setSuccess(true);
-			else if (res.status === 500) throw new Error(res.statusText);
-			else throw new Error('Något gick fel');
+			else throw new Error(`Något gick fel: ${res.status} - ${res.statusText}`);
 		} catch (e) {
 			setError(e.message);
 		} finally {

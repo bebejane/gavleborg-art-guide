@@ -5,10 +5,12 @@
 
 	.toolbar {
 		button {
-			margin-right: 3px;
+			margin-right: 1px;
+			border: 1px solid transparent;
 			&[data-active='true'] {
 				color: var(--black);
-				background-color: var(--mantine-color-gray-2);
+				background-color: var(--mantine-color-gray-1);
+				border-color: var(--mantine-color-gray-3);
 			}
 		}
 	}
