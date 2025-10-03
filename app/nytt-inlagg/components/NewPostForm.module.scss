@@ -1,6 +1,12 @@
 .form {
 	position: relative;
-	width: 700px;
+	width: 800px;
+	padding: var(--outer-margin);
+	padding-top: 0;
+
+	@include mq($until: desktop) {
+		width: 100%;
+	}
 
 	.image {
 		position: relative;
@@ -31,6 +37,7 @@
 	}
 
 	.submit {
+		margin-top: var(--space);
 		border: 1 px solid var(--yellow);
 		&:hover {
 			background-color: var(--yellow);
@@ -46,26 +53,37 @@
 			color: var(--mantine-color-error);
 		}
 	}
-	.success {
-		position: fixed;
-		top: 0;
-		left: 0;
+	.newlocation {
 		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.1);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		.box {
-			background: var(--white);
-			color: var(--black);
-			padding: var(--outer-margin);
-			.close {
-				position: absolute;
-				top: var(--outer-margin);
-				right: var(--outer-margin);
-				cursor: pointer;
-			}
+		padding: 1rem;
+		border: 1px solid var(--yellow);
+		border-top: 0;
+
+		button {
+			margin: unset;
 		}
+	}
+}
+
+.success {
+	position: relative;
+	width: 100%;
+	height: 50vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--outer-margin);
+	h3 {
+		padding: 0;
+	}
+	p {
+		margin-bottom: var(--space);
+	}
+	@include mq($until: desktop) {
+		p {
+			text-align: center;
+		}
+		height: 90vh;
 	}
 }

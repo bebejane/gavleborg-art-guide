@@ -1,9 +1,10 @@
 'use client';
 
 import s from './RichTextEditor.module.scss';
-import cn from 'classnames';
 import '@mantine/tiptap/styles.css';
+import cn from 'classnames';
 import { RichTextEditor, Link } from '@mantine/tiptap';
+import { Markdown } from 'tiptap-markdown';
 import { useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
@@ -15,12 +16,14 @@ export type RichTextEditorProps = {
 	value?: string;
 	withAsterisk?: boolean;
 	label: string;
+	markdown?: boolean;
+	simple?: boolean;
 	onChange?: (value: string) => void;
 	error?: string;
 };
 
 export default function RichTextEditorComponent(props: RichTextEditorProps) {
-	const { id, value, withAsterisk, label, error, onChange } = props;
+	const { id, value, withAsterisk, label, error, markdown, simple, onChange } = props;
 	const editor = useEditor({
 		shouldRerenderOnTransaction: true,
 		immediatelyRender: false,
@@ -28,10 +31,14 @@ export default function RichTextEditorComponent(props: RichTextEditorProps) {
 			StarterKit.configure({ link: false }),
 			Link,
 			Highlight,
+			Markdown.configure({
+				breaks: true,
+			}),
 			TextAlign.configure({ types: ['heading', 'paragraph'] }),
 		],
 		onUpdate: ({ editor }) => {
-			onChange(editor.getHTML());
+			//@ts-ignore
+			onChange(markdown ? editor.storage.markdown?.getMarkdown() : editor.getHTML());
 		},
 		content: value,
 	});
@@ -53,26 +60,34 @@ export default function RichTextEditorComponent(props: RichTextEditorProps) {
 				data-path={id}
 			>
 				<RichTextEditor.Toolbar>
-					<RichTextEditor.ControlsGroup>
-						<RichTextEditor.Bold />
-						<RichTextEditor.Italic />
-					</RichTextEditor.ControlsGroup>
+					{simple ? (
+						<RichTextEditor.ControlsGroup>
+							<RichTextEditor.Italic />
+						</RichTextEditor.ControlsGroup>
+					) : (
+						<>
+							<RichTextEditor.ControlsGroup>
+								<RichTextEditor.Bold />
+								<RichTextEditor.Italic />
+							</RichTextEditor.ControlsGroup>
 
-					<RichTextEditor.ControlsGroup>
-						<RichTextEditor.Blockquote />
-						<RichTextEditor.BulletList />
-						<RichTextEditor.OrderedList />
-					</RichTextEditor.ControlsGroup>
+							<RichTextEditor.ControlsGroup>
+								<RichTextEditor.Blockquote />
+								<RichTextEditor.BulletList />
+								<RichTextEditor.OrderedList />
+							</RichTextEditor.ControlsGroup>
 
-					<RichTextEditor.ControlsGroup>
-						<RichTextEditor.Link />
-						<RichTextEditor.Unlink />
-					</RichTextEditor.ControlsGroup>
+							<RichTextEditor.ControlsGroup>
+								<RichTextEditor.Link />
+								<RichTextEditor.Unlink />
+							</RichTextEditor.ControlsGroup>
 
-					<RichTextEditor.ControlsGroup>
-						<RichTextEditor.Undo />
-						<RichTextEditor.Redo />
-					</RichTextEditor.ControlsGroup>
+							<RichTextEditor.ControlsGroup>
+								<RichTextEditor.Undo />
+								<RichTextEditor.Redo />
+							</RichTextEditor.ControlsGroup>
+						</>
+					)}
 				</RichTextEditor.Toolbar>
 
 				<RichTextEditor.Content />

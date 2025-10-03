@@ -3,7 +3,7 @@ import { parse } from 'parse5';
 import slugify from 'slugify';
 import { buildClient, ApiError } from '@datocms/cma-client';
 import { Program, Location } from '@/@types/datocms-cma';
-import { schema } from '../schema';
+import { schema } from '../../schema';
 import { revalidatePath } from 'next/cache';
 import { sendPostmarkEmail } from 'next-dato-utils/utils';
 import { z } from 'zod';
@@ -40,6 +40,7 @@ export async function POST(req: Request) {
 		const data = {
 			...body,
 			slug: await generateSlug(body.title, programTypeId),
+			intro: body.intro ? await parse5ToStructuredText(parse(body.intro)) : null,
 			content: body.content ? await parse5ToStructuredText(parse(body.content)) : null,
 			image: body.image ? { upload_id: body.image } : null,
 		};
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
 		const location: string[] = [];
 
 		// New location
-		if (!Array.isArray(data.location) && data.location.id === 'new') {
+		if (data.location.id === 'new' && 'name' in data.location) {
 			try {
 				const l = {
 					...data.location,

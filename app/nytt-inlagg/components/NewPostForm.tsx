@@ -4,12 +4,12 @@ import s from './NewPostForm.module.scss';
 import cn from 'classnames';
 import '@mantine/dates/styles.css';
 import 'dayjs/locale/sv';
-import { Button, TextInput, Switch, FileButton, Select, Space, Progress } from '@mantine/core';
+
+import { Button, TextInput, Switch, FileButton, Select, Space, Progress, Collapse } from '@mantine/core';
 import { DatePickerInput, DatesProvider, DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
 import RichTextEditor from './RichTextEditor';
-import NewLocationForm from './NewLocationForm';
 import React, { useEffect, useState } from 'react';
 import FileUpload from './FileUpload';
 import { schema } from '../schema';
@@ -25,7 +25,11 @@ type FormValues = {
 	organizer: string;
 	location: {
 		id: string;
-		[key: string]: string;
+		name?: string;
+		address?: string;
+		city?: string;
+		webpage?: string;
+		map?: string;
 	};
 	start_time: string;
 	start_date: string;
@@ -40,8 +44,8 @@ const initialValues = {
 	title: '',
 	intro: '',
 	content: '',
-	image: '',
-	program_category: '',
+	image: null,
+	program_category: null,
 	group_show: false,
 	organizer: '',
 	location: null,
@@ -53,6 +57,7 @@ const initialValues = {
 	misc: '',
 	external_link: '',
 };
+
 export type NewPostFormProps = {
 	allProgramCategories: AllProgramCategoriesQuery['allProgramCategories'];
 	allLocations: AllLocationsQuery['allLocations'];
@@ -68,6 +73,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 	const [upload, setUpload] = useState<Upload | null>(null);
 	const [uploadStatus, setUploadStatus] = useState<'uploading' | 'generating' | null>(null);
 	const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+	const [uploadError, setUploadError] = useState<Error | null>(null);
 
 	const form = useForm<FormValues>({
 		mode: 'controlled',
@@ -76,13 +82,14 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 	});
 
 	function reset() {
-		form.reset();
 		setError(null);
 		setSuccess(false);
 		setImage(null);
 		setUpload(null);
 		setUploadStatus(null);
 		setUploadProgress(null);
+		setUploadError(null);
+		form.reset();
 		form.setValues(initialValues);
 	}
 
@@ -90,19 +97,33 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		setImage(file ?? null);
 	}
 
-	async function handleSubmit(values: any) {
-		console.log(values);
+	async function handleSubmit(e: React.FormEvent) {
+		e.preventDefault();
+		try {
+			const { hasErrors, errors } = form.validate();
+
+			if (hasErrors) {
+				console.log(errors);
+				document
+					.querySelector(`[data-path='${Object.keys(errors)[0]}']`)
+					?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				return;
+			}
+		} catch (e) {
+			console.log(e);
+			return;
+		}
 		setSubmitting(true);
 		setError(null);
 		setSuccess(false);
 
 		try {
-			const res = await fetch('/nytt-inlagg/spara', {
+			const res = await fetch('/nytt-inlagg/api/save', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(values),
+				body: JSON.stringify(form.values),
 			});
 			if (res.status === 200) setSuccess(true);
 			else if (res.status === 500) throw new Error(res.statusText);
@@ -114,175 +135,186 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 		}
 	}
 
-	useEffect(() => {
-		if (!form.errors || Object.keys(form.errors).length === 0) return;
-		const errorField = Object.keys(form.errors)[0];
-		const el = document.querySelector(`[data-path='${errorField}']`);
-		el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-	}, [form.errors]);
-
+	console.log(form.values.intro);
 	return (
 		<>
 			<DatesProvider settings={{ locale, firstDayOfWeek: 0, weekendDays: [0] }}>
-				<form className={s.form} onSubmit={form.onSubmit(handleSubmit)}>
-					<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
-					<Space h='md' />
-					<label className={s.label}>
-						Bild <span className={s.asterisk}>*</span>
-					</label>
-					<div className={cn(s.image, form.errors.image && s.error)}>
-						<div className={s.wrap}>
-							<FileButton
-								{...form.getInputProps('image')}
-								key={form.key('image')}
-								accept='image/png,image/jpeg'
-								onChange={handleImageChange}
-							>
-								{(props) => (
-									<Button {...props} disabled={uploadStatus !== null}>
-										{uploadProgress !== null ? 'Laddar upp...' : 'Välj bild'}
-									</Button>
+				<form className={s.form} onSubmit={handleSubmit}>
+					<Collapse in={!success} transitionDuration={500}>
+						<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
+						<Space h='md' />
+						<label className={s.label}>
+							Bild <span className={s.asterisk}>*</span>
+						</label>
+						<div className={cn(s.image, form.errors.image && s.error)}>
+							<div className={s.wrap}>
+								<FileButton
+									{...form.getInputProps('image')}
+									key={form.key('image')}
+									accept='image/png,image/jpeg'
+									onChange={handleImageChange}
+								>
+									{(props) => (
+										<Button {...props} disabled={uploadStatus !== null}>
+											{uploadProgress !== null ? 'Laddar upp...' : 'Välj bild'}
+										</Button>
+									)}
+								</FileButton>
+								{uploadError && <p className={s.error}>{uploadError.message ?? 'Något gick fel'}</p>}
+								{uploadStatus !== null && (
+									<>
+										<Space h='md' />
+										<Progress value={uploadProgress} animated={uploadStatus === 'generating'} />
+										<Space h='md' />
+									</>
 								)}
-							</FileButton>
-
-							{uploadStatus !== null && (
-								<>
-									<Space h='md' />
-									<Progress value={uploadProgress} animated={uploadStatus === 'generating'} />
-									<Space h='md' />
-								</>
-							)}
-							{upload && (
-								<>
-									<Space h='md' />
-									<img src={upload.url} alt={upload.filename} />
-								</>
-							)}
-							<FileUpload
-								file={image}
-								onChange={(upload) => {
-									form.setFieldValue('image', upload?.id ?? '');
-									setUpload(upload);
-								}}
-								onStatusChange={setUploadStatus}
-								onProgress={setUploadProgress}
-							/>
-						</div>
-					</div>
-					<Space h='md' />
-					<RichTextEditor
-						{...form.getInputProps('intro')}
-						id={'intro'}
-						label='Ingress'
-						key={form.key('intro')}
-						onChange={(val) => form.setValues({ intro: val })}
-						value={form.values.intro}
-						withAsterisk
-					/>
-					<Space h='md' />
-					<RichTextEditor
-						{...form.getInputProps('content')}
-						id={'content'}
-						label='Innehåll'
-						key={form.key('content')}
-						onChange={(val) => form.setValues({ content: val })}
-						value={form.values.content}
-						withAsterisk
-					/>
-					<Space h='md' />
-					<Select
-						label='Program kategori'
-						key={form.key('program_category')}
-						{...form.getInputProps('program_category')}
-						data={allProgramCategories.map(({ id: value, title: label }) => ({ value, label }))}
-						withAsterisk={true}
-					/>
-					<Space h='md' />
-					<Select
-						{...form.getInputProps('location')}
-						label='Plats'
-						value={form.values.location?.id ?? undefined}
-						key={form.key('location')}
-						onChange={(id) => id && form.setValues({ location: { id } })}
-						data={[{ value: 'new', label: 'Ny plats...' }].concat(
-							allLocations.map(({ id: value, name: label }) => ({ value, label }))
-						)}
-						withAsterisk={true}
-					/>
-					<NewLocationForm
-						key={form.values.location?.id}
-						show={form.values.location?.id === 'new'}
-						onChange={(location) => {
-							form.setValues({ location });
-						}}
-					/>
-					<Space h='md' />
-					<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
-					<Space h='md' />
-
-					<DatePickerInput
-						styles={{ day: { margin: 0 } }}
-						label='Startdatum'
-						key={form.key('start_date')}
-						{...form.getInputProps('start_date')}
-						withAsterisk={true}
-					/>
-					<Space h='md' />
-					<DatePickerInput
-						styles={{ day: { margin: 0 } }}
-						label='Slutdatum'
-						key={form.key('end_date')}
-						{...form.getInputProps('end_date')}
-					/>
-					<Space h='md' />
-					<DateTimePicker
-						styles={{ day: { margin: 0 } }}
-						label='Starttid'
-						valueFormat=''
-						key={form.key('start_time')}
-						{...form.getInputProps('start_time')}
-						onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
-					/>
-					<Space h='md' />
-
-					<TextInput label='Tider' key={form.key('time')} {...form.getInputProps('time')} />
-					<Space h='md' />
-					<TextInput label='Extra info' key={form.key('misc')} {...form.getInputProps('misc')} />
-					<Space h='md' />
-					<TextInput label='Extern länk' key={form.key('external_link')} {...form.getInputProps('external_link')} />
-					<Space h='md' />
-					<Switch label='Permanent' key={form.key('permanent')} {...form.getInputProps('permanent')} />
-					<Space h='md' />
-					<Switch label='Grupp utsällning' key={form.key('group_show')} {...form.getInputProps('group_show')} />
-					<Space h='md' />
-					{error && (
-						<>
-							<div className={s.error}>{error}</div>
-							<Space h='md' />
-						</>
-					)}
-					<Button
-						type='submit'
-						size='xl'
-						disabled={submitting || uploadStatus !== null}
-						className={s.submit}
-						fullWidth={true}
-					>
-						Spara
-					</Button>
-
-					{success && (
-						<div className={s.success}>
-							<div className={s.box}>
-								Inlägget har skickats
-								<div className={s.close} onClick={reset}>
-									Stäng
-								</div>
+								{upload && (
+									<>
+										<Space h='md' />
+										<img src={upload.url} alt={upload.filename} />
+									</>
+								)}
+								<FileUpload
+									file={image}
+									onChange={(upload) => {
+										form.setFieldValue('image', upload?.id ?? '');
+										setUpload(upload);
+									}}
+									onStatusChange={setUploadStatus}
+									onProgress={setUploadProgress}
+									onError={setUploadError}
+								/>
 							</div>
 						</div>
-					)}
+						<Space h='md' />
+						<RichTextEditor
+							{...form.getInputProps('intro')}
+							id={'intro'}
+							label='Ingress'
+							key={form.key('intro')}
+							onChange={(val) => form.setValues({ intro: val })}
+							value={form.values.intro}
+							markdown={true}
+							simple={true}
+							withAsterisk
+						/>
+						<Space h='md' />
+						<RichTextEditor
+							{...form.getInputProps('content')}
+							id={'content'}
+							label='Innehåll'
+							key={form.key('content')}
+							onChange={(val) => form.setValues({ content: val })}
+							value={form.values.content}
+							withAsterisk
+						/>
+						<Space h='md' />
+						<Select
+							{...form.getInputProps('program_category')}
+							label='Program kategori'
+							key={form.key('program_category')}
+							value={form.values.program_category}
+							data={allProgramCategories.map(({ id: value, title: label }) => ({ value, label }))}
+							withAsterisk={true}
+						/>
+						<Space h='md' />
+						<Select
+							{...form.getInputProps('location')}
+							label='Plats'
+							value={form.values.location?.id ?? null}
+							key={form.key('location')}
+							onChange={(id) => id && form.setValues({ location: { id } })}
+							data={[{ value: 'new', label: 'Ny plats...' }].concat(
+								allLocations.map(({ id: value, name: label }) => ({ value, label }))
+							)}
+							withAsterisk={true}
+						/>
+						<Collapse in={form.values.location?.id === 'new'} className={s.newlocation}>
+							<TextInput
+								withAsterisk
+								label='Namn'
+								key={form.key('location.name')}
+								{...form.getInputProps('location.name')}
+							/>
+							<Space h='md' />
+							<TextInput
+								label='Adress'
+								key={form.key('location.address')}
+								{...form.getInputProps('location.address')}
+							/>
+							<Space h='md' />
+							<TextInput label='Stad' key={form.key('location.city')} {...form.getInputProps('location.city')} />
+							<Space h='md' />
+							<TextInput
+								label='Webbplats'
+								key={form.key('location.webpage')}
+								{...form.getInputProps('location.webpage')}
+							/>
+							<Space h='md' />
+							<TextInput label='Karta' key={form.key('location.map')} {...form.getInputProps('location.map')} />
+						</Collapse>
+
+						<Space h='md' />
+						<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
+						<Space h='md' />
+
+						<DatePickerInput
+							styles={{ day: { margin: 0 } }}
+							label='Startdatum'
+							key={form.key('start_date')}
+							{...form.getInputProps('start_date')}
+							withAsterisk={true}
+						/>
+						<Space h='md' />
+						<DatePickerInput
+							styles={{ day: { margin: 0 } }}
+							label='Slutdatum'
+							key={form.key('end_date')}
+							{...form.getInputProps('end_date')}
+						/>
+						<Space h='md' />
+						<DateTimePicker
+							styles={{ day: { margin: 0 } }}
+							label='Starttid'
+							valueFormat=''
+							key={form.key('start_time')}
+							{...form.getInputProps('start_time')}
+							onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
+						/>
+						<Space h='md' />
+						<TextInput label='Tider' key={form.key('time')} {...form.getInputProps('time')} />
+						<Space h='md' />
+						<TextInput label='Extra info' key={form.key('misc')} {...form.getInputProps('misc')} />
+						<Space h='md' />
+						<TextInput label='Extern länk' key={form.key('external_link')} {...form.getInputProps('external_link')} />
+						<Space h='md' />
+						<Switch label='Grupputsällning' key={form.key('group_show')} {...form.getInputProps('group_show')} />
+						<Space h='md' />
+						{error && (
+							<>
+								<div className={s.error}>{error}</div>
+								<Space h='md' />
+							</>
+						)}
+						<Button
+							type='submit'
+							size='lg'
+							disabled={submitting || uploadStatus !== null}
+							className={s.submit}
+							fullWidth={true}
+						>
+							Skicka in
+						</Button>
+					</Collapse>
 				</form>
 			</DatesProvider>
+			{success && (
+				<div className={s.success}>
+					<h3>Tack!</h3>
+					<p>Inlägget har skickats in till oss och vi kommer att granska det inom kort för publicering.</p>
+					<Button onClick={reset}>Skriv ett inlägg till</Button>
+				</div>
+			)}
 		</>
 	);
 }

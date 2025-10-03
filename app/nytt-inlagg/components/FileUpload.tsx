@@ -44,7 +44,6 @@ export default function FileUpload({
 	const [allTags, setAllTags] = useState<string[]>(['upload']);
 	const [upload, setUpload] = useState<Upload | undefined>();
 	const [progress, setProgress] = useState<number | null>(null);
-	const internalInputRef = useRef<HTMLInputElement>(null);
 
 	const resetInput = useCallback(() => {
 		setProgress(null);
@@ -134,16 +133,13 @@ export default function FileUpload({
 	useEffect(() => {
 		if (!upload) return;
 		onChange(upload);
-	}, [upload, onChange]); // Add onChange to dependencies
+	}, [upload, onChange]);
 
 	useEffect(() => {
 		if (error) {
-			onError?.(error); // Use optional chaining
-			if (internalInputRef.current) {
-				internalInputRef.current.value = ''; // Use internal ref
-			}
+			onError?.(error);
 		}
-	}, [error, onError]); // Add onError to dependencies
+	}, [error, onError]);
 
 	useEffect(() => {
 		setAllTags((s) => (tags ? [...tags, 'upload'] : ['upload']));
