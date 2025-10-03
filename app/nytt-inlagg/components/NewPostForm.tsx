@@ -136,7 +136,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 
 	return (
 		<>
-			<DatesProvider settings={{ locale, firstDayOfWeek: 0, weekendDays: [0] }}>
+			<DatesProvider settings={{ locale, firstDayOfWeek: 1, weekendDays: [1] }}>
 				<form className={s.form} onSubmit={handleSubmit}>
 					<Collapse in={!success} transitionDuration={300}>
 						<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
