@@ -68,7 +68,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 	const locale = 'sv';
 	const [submitting, setSubmitting] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-	const [success, setSuccess] = useState<boolean>(true);
+	const [success, setSuccess] = useState<boolean>(false);
 	const [image, setImage] = useState<File | null>(null);
 	const [upload, setUpload] = useState<Upload | null>(null);
 	const [uploadStatus, setUploadStatus] = useState<'uploading' | 'generating' | null>(null);

@@ -5,7 +5,7 @@ import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
 
 const client = buildClient({
 	apiToken: process.env.NEXT_PUBLIC_UPLOADS_API_TOKEN,
-	environment: 'dev', //process.env.NEXT_PUBLIC_DATOCMS_ENVIRONMENT,
+	environment: process.env.NEXT_PUBLIC_DATOCMS_ENVIRONMENT,
 });
 
 export type ImageData = {
