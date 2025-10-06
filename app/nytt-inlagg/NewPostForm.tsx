@@ -213,7 +213,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<Space h='md' />
 						<Select
 							{...form.getInputProps('program_category')}
-							label='Program kategori'
+							label='Kategori'
 							key={form.key('program_category')}
 							value={form.values.program_category}
 							data={allProgramCategories.map(({ id: value, title: label }) => ({ value, label }))}
@@ -293,7 +293,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<DateTimePicker
 							{...form.getInputProps('start_time')}
 							styles={{ day: { margin: 0 } }}
-							label='Starttid (vernissage)'
+							label='Vernissagedatum och tid'
 							key={form.key('start_time')}
 							valueFormat='D MMMM, YYYY - HH:mm'
 							className={s.date}
@@ -302,7 +302,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 						<Space h='md' />
 						<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
 						<Space h='md' />
-						<TextInput label='Tider' key={form.key('time')} {...form.getInputProps('time')} />
+						<TextInput label='Öppettider' key={form.key('time')} {...form.getInputProps('time')} />
 						<Space h='md' />
 						<TextInput label='Extra info' key={form.key('misc')} {...form.getInputProps('misc')} />
 						<Space h='md' />
