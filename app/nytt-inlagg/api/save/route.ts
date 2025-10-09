@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 }
 
 async function generateSlug(str: string, api_key: string) {
-	let slug = slugify(str, { lower: true, locale: 'en' });
+	let slug = slugify(str, { lower: true, locale: 'en', strict: true });
 
 	try {
 		const items = (
