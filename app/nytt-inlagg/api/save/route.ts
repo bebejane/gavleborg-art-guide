@@ -22,7 +22,6 @@ export async function POST(req: Request) {
 		try {
 			schema.parse(body);
 		} catch (error) {
-			console.log(error);
 			if (error instanceof z.ZodError) throw new Error(JSON.stringify(error.issues));
 			else throw error;
 		}
@@ -92,6 +91,7 @@ export async function POST(req: Request) {
 
 		return new Response('ok');
 	} catch (e) {
+		console.error(e);
 		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel: ${e.message}`;
 		return new Response('error', { status: 500, statusText });
 	}
