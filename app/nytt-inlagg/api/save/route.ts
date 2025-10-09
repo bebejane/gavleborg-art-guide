@@ -93,7 +93,7 @@ export async function POST(req: Request) {
 
 		return new Response('ok');
 	} catch (e) {
-		console.error(e);
+		console.error(JSON.stringify(e));
 		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel: ${e.message}`;
 		return new Response('error', { status: 500, statusText });
 	}
