@@ -33,7 +33,6 @@ export default async function Home({ searchParams }) {
 		return programs.filter(({ programCategory: { slug } }) => slug === filter);
 	}
 
-	//const programs = programsByMonth(filterPrograms(allPrograms));
 	const programs = programsByYear(filterPrograms(allPrograms));
 
 	return (
@@ -42,11 +41,11 @@ export default async function Home({ searchParams }) {
 				<h1>Gävleborg Art Guide</h1>
 				<FilterBar
 					href={'/'}
+					value={filter}
 					options={allProgramCategories.map(({ slug, plural }) => ({
 						id: slug,
 						label: plural,
 					}))}
-					value={filter}
 				/>
 				{programs.map(({ year, months }, idx) =>
 					months.map(({ month, programs }, idx2) => (
@@ -84,6 +83,7 @@ export default async function Home({ searchParams }) {
 						</section>
 					))
 				)}
+				{programs.length === 0 && <div className={s.empty}>Det finns inga inlägg fördenna kategori</div>}
 			</article>
 			<DraftMode url={draftUrl} path='/' />
 		</>

@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 					id: null,
 					slug: await generateSlug(data.location.name, 'location'),
 				};
-
+				console.log('creating location', l);
 				const loc = await client.items.create<Location>({
 					//@ts-ignore
 					item_type: { type: 'item_type', id: locationTypeId },
@@ -63,11 +63,13 @@ export async function POST(req: Request) {
 
 				location.push(loc.id);
 			} catch (e) {
-				console.log(e);
+				console.log('error creating location', e);
+
 				throw e;
 			}
 		} else location.push(data.location.id);
 
+		console.log('creating program', { item_type: { type: 'item_type', id: programTypeId }, ...data, location });
 		const item = await client.items.create<Program>({
 			//@ts-ignore
 			item_type: { type: 'item_type', id: programTypeId },
@@ -99,7 +101,6 @@ export async function POST(req: Request) {
 
 async function generateSlug(str: string, api_key: string) {
 	let slug = slugify(str, { lower: true, locale: 'en' });
-	let suffix = null;
 
 	try {
 		const items = (

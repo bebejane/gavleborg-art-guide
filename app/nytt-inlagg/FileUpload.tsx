@@ -76,7 +76,6 @@ export default function FileUpload({
 							},
 						},
 						onProgress: (info: OnProgressInfo) => {
-							console.log(info);
 							if (info.type === 'UPLOADING_FILE' && info.payload && 'progress' in info.payload) {
 								setProgress(info.payload.progress);
 								onStatusChange?.('uploading');

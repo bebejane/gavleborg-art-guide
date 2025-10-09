@@ -79,7 +79,12 @@ export default function Thumbnail({
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
 			{image && (
 				<figure className={s.imageWrap}>
-					<Image data={image.responsiveImage} className={s.image} pictureClassName={s.picture} />
+					<Image
+						data={image.responsiveImage}
+						className={s.image}
+						pictureClassName={s.picture}
+						intersectionMargin={`0px 0px 2000px 0px`}
+					/>
 					<div className={s.border} />
 					{groupShow && <div className={s.circle} />}
 				</figure>
