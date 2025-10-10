@@ -102,6 +102,7 @@ export default function FileUpload({
 	);
 
 	useEffect(() => {
+		console.log('file', file);
 		async function handleUpload() {
 			try {
 				const fileMb = file.size / 1024 ** 2;

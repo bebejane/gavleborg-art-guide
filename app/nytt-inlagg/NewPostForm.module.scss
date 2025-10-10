@@ -20,10 +20,6 @@
 		border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-gray-4);
 		border-radius: var(--mantine-radius-default);
 
-		&.error {
-			border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-error);
-		}
-
 		.wrap {
 			text-align: center;
 		}
@@ -58,15 +54,11 @@
 		padding: 1rem;
 		border: 1px solid var(--yellow);
 		border-top: 0;
-
+		margin-bottom: 0.2rem;
 		button {
 			margin: unset;
 		}
 	}
-}
-
-.error {
-	color: var(--error);
 }
 
 .success {
@@ -99,4 +91,13 @@
 
 .button[data-disabled='true'] {
 	background-color: var(--mantine-color-disabled);
+}
+
+.error {
+	color: var(--mantine-color-error);
+	font-size: var(--input-error-size, calc(var(--mantine-font-size-sm) - calc(0.125rem * var(--mantine-scale))));
+}
+
+.errorBorder {
+	border: calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-error) !important;
 }
