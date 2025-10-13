@@ -57,7 +57,19 @@ export default async function Home({ searchParams }) {
 							<ul className={cn(s.container, 'grid')}>
 								{programs.map(
 									(
-										{ title, image, intro, programCategory, slug, startDate, endDate, startTime, groupShow, location },
+										{
+											title,
+											image,
+											intro,
+											programCategory,
+											slug,
+											startDate,
+											endDate,
+											startTime,
+											groupShow,
+											location,
+											permanent,
+										},
 										idx: number
 									) => (
 										<li key={`${idx}-${idx2}`} className={s.card}>
@@ -70,6 +82,7 @@ export default async function Home({ searchParams }) {
 												endDate={endDate}
 												startTime={startTime}
 												groupShow={groupShow}
+												permanent={permanent}
 												city={location
 													?.map(({ city }) => city)
 													.filter(Boolean)
@@ -87,109 +100,6 @@ export default async function Home({ searchParams }) {
 			</article>
 			<DraftMode url={draftUrl} path='/' />
 		</>
-	);
-}
-
-function programsByMonth(programs: AllProgramsQuery['allPrograms']) {
-	const months = [
-		'januari',
-		'februari',
-		'mars',
-		'april',
-		'maj',
-		'juni',
-		'juli',
-		'augusti',
-		'september',
-		'oktober',
-		'november',
-		'december',
-	];
-	// Filter out inactive programs
-	const today = new Date();
-	today.setHours(0, 0, 0, 0);
-	const filteredPrograms = programs.filter((program) => {
-		const startDate = new Date(program.startDate);
-		const endDate = program.endDate ? new Date(program.endDate) : null;
-		let active = false;
-		if (endDate) {
-			// If program has end date, check if it's still active
-			endDate.setHours(0, 0, 0, 0);
-			active = endDate >= today;
-		} else {
-			// If no end date, check if it's in the current month
-			active = startDate.getMonth() === today.getMonth() && startDate.getFullYear() === today.getFullYear();
-		}
-		return active;
-	});
-
-	const programsByMonth = filteredPrograms.reduce((acc, program) => {
-		const startDate = new Date(program.startDate);
-		const endDate = program.endDate ? new Date(program.endDate) : null;
-
-		// Get start and end months
-		const startMonth = format(startDate, 'MMMM');
-		const endMonth = endDate ? format(endDate, 'MMMM') : startMonth;
-
-		// Initialize the month in accumulator if it doesn't exist
-		if (!acc[startMonth]) acc[startMonth] = [];
-		acc[startMonth].push(program);
-
-		// If there's an end date, add the program to all months between start and end
-		if (endDate) {
-			const startIdx = months.indexOf(startMonth.toLowerCase());
-			const endIdx = months.indexOf(endMonth.toLowerCase());
-
-			// Handle case where end date is in the next year
-			const monthsToAdd =
-				endIdx >= startIdx
-					? months.slice(startIdx + 1, endIdx + 1)
-					: [...months.slice(startIdx + 1), ...months.slice(0, endIdx + 1)];
-
-			monthsToAdd.forEach((month) => {
-				const formattedMonth = format(new Date(`${startDate.getFullYear()}-${months.indexOf(month) + 1}-01`), 'MMMM');
-				if (!acc[formattedMonth]) acc[formattedMonth] = [];
-				acc[formattedMonth].push(program);
-			});
-		}
-
-		return acc;
-	}, {});
-
-	const currentMonthIdx = today.getMonth();
-
-	return (
-		Object.keys(programsByMonth)
-			// Filter out months before current month
-			.filter((month) => {
-				const monthIdx = months.indexOf(month.toLowerCase());
-				return monthIdx >= currentMonthIdx;
-			})
-			// Sort remaining months
-			.sort((a, b) => {
-				const aIdx = months.indexOf(a.toLowerCase());
-				const bIdx = months.indexOf(b.toLowerCase());
-				return aIdx - bIdx;
-			})
-			.map((month) => {
-				// Sort programs within the month
-				const monthPrograms = programsByMonth[month].sort((a, b) => {
-					const aStartMonth = format(new Date(a.startDate), 'MMMM');
-					const bStartMonth = format(new Date(b.startDate), 'MMMM');
-
-					// If program starts in this month, it should come first
-					if (aStartMonth === month && bStartMonth !== month) return -1;
-					if (bStartMonth === month && aStartMonth !== month) return 1;
-
-					// If both programs are continuing or both starting, sort by start date
-					return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-				});
-
-				return {
-					month,
-					programs: monthPrograms,
-				};
-			})
 	);
 }
 
@@ -211,24 +121,32 @@ function programsByYear(programs: AllProgramsQuery['allPrograms']) {
 	// Filter out inactive programs
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
-	const filteredPrograms = programs.filter((program) => {
-		const startDate = new Date(program.startDate);
-		const endDate = program.endDate ? new Date(program.endDate) : null;
-		let active = false;
-		if (endDate) {
-			// If program has end date, check if it's still active
-			endDate.setHours(0, 0, 0, 0);
-			active = endDate >= today;
-		} else {
-			// If no end date, check if it's in the current month
-			active = startDate.getMonth() === today.getMonth() && startDate.getFullYear() === today.getFullYear();
-		}
-		return active;
-	});
+
+	const permanentPrograms = programs
+		.filter((program) => program.permanent)
+		.sort((a, b) => (new Date(a.startDate).getTime() > new Date(b.startDate).getTime() ? 1 : -1));
+
+	const filteredPrograms = programs
+		.filter(({ permanent }) => !permanent)
+		.filter((program) => {
+			const startDate = new Date(program.startDate);
+			const endDate = program.endDate ? new Date(program.endDate) : null;
+			let active = false;
+			if (program.permanent) active = true;
+			else if (endDate) {
+				// If program has end date, check if it's still active
+				endDate.setHours(0, 0, 0, 0);
+				active = endDate >= today;
+			} else {
+				// If no end date, check if it's in the current month
+				active = startDate.getMonth() === today.getMonth() && startDate.getFullYear() === today.getFullYear();
+			}
+			return active;
+		});
 
 	// Group programs by year first
 	const programsByYear = filteredPrograms.reduce((acc, program) => {
-		const startDate = new Date(program.startDate);
+		const startDate = program.permanent ? new Date() : new Date(program.startDate);
 		const year = startDate.getFullYear();
 
 		// Initialize the year in accumulator if it doesn't exist
@@ -314,20 +232,20 @@ function programsByYear(programs: AllProgramsQuery['allPrograms']) {
 					.map((month) => {
 						// Sort programs within the month
 						const monthPrograms = programsByMonth[month].sort((a, b) => {
+							// Check if either program is permanent - permanent programs should come last
+							if (a.permanent && !b.permanent) return 1;
+							if (!a.permanent && b.permanent) return -1;
+
 							const aStartMonth = format(new Date(a.startDate), 'MMMM');
 							const bStartMonth = format(new Date(b.startDate), 'MMMM');
 
 							// If program starts in this month, it should come first
-							if (aStartMonth === month && bStartMonth !== month) return -1;
-							if (bStartMonth === month && aStartMonth !== month) return 1;
-
-							// If both programs are continuing or both starting, sort by start date
 							return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
 						});
 
 						return {
 							month,
-							programs: monthPrograms,
+							programs: monthPrograms.concat(permanentPrograms),
 						};
 					});
 

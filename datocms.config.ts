@@ -17,7 +17,7 @@ export default {
 	name: 'Gävleborg Art Guide',
 	url: {
 		dev: 'http://localhost:3000',
-		public: 'https://www.gavleborg-art-guide.se',
+		public: 'https://www.gavleborgsartguide.se',
 	},
 	theme: {
 		background: '#efefef',

@@ -1,3 +1,12 @@
+query AllPrograms2($first: IntType = 100, $skip: IntType = 0) {
+	allPrograms(orderBy: [startDate_ASC, startTime_ASC], first: $first, skip: $skip) {
+		...ProgramFragmentLight
+	}
+	_allProgramsMeta {
+		count
+	}
+}
+
 query AllPrograms($first: IntType = 100, $skip: IntType = 0) {
 	allPrograms(orderBy: [startDate_ASC, startTime_ASC], first: $first, skip: $skip) {
 		...ProgramFragmentLight
@@ -46,6 +55,7 @@ fragment ProgramFragmentLight on ProgramRecord {
 	startDate
 	endDate
 	groupShow
+	permanent
 	location {
 		...LocationFragmentLight
 	}
