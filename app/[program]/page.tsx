@@ -53,7 +53,8 @@ export type ProgramProps = {
 
 export default async function ProgramPage({ params }: ProgramProps) {
 	const { program: slug } = await params;
-	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, { // This line also uses ProgramQuery and ProgramQueryVariables
+	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, {
+		// This line also uses ProgramQuery and ProgramQueryVariables
 		variables: {
 			slug,
 		},
@@ -76,6 +77,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 		misc,
 		externalLink,
 		startTime,
+		permanent,
 	} = program;
 
 	return (
@@ -100,7 +102,8 @@ export default async function ProgramPage({ params }: ProgramProps) {
 					{location && (
 						<>
 							<li>
-								<strong>Datum:</strong> {dateRangeSmart(startDate, endDate)}
+								<strong>Datum:</strong>{' '}
+								{!permanent ? dateRangeSmart(startDate, endDate) : `Permanent ${programCategory.title}`}
 							</li>
 							<li>
 								<span>

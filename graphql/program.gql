@@ -102,6 +102,7 @@ fragment ProgramFragment on ProgramRecord {
 	}
 	slug
 	externalLink
+	permanent
 	content {
 		value
 		blocks {
