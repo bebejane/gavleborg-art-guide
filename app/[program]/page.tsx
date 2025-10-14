@@ -103,7 +103,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 						<>
 							<li>
 								<strong>Datum:</strong>{' '}
-								{!permanent ? dateRangeSmart(startDate, endDate) : `Permanent ${programCategory.title}`}
+								{!permanent ? dateRangeSmart(startDate, endDate) : `Permanent ${programCategory.title?.toLowerCase()}`}
 							</li>
 							<li>
 								<span>
