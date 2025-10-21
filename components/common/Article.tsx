@@ -4,7 +4,7 @@ import cn from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import Content from '@/components/common/Content';
 import { Image } from 'react-datocms';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { Markdown } from 'next-dato-utils/components';
 import useIsDesktop from '@/lib/useIsDesktop';
 import Link from 'next/link';
@@ -22,6 +22,7 @@ export type ArticleProps = {
 	record?: any;
 	date?: string;
 	partner?: PartnerRecord[];
+	location?: Array<{ name: string; webpage?: string; address?: string; map?: string }>;
 };
 
 export default function Article({
@@ -36,6 +37,7 @@ export default function Article({
 	date,
 	onClick,
 	record,
+	location,
 }: ArticleProps) {
 	//const [setImageId, setImages] = useStore((state) => [state.setImageId, state.setImages]);
 	const captionRef = useRef<HTMLElement | null>(null);
@@ -56,7 +58,9 @@ export default function Article({
 				<Link href='/'>Gavleborg Art Guide</Link>
 			</div>
 			<div className={cn(s.article, 'article')}>
-				<h1>{title}</h1>
+				<h1>
+					{location && location.length > 0 && location.map(({ name }, idx) => name)}:<br />
+					{title}</h1>
 				{image && (
 					<figure
 						className={cn(
@@ -90,7 +94,7 @@ export default function Article({
 					)}
 					{children}
 				</div>
-			</div>
+			</div >
 		</>
 	);
 }

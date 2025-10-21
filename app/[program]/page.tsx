@@ -91,6 +91,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 				intro={intro}
 				content={content}
 				date={startDate}
+				location={location}
 			>
 				<section className={s.misc}>
 					<p>

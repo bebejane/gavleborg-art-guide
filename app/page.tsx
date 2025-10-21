@@ -88,6 +88,7 @@ export default async function Home({ searchParams }) {
 													.filter(Boolean)
 													.join(', ')}
 												meta={programCategory.title}
+												location={location}
 											/>
 										</li>
 									)

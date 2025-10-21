@@ -47,6 +47,7 @@ export type Props = {
 	groupShow?: boolean;
 	city?: string;
 	permanent?: boolean;
+	location?: Array<{ name: string; webpage?: string; address?: string; map?: string }>;
 };
 
 export default function Thumbnail({
@@ -63,21 +64,22 @@ export default function Thumbnail({
 	groupShow,
 	city,
 	permanent,
+	location,
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
-			differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
-			differenceInMilliseconds(new Date(), new Date(startTime)) < 0
+		differenceInCalendarDays(new Date(), new Date(startTime)) <= 0 &&
+		differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
 	const metaFields = permanent
 		? ['Permanent']
 		: [
-				formatDateSmart(startDate, true),
-				startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString()
-					? formatDateSmart(endDate, false)
-					: '',
-			].filter(Boolean);
+			formatDateSmart(startDate, true),
+			startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString()
+				? formatDateSmart(endDate, false)
+				: '',
+		].filter(Boolean);
 
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
@@ -95,7 +97,10 @@ export default function Thumbnail({
 			)}
 			{exhibithionIsSoon && <div className={cn('meta', s.soon)}>snart Vernissage</div>}
 			<h3 className={cn(s[`rows-${titleRows}`])}>
-				<span>{titleLength ? truncateWords(title, titleLength) : title}</span>
+				<span>
+					{location && location.length > 0 && location.map(({ name }, idx) => name)}:&nbsp;
+					{titleLength ? truncateWords(title, titleLength) : title}
+				</span>
 			</h3>
 			{(intro || meta) && (
 				<div className='thumb-intro'>
