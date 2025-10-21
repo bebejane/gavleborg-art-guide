@@ -22,7 +22,6 @@ export async function POST(req: Request) {
 		try {
 			schema.parse(body);
 		} catch (error) {
-			console.log(error);
 			if (error instanceof z.ZodError) throw new Error(JSON.stringify(error.issues));
 			else throw error;
 		}
@@ -55,7 +54,7 @@ export async function POST(req: Request) {
 					id: null,
 					slug: await generateSlug(data.location.name, 'location'),
 				};
-
+				console.log('creating location', l);
 				const loc = await client.items.create<Location>({
 					//@ts-ignore
 					item_type: { type: 'item_type', id: locationTypeId },
@@ -64,11 +63,13 @@ export async function POST(req: Request) {
 
 				location.push(loc.id);
 			} catch (e) {
-				console.log(e);
+				console.log('error creating location', e);
+
 				throw e;
 			}
 		} else location.push(data.location.id);
 
+		console.log('creating program', { item_type: { type: 'item_type', id: programTypeId }, ...data, location });
 		const item = await client.items.create<Program>({
 			//@ts-ignore
 			item_type: { type: 'item_type', id: programTypeId },
@@ -92,14 +93,14 @@ export async function POST(req: Request) {
 
 		return new Response('ok');
 	} catch (e) {
+		console.error(JSON.stringify(e));
 		const statusText = e.request ? JSON.stringify((e as ApiError).errors) : `Något gick fel: ${e.message}`;
 		return new Response('error', { status: 500, statusText });
 	}
 }
 
 async function generateSlug(str: string, api_key: string) {
-	let slug = slugify(str, { lower: true, locale: 'en' });
-	let suffix = null;
+	let slug = slugify(str, { lower: true, locale: 'en', strict: true });
 
 	try {
 		const items = (

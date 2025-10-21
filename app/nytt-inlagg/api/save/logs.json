@@ -1,0 +1,129 @@
+{
+	"request": {
+		"url": "https://site-api.datocms.com/items",
+		"method": "POST",
+		"headers": {
+			"content-type": "application/json",
+			"accept": "application/json",
+			"authorization": "Bearer cd75c518ffa80c04a342fdf42ad1a3",
+			"user-agent": "@datocms/cma-client v5.1.20",
+			"x-environment": "main",
+			"x-api-version": "3",
+			"x-vercel-id": "arn1::rm8ln-1760000651333-ed1915467771"
+		},
+		"body": {
+			"data": {
+				"type": "item",
+				"attributes": {
+					"title": "Katia Eder - Det skålar vi för! -festliga fat i hälsingeanda",
+					"intro": "Katia Eder förenar dåtid & nutid i sin keramik",
+					"content": {
+						"schema": "dast",
+						"document": {
+							"children": [
+								{
+									"children": [
+										{
+											"value": "Som keramiker har Katia alltid fascinerats av hur vissa verk har kommit kom till och vad som ligger bakom.",
+											"type": "span"
+										}
+									],
+									"type": "paragraph"
+								},
+								{
+									"children": [
+										{
+											"value": "För ett tag sedan fastnade hennes öga vid gamla engoberade lerfat som finns bevarade på många gårdar i Hälsingland och i hembygdsgårdarnas samlingar. Sådana fat är täckta med vit piplera och glaserad med en transparent blyglasyr som ger en blekgul färgton. Faten är mer eller mindre rikt dekorerade, en del är försedda med figurer, text eller årtal. De var avsedda att användas vid speciella fester eller högtidliga tillfällen.",
+											"type": "span"
+										}
+									],
+									"type": "paragraph"
+								},
+								{
+									"children": [
+										{
+											"value": "Till utställningen \"Det skålar vi för! -festliga fat i hälsingeanda\" har Katia tagit sig an utmaningen att göra samma sorts skålar som traktens krukmakare gjorde för 100 år sedan. Med dagens material, utan blyglasyr och sin egen prägel!",
+											"type": "span"
+										}
+									],
+									"type": "paragraph"
+								}
+							],
+							"type": "root"
+						}
+					},
+					"image": { "upload_id": "LCREiQ26QvCx79dQ-cXm_w" },
+					"program_category": "Zu2ZB3YQTLyg5_6O7lNZVw",
+					"organizer": "Ovanåkers kommun",
+					"location": ["ayUeXsD8R3GyyOvKNqy0BA"],
+					"start_time": "2025-10-18T10:00:00.000Z",
+					"start_date": "2025-10-18",
+					"end_date": "2025-11-15",
+					"group_show": false,
+					"permanent": false,
+					"time": "mån-fre 13-16, lörd 11-14",
+					"misc": "I samarbete med Ovanåkers Hembygdsförening och Studieförbundet Vuxenskolan",
+					"external_link": "https://www.ovanaker.se/kulturochfritid/konstutstallningar/konstutstallningar/detskalarviforfestligafatihalsingeanda.16431.html",
+					"slug": "katia-eder-det-skalar-vi-for!-festliga-fat-i-halsingeanda"
+				},
+				"relationships": { "item_type": { "data": { "id": "965002", "type": "item_type" } } }
+			}
+		}
+	},
+	"response": {
+		"status": 422,
+		"statusText": "Unprocessable Entity",
+		"headers": {
+			"access-control-allow-credentials": "true",
+			"access-control-allow-headers": "authorization, content-type, x-environment, x-organization, x-site-domain, x-api-version, user-agent, x-session-id, x-include-drafts, x-exclude-invalid, x-visual-editing, x-base-editing-url, x-cache-tags, x-datocms-trace",
+			"access-control-allow-methods": "GET, POST, PUT, OPTIONS, DELETE",
+			"access-control-allow-origin": "*",
+			"access-control-expose-headers": "x-ratelimit-limit, x-ratelimit-remaining, x-ratelimit-reset, x-complexity, x-max-complexity, x-cache-tags",
+			"access-control-max-age": "1728000",
+			"cache-control": "no-cache",
+			"cf-cache-status": "DYNAMIC",
+			"cf-ray": "98bcb58d7e879900-ARN",
+			"connection": "keep-alive",
+			"content-encoding": "gzip",
+			"content-type": "application/json; charset=utf-8",
+			"date": "Thu, 09 Oct 2025 09:04:12 GMT",
+			"referrer-policy": "strict-origin-when-cross-origin",
+			"server": "cloudflare",
+			"strict-transport-security": "max-age=15552000; includeSubDomains; preload",
+			"transfer-encoding": "chunked",
+			"vary": "Accept,Accept-Encoding",
+			"x-api-version": "3",
+			"x-content-type-options": "nosniff",
+			"x-environment": "main",
+			"x-frame-options": "SAMEORIGIN",
+			"x-permitted-cross-domain-policies": "none",
+			"x-queue-time": "1ms",
+			"x-ratelimit-limit": "60",
+			"x-ratelimit-remaining": "57",
+			"x-request-id": "45bdd12d-d310-40d5-85a4-7348909eeb32",
+			"x-runtime": "0.053201",
+			"x-xss-protection": "0"
+		},
+		"body": {
+			"data": [
+				{
+					"id": "3279a4",
+					"type": "persistable_api_error",
+					"attributes": {
+						"code": "INVALID_FIELD",
+						"details": {
+							"field": "slug",
+							"field_id": "5008826",
+							"field_label": "Permalänk",
+							"field_type": "slug",
+							"code": "VALIDATION_SLUG_FORMAT",
+							"options": { "predefined_pattern": "webpage_slug" }
+						},
+						"doc_url": "https://www.datocms.com/docs/content-management-api/errors#INVALID_FIELD"
+					}
+				}
+			]
+		}
+	},
+	"preCallStack": "Error: \n    at ad.request (/var/task/.next/server/chunks/279.js:7:7159)\n    at l.rawCreate (/var/task/.next/server/chunks/279.js:7:21776)\n    at l.create (/var/task/.next/server/chunks/279.js:7:21641)\n    at cB (/var/task/.next/server/app/nytt-inlagg/api/save/route.js:1:194308)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async rN.do (/var/task/node_modules/.pnpm/next@15.5.4_@babel+core@7.26.7_react-dom@18.3.0-canary-bbb9cb116-20231117_react@18.3.0-_efa57c225908d88efce77f84f6e4bafd/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:5:21042)\n    at async rN.handle (/var/task/node_modules/.pnpm/next@15.5.4_@babel+core@7.26.7_react-dom@18.3.0-canary-bbb9cb116-20231117_react@18.3.0-_efa57c225908d88efce77f84f6e4bafd/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:5:25860)\n    at async o (/var/task/.next/server/app/nytt-inlagg/api/save/route.js:6:3194)\n    at async rN.handleResponse (/var/task/node_modules/.pnpm/next@15.5.4_@babel+core@7.26.7_react-dom@18.3.0-canary-bbb9cb116-20231117_react@18.3.0-_efa57c225908d88efce77f84f6e4bafd/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:1:105630)\n    at async f (/var/task/.next/server/app/nytt-inlagg/api/save/route.js:6:4198)"
+}

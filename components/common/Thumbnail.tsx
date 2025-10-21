@@ -46,6 +46,7 @@ export type Props = {
 	startTime?: string;
 	groupShow?: boolean;
 	city?: string;
+	permanent?: boolean;
 };
 
 export default function Thumbnail({
@@ -61,6 +62,7 @@ export default function Thumbnail({
 	startTime,
 	groupShow,
 	city,
+	permanent,
 }: Props) {
 	const exhibithionIsSoon = startTime
 		? differenceInCalendarDays(new Date(), new Date(startTime)) >= -10 &&
@@ -68,18 +70,25 @@ export default function Thumbnail({
 			differenceInMilliseconds(new Date(), new Date(startTime)) < 0
 		: false;
 
-	const metaFields = [
-		formatDateSmart(startDate, true),
-		startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString()
-			? formatDateSmart(endDate, false)
-			: '',
-	].filter(Boolean);
+	const metaFields = permanent
+		? ['Permanent']
+		: [
+				formatDateSmart(startDate, true),
+				startDate && endDate && new Date(startDate).toDateString() !== new Date(endDate).toDateString()
+					? formatDateSmart(endDate, false)
+					: '',
+			].filter(Boolean);
 
 	return (
 		<Link href={`/${slug}`} className={cn(s.thumbnail, groupShow && s.group)}>
 			{image && (
 				<figure className={s.imageWrap}>
-					<Image data={image.responsiveImage} className={s.image} pictureClassName={s.picture} />
+					<Image
+						data={image.responsiveImage}
+						className={s.image}
+						pictureClassName={s.picture}
+						intersectionMargin={`0px 0px 2000px 0px`}
+					/>
 					<div className={s.border} />
 					{groupShow && <div className={s.circle} />}
 				</figure>

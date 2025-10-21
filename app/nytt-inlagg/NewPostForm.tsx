@@ -5,7 +5,7 @@ import cn from 'classnames';
 import '@mantine/dates/styles.css';
 import 'dayjs/locale/sv';
 
-import { Button, TextInput, Switch, FileButton, Select, Space, Progress, Collapse } from '@mantine/core';
+import { Button, TextInput, Switch, FileButton, Select, Space, Progress, Collapse, Loader } from '@mantine/core';
 import { DatePickerInput, DatesProvider, DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { Upload } from '@datocms/cma-client/dist/types/generated/ApiTypes';
@@ -47,10 +47,10 @@ const initialValues = {
 	image: null,
 	program_category: null,
 	organizer: '',
-	location: { id: null },
-	start_time: null,
+	location: { id: null, name: '', address: '', city: '', webpage: '', map: '' },
 	start_date: null,
 	end_date: null,
+	start_time: null,
 	group_show: false,
 	permanent: false,
 	time: '',
@@ -108,7 +108,6 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 			let { hasErrors, errors } = form.validate();
 
 			if (hasErrors) {
-				console.log(errors);
 				scrollToField(Object.keys(errors).pop());
 				return;
 			}
@@ -143,16 +142,35 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 			<DatesProvider settings={{ locale, firstDayOfWeek: 1, weekendDays: [1] }}>
 				<form className={s.form} onSubmit={handleSubmit}>
 					<Collapse in={!success} transitionDuration={300}>
-						<TextInput withAsterisk label='Titel' key={form.key('title')} {...form.getInputProps('title')} />
+						<TextInput withAsterisk label='Titel' {...form.getInputProps('title')} />
 						<Space h='md' />
 						<label className={s.label}>
 							Bild <span className={s.asterisk}>*</span>
 						</label>
-						<div className={cn(s.image, form.errors.image && s.error)}>
+						<div className={cn(s.image, form.errors.image && s.errorBorder)}>
 							<div className={s.wrap}>
+								{uploadStatus !== null && (
+									<>
+										<Space h='md' />
+										<Progress value={uploadProgress} animated={uploadStatus === 'generating'} />
+										<Space h='md' />
+									</>
+								)}
+								{upload && <img src={`${upload.url}?w=1000`} alt={upload.filename} />}
+								<FileUpload
+									file={image}
+									onChange={(upload) => {
+										form.setFieldValue('image', upload?.id ?? '');
+										setUpload(upload);
+										setImage(null);
+									}}
+									onStatusChange={setUploadStatus}
+									onProgress={setUploadProgress}
+									onError={setUploadError}
+								/>
 								<FileButton
 									{...form.getInputProps('image')}
-									key={form.key('image')}
+									key={image ? 'image' : undefined}
 									accept='image/png,image/jpeg'
 									onChange={handleImageChange}
 								>
@@ -163,29 +181,6 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 									)}
 								</FileButton>
 								{uploadError && <p className={s.error}>{uploadError.message ?? 'Något gick fel'}</p>}
-								{uploadStatus !== null && (
-									<>
-										<Space h='md' />
-										<Progress value={uploadProgress} animated={uploadStatus === 'generating'} />
-										<Space h='md' />
-									</>
-								)}
-								{upload && (
-									<>
-										<Space h='md' />
-										<img src={`${upload.url}?w=1000`} alt={upload.filename} />
-									</>
-								)}
-								<FileUpload
-									file={image}
-									onChange={(upload) => {
-										form.setFieldValue('image', upload?.id ?? '');
-										setUpload(upload);
-									}}
-									onStatusChange={setUploadStatus}
-									onProgress={setUploadProgress}
-									onError={setUploadError}
-								/>
 							</div>
 						</div>
 						<Space h='md' />
@@ -193,9 +188,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							{...form.getInputProps('intro')}
 							id={'intro'}
 							label='Ingress'
-							key={form.key('intro')}
 							onChange={(val) => form.setValues({ intro: val })}
-							value={form.values.intro}
 							markdown={true}
 							simple={true}
 							withAsterisk
@@ -205,123 +198,95 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							{...form.getInputProps('content')}
 							id={'content'}
 							label='Innehåll'
-							key={form.key('content')}
 							onChange={(val) => form.setValues({ content: val })}
-							value={form.values.content}
 							withAsterisk
 						/>
 						<Space h='md' />
 						<Select
 							{...form.getInputProps('program_category')}
 							label='Kategori'
-							key={form.key('program_category')}
-							value={form.values.program_category}
 							data={allProgramCategories.map(({ id: value, title: label }) => ({ value, label }))}
 							withAsterisk={true}
 						/>
 						<Space h='md' />
 						<Select
-							{...form.getInputProps('location')}
-							label='Plats'
-							value={form.values.location?.id ?? null}
-							key={form.key('location')}
-							onChange={(id) => id && form.setValues({ location: { id } })}
+							{...form.getInputProps('location.id')}
 							data={[{ value: 'new', label: 'Ny plats...' }].concat(
 								allLocations.map(({ id: value, name: label }) => ({ value, label }))
 							)}
+							label='Plats'
 							withAsterisk={true}
+							clearable={true}
 						/>
-						<Collapse in={form.values.location?.id === 'new'} className={s.newlocation}>
+
+						<Collapse
+							in={form.values.location?.id === 'new'}
+							className={cn(s.newlocation, form.errors['location.id'] && s.errorBorder)}
+						>
 							<TextInput
 								{...form.getInputProps('location.name')}
-								withAsterisk
-								label='Namn'
 								key={form.key('location.name')}
-								value={form.values.location?.name ?? ''}
+								label='Namn'
+								withAsterisk
 							/>
+
 							<Space h='md' />
-							<TextInput
-								{...form.getInputProps('location.address')}
-								label='Adress'
-								key={form.key('location.address')}
-								value={form.values.location?.address ?? ''}
-							/>
+							<TextInput {...form.getInputProps('location.address')} label='Adress' />
 							<Space h='md' />
-							<TextInput
-								{...form.getInputProps('location.city')}
-								value={form.values.location?.city ?? ''}
-								label='Stad'
-								key={form.key('location.city')}
-							/>
+							<TextInput {...form.getInputProps('location.city')} label='Stad' />
 							<Space h='md' />
-							<TextInput
-								{...form.getInputProps('location.webpage')}
-								label='Webbplats'
-								key={form.key('location.webpage')}
-								value={form.values.location?.webpage ?? ''}
-							/>
+							<TextInput {...form.getInputProps('location.webpage')} label='Webbplats' />
 							<Space h='md' />
-							<TextInput
-								{...form.getInputProps('location.map')}
-								label='Karta'
-								key={form.key('location.map')}
-								value={form.values.location?.map}
-							/>
+							<TextInput {...form.getInputProps('location.map')} label='Karta' />
 						</Collapse>
 
 						<Space h='md' />
-
 						<DatePickerInput
 							{...form.getInputProps('start_date')}
 							styles={{ day: { margin: 0 } }}
 							label='Startdatum'
-							key={form.key('start_date')}
+							minDate={new Date()}
 							valueFormat='D MMMM, YYYY'
 							className={s.date}
 							withAsterisk={true}
+							clearable={true}
 						/>
 						<Space h='md' />
+						<Switch {...form.getInputProps('permanent')} label='Permanent' checked={form.values.permanent} />
+						<Space h='md' />
+
 						<DatePickerInput
 							{...form.getInputProps('end_date')}
 							styles={{ day: { margin: 0 } }}
 							label='Slutdatum'
-							key={form.key('end_date')}
 							className={s.date}
 							valueFormat='D MMMM, YYYY'
+							clearable={true}
+							minDate={form.values.start_date ? new Date(form.values.start_date) : new Date()}
 						/>
 						<Space h='md' />
 						<DateTimePicker
 							{...form.getInputProps('start_time')}
 							styles={{ day: { margin: 0 } }}
 							label='Vernissagedatum och tid'
-							key={form.key('start_time')}
 							valueFormat='D MMMM, YYYY - HH:mm'
 							className={s.date}
 							onChange={(value) => form.setValues({ start_time: new Date(value).toISOString() })}
+							clearable={true}
+							minDate={new Date()}
 						/>
 						<Space h='md' />
-						<TextInput label='Organisatör' key={form.key('organizer')} {...form.getInputProps('organizer')} />
+						<TextInput label='Organisatör' {...form.getInputProps('organizer')} />
 						<Space h='md' />
-						<TextInput label='Öppettider' key={form.key('time')} {...form.getInputProps('time')} />
+						<TextInput label='Öppettider' {...form.getInputProps('time')} />
 						<Space h='md' />
-						<TextInput label='Extra info' key={form.key('misc')} {...form.getInputProps('misc')} />
+						<TextInput label='Extra info' {...form.getInputProps('misc')} />
 						<Space h='md' />
-						<TextInput label='Extern länk' key={form.key('external_link')} {...form.getInputProps('external_link')} />
+						<TextInput label='Extern länk' {...form.getInputProps('external_link')} />
 						<Space h='md' />
-						<Switch
-							{...form.getInputProps('group_show')}
-							label='Grupputsällning'
-							key={form.key('group_show')}
-							checked={form.values.group_show}
-						/>
+						<Switch {...form.getInputProps('group_show')} label='Grupputsällning' checked={form.values.group_show} />
 						<Space h='md' />
-						<Switch
-							{...form.getInputProps('permanent')}
-							label='Permanent'
-							key={form.key('permanent')}
-							checked={form.values.permanent}
-						/>
-						<Space h='md' />
+
 						{error && (
 							<>
 								<div className={s.error}>{error}</div>
@@ -337,6 +302,8 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							radius='xl'
 							variant='outline'
 							color='yellow'
+							loading={submitting}
+							loaderProps={{ size: 'sm' }}
 						>
 							{submitting ? 'Skickar...' : 'Skicka in'}
 						</Button>
