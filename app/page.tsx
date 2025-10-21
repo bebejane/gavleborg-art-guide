@@ -187,9 +187,11 @@ function programsByYear(programs: AllProgramsQuery['allPrograms']) {
 					const startMonth = format(startDate, 'MMMM');
 					const endMonth = endDate ? format(endDate, 'MMMM') : startMonth;
 
-					// Initialize the month in accumulator if it doesn't exist
-					if (!acc[startMonth]) acc[startMonth] = [];
-					acc[startMonth].push(program);
+					// Only add to start month if program starts in this year
+					if (startDate.getFullYear() === parseInt(year)) {
+						if (!acc[startMonth]) acc[startMonth] = [];
+						acc[startMonth].push(program);
+					}
 
 					// If there's an end date, add the program to all months between start and end
 					if (endDate) {
@@ -203,12 +205,16 @@ function programsByYear(programs: AllProgramsQuery['allPrograms']) {
 								: [...months.slice(startIdx + 1), ...months.slice(0, endIdx + 1)];
 
 						monthsToAdd.forEach((month) => {
-							const formattedMonth = format(
-								new Date(`${startDate.getFullYear()}-${months.indexOf(month) + 1}-01`),
-								'MMMM'
-							);
-							if (!acc[formattedMonth]) acc[formattedMonth] = [];
-							acc[formattedMonth].push(program);
+							const monthIdx = months.indexOf(month);
+							const monthDate = new Date(parseInt(year), monthIdx, 1);
+							const monthEndDate = new Date(parseInt(year), monthIdx + 1, 0);
+
+							// Only add to month if program is active during this month
+							if (startDate <= monthEndDate && endDate >= monthDate) {
+								const formattedMonth = format(monthDate, 'MMMM');
+								if (!acc[formattedMonth]) acc[formattedMonth] = [];
+								acc[formattedMonth].push(program);
+							}
 						});
 					}
 
