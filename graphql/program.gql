@@ -109,6 +109,27 @@ fragment ProgramFragment on ProgramRecord {
 					...ImageFragment
 				}
 			}
+			... on LinkButtonRecord {
+				id
+				link {
+					__typename
+					... on InternalLinkRecord {
+						__typename
+						id
+						record {
+							__typename
+							... on ProgramRecord {
+								...ProgramFragmentLight
+							}
+						}
+					}
+					... on ExternalLinkRecord {
+						__typename
+						url
+						title
+					}
+				}
+			}
 			... on ImageGalleryRecord {
 				__typename
 				id
@@ -116,7 +137,6 @@ fragment ProgramFragment on ProgramRecord {
 					...ImageThumbnailFragment
 				}
 			}
-
 			... on VideoRecord {
 				__typename
 				id
