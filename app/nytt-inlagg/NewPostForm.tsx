@@ -237,7 +237,7 @@ export default function NewPostForm({ allProgramCategories, allLocations, allPar
 							<Space h='md' />
 							<TextInput {...form.getInputProps('location.webpage')} label='Webbplats' />
 							<Space h='md' />
-							<TextInput {...form.getInputProps('location.map')} label='Karta' />
+							<TextInput {...form.getInputProps('location.map')} label='Länk till karta på Google Maps' />
 						</Collapse>
 
 						<Space h='md' />
