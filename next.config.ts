@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
 		},
 	},
 	transpilePackages: ['@mantina/core', '@mantine/form'],
-
 	async headers() {
 		return [
 			{
