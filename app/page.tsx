@@ -13,17 +13,7 @@ const filterParser = parseAsString.withDefault('all');
 
 export default async function Home({ searchParams }) {
 	const filter = filterParser.parseServerSide((await searchParams).filter);
-	const { allPrograms, allProgramCategories, draftUrl } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(
-		AllProgramsDocument,
-		{
-			all: true,
-			tags: ['program', 'program_category'],
-			variables: {
-				first: 100,
-				skip: 0,
-			},
-		}
-	);
+	const { allPrograms, allProgramCategories, draftUrl } = await apiQuery(AllProgramsDocument, { all: true });
 
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);

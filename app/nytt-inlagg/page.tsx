@@ -5,11 +5,9 @@ import { AllProgramCategoriesDocument, AllLocationsDocument, AllPartnersDocument
 import NewPostForm from './NewPostForm';
 
 export default async function AdminPage() {
-	const { allProgramCategories } = await apiQuery<AllProgramCategoriesQuery, AllProgramCategoriesQueryVariables>(
-		AllProgramCategoriesDocument
-	);
-	const { allLocations } = await apiQuery<AllLocationsQuery, AllLocationsQueryVariables>(AllLocationsDocument);
-	const { allPartners } = await apiQuery<AllPartnersQuery, AllPartnersQueryVariables>(AllPartnersDocument);
+	const { allProgramCategories } = await apiQuery(AllProgramCategoriesDocument, { all: true });
+	const { allLocations } = await apiQuery(AllLocationsDocument, { all: true });
+	const { allPartners } = await apiQuery(AllPartnersDocument, { all: true });
 
 	return (
 		<div className={s.admin}>

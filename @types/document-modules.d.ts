@@ -107,8 +107,7 @@ export const PartnerFragmentLight: DocumentNode;
 declare module '*/program.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const AllPrograms2: DocumentNode;
-export const AllPrograms: DocumentNode;
+  export const AllPrograms: DocumentNode;
 export const Program: DocumentNode;
 export const AllProgramCategories: DocumentNode;
 export const ProgramCategoryFragment: DocumentNode;

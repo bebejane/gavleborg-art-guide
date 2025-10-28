@@ -1,29 +1,33 @@
 import { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
 	sassOptions: {
-		includePaths: ['./components', './pages', './app'],
-		silenceDeprecations: ['legacy-js-api', 'import'],
+		includePaths: ['./components', './app'],
+		silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin'],
 		prependData: `
 			@use "sass:math";
     	@import "./styles/mediaqueries";
   	`,
 	},
-	transpilePackages: ['@mantina/core', '@mantine/form'],
 	typescript: {
 		ignoreBuildErrors: true,
 	},
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
-	devIndicators: {
-		buildActivity: false,
+	webpack: (config) => {
+		config.module.exprContextCritical = false;
+		config.resolve.alias['datocms.config'] = path.join(__dirname, 'datocms.config.ts');
+		return config;
 	},
-	logging: {
-		fetches: {
-			fullUrl: true,
+	turbopack: {
+		resolveAlias: {
+			'datocms.config': './datocms.config.ts',
 		},
 	},
+	transpilePackages: ['@mantina/core', '@mantine/form'],
+
 	async headers() {
 		return [
 			{
