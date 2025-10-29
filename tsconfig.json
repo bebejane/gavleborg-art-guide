@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "datocms.config": [
+        "./datocms.config.ts"
       ]
     },
     "forceConsistentCasingInFileNames": true,
