@@ -6,7 +6,12 @@ export type LinkButtonBlockProps = { data: LinkButtonRecord; onClick: Function }
 
 export default function LinkButton({ data: { link } }: LinkButtonBlockProps) {
 	const slug = link.__typename === 'ExternalLinkRecord' ? link.url : recordToSlug(link.record);
-	const title = link.__typename === 'ExternalLinkRecord' ? link.title : link.record.title;
+	const title =
+		link.__typename === 'ExternalLinkRecord'
+			? link.title
+			: link.record.__typename === 'ProgramRecord'
+				? link.record.title
+				: '';
 
 	return (
 		<Link href={slug} className={s.button}>

@@ -27,15 +27,14 @@ export default function MetaSection({ items = [] }: Props) {
 							<strong>
 								{links.length > 0 ? (
 									links
-										.map(
-											(link, idx) =>
-												link.startsWith('http') ? (
-													<a href={link}>{values[idx]} &#8599;</a>
-												) : (
-													<Link href={link}>{values[idx]}</Link>
-												)
-											//@ts-ignore
+										.map((link, idx) =>
+											link.startsWith('http') ? (
+												<a href={link}>{values[idx]} &#8599;</a>
+											) : (
+												<Link href={link}>{values[idx]}</Link>
+											)
 										)
+										//@ts-ignore
 										.reduce((prev, curr) => [prev, ', ', curr])
 								) : values.length > 1 && Array.isArray(values) ? (
 									values.join(', ')

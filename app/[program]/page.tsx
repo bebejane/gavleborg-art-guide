@@ -53,12 +53,7 @@ export type ProgramProps = {
 
 export default async function ProgramPage({ params }: ProgramProps) {
 	const { program: slug } = await params;
-	const { program, draftUrl } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, {
-		// This line also uses ProgramQuery and ProgramQueryVariables
-		variables: {
-			slug,
-		},
-	});
+	const { program, draftUrl } = await apiQuery(ProgramDocument, { variables: { slug } });
 
 	if (!program) return notFound();
 
@@ -174,10 +169,7 @@ export default async function ProgramPage({ params }: ProgramProps) {
 }
 
 export async function generateStaticParams() {
-	const { allPrograms } = await apiQuery<AllProgramsQuery, AllProgramsQueryVariables>(AllProgramsDocument, {
-		all: true,
-	});
-
+	const { allPrograms } = await apiQuery(AllProgramsDocument, { all: true });
 	return allPrograms.map(({ slug }) => ({ slug }));
 }
 
@@ -189,7 +181,7 @@ type GenerateMetadataParams = {
 
 export async function generateMetadata({ params }: GenerateMetadataParams): Promise<Metadata> {
 	const { program: slug } = await params;
-	const { program } = await apiQuery<ProgramQuery, ProgramQueryVariables>(ProgramDocument, {
+	const { program } = await apiQuery(ProgramDocument, {
 		variables: {
 			slug,
 		},
